@@ -19,7 +19,7 @@ namespace ForeFather
             get { return location; }
             set { location = value; }
         }
-        public void set(int x, int y)
+        public void SetLocation(int x, int y)
         {
             location.X = x;
             location.Y = y;
@@ -31,13 +31,19 @@ namespace ForeFather
         private SpriteFont font;
         private ContentManager Content;
         private int lineLength;
+        public String Name
+        {
+            get { return name; }
+        }
+        private string name;
 
-        public NPC(int x, int y)
+        public NPC(int x, int y, string n)
         {
             location = new Rectangle(x, y, 34, 50);
             lines = new List<string>();
             //placeholder length
             lineLength = 30;
+            name = n;
             Content.RootDirectory = "Content";
             LoadContent();
         }
@@ -61,6 +67,7 @@ namespace ForeFather
                         //to separate into smaller lines
                         List<string> tempLines = new List<string>();
                         string[] words = line.Split(' ');
+                        lines.Add("");
                         for(int i = 0; i < words.Length; i++)
                         {
                             if(tempLines[tempLines.Count - 1].Length + words[i].Length < maxLength)
