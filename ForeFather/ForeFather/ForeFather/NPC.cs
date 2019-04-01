@@ -48,7 +48,7 @@ namespace ForeFather
 
         }
 
-        public void ReadFile(string path)
+        public void ReadFile(string path, int maxLength)
         {
             try
             {
@@ -58,11 +58,32 @@ namespace ForeFather
                     {
                         //implement something that will prevent the line from extending the length
                         string line = reader.ReadLine();
-                        lines.Add(line);
+                        //to separate into smaller lines
+                        List<string> tempLines = new List<string>();
+                        string[] words = line.Split(' ');
+                        for(int i = 0; i < words.Length; i++)
+                        {
+                            if(tempLines[tempLines.Count - 1].Length + words[i].Length < maxLength)
+                            {
+                                tempLines[tempLines.Count - 1] += " " + words[i];
+                            }
+                            else
+                            {
+                                tempLines.Add(words[i]);
+                            }
+                        }
+                        
+                        for(int i = 0; i < tempLines.Count; i++)
+                        {
+                            lines.Add(tempLines[0]);
+                        }
                     }
                 }
             }
-            catch()
+            catch(Exception e)
+            {
+                Console.WriteLine("lmao an error, you suck: " + e.Message);
+            }
         }
 
         
