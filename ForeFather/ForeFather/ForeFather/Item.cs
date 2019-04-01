@@ -30,7 +30,7 @@ namespace ForeFather
             name = n;
             description = d;
         }
-
+        //all items will have a unique use method
         public abstract void Use();
 
     }
