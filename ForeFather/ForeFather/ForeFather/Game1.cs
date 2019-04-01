@@ -18,6 +18,8 @@ namespace ForeFather
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        enum GameState { Wilderness, Town, Combat};
+        GameState state;
 
         public Game1()
         {
@@ -34,7 +36,7 @@ namespace ForeFather
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            state = GameState.Combat;
             base.Initialize();
         }
 
@@ -46,7 +48,6 @@ namespace ForeFather
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -69,7 +70,7 @@ namespace ForeFather
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
+            
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -84,7 +85,10 @@ namespace ForeFather
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            if (state == GameState.Combat)
+            {
 
+            }
             base.Draw(gameTime);
         }
     }

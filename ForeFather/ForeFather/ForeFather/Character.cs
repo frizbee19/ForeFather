@@ -12,6 +12,7 @@ namespace ForeFather
         private int defense;
         private int luck;
         private int mana;
+        private string name;
 
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
@@ -19,13 +20,14 @@ namespace ForeFather
         public int getLuck { get; set; }
         public int getMana { get; set; }
 
-        public Character(int hp, int off, int def, int luck, int mana)
+        public Character(string name, int hp, int off, int def, int luck, int mana)
         {
             this.maxhp = hp;
             this.offense = off;
             this.defense = def;
             this.luck = luck;
             this.mana = mana;
+            this.name = name;
         }
 
         abstract public void enterCombat();
