@@ -13,13 +13,14 @@ namespace ForeFather
         private Texture2D spriteSheet;
         private Rectangle sourceRect;
         private Rectangle position;
+        private bool isWalkable;
 
-        public Tile()
+        public Tile() : base()
         {
             
         }
 
-        public Tile(Texture2D s, Rectangle sR)
+        public Tile(Texture2D s, Rectangle sR) 
         {
             spriteSheet = s;
             sourceRect = sR;
@@ -32,9 +33,22 @@ namespace ForeFather
             position = p;
         }
 
+        public Tile(Texture2D s, Rectangle sR, Rectangle p, bool isWalk)
+        {
+            spriteSheet = s;
+            sourceRect = sR;
+            position = p;
+            isWalkable = isWalk;
+        }
+
         public Rectangle getPos()
         {
             return position;
+        }
+
+        public bool getWalk()
+        {
+            return isWalkable;
         }
 
         public void Draw(SpriteBatch spriteBatch)
