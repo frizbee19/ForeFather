@@ -20,6 +20,8 @@ namespace ForeFather
         SpriteBatch spriteBatch;
         enum GameState { Wilderness, Town, Combat};
         GameState state;
+        SpriteFont spriteFont;
+        Combat combat;
 
         public Game1()
         {
@@ -37,6 +39,7 @@ namespace ForeFather
         {
             // TODO: Add your initialization logic here
             state = GameState.Combat;
+            combat = new Combat(this.Content);
             base.Initialize();
         }
 
@@ -48,6 +51,7 @@ namespace ForeFather
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteFont = Content.Load<SpriteFont>("SpriteFont1");
             // TODO: use this.Content to load your game content here
         }
 
@@ -85,10 +89,13 @@ namespace ForeFather
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            spriteBatch.Begin();
             if (state == GameState.Combat)
             {
-
+                combat.Draw(spriteFont, spriteBatch);
             }
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
