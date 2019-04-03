@@ -99,19 +99,39 @@ namespace ForeFather
                                     //These will also make a building
                                 case "1":
                                     tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    if (!buildings.ContainsKey("1"))
-                                        buildings.Add("1", new Building(inn, i*50, j*50));//replace to add consumableShop
-                                    else
-                                        buildings["1"].setSize(j, i);
+                                    //if (!buildings.ContainsKey("1"))
+                                    //    buildings.Add("1", new Building(consume, i*50, j*50));//replace to add consumableShop
+                                    //else
+                                    //    buildings["1"].setSize((i+1)*50, (j+1)*50);
                                     break;
                                 case "2":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    //if (!buildings.ContainsKey("2"))
+                                    //    buildings.Add("2", new Building(equip, i*50, j*50));//replace to add equippableShop
+                                    //else
+                                    //    buildings["2"].setSize((i+1)*50, (j+1)*50);
+                                    break;
                                 case "i":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("i"))
+                                        buildings.Add("i", new Building(inn, i * 50, j * 50));
+                                    else
+                                        buildings["i"].setSize((i+1)*50, (j+1)*50);
+                                    break;
                                 case "b":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("b"))
+                                        buildings.Add("b", new Building(bank, i * 50, j * 50));
+                                    else
+                                        buildings["b"].setSize((i + 1) * 50, (j + 1) * 50);
+                                    break;
                                 case "h":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("h"))
+                                        buildings.Add("h", new Building(hospital, i * 50, j * 50));
+                                    else
+                                        buildings["h"].setSize((i + 1) * 50, (j + 1) * 50);
+                                    break;
 
                                 default: tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
                             }
@@ -166,7 +186,13 @@ namespace ForeFather
                     tiles[i, j].Draw(spriteBatch);
                 }
             }
-            
+
+            foreach (KeyValuePair<string, Building> kvp in buildings)
+            {
+                kvp.Value.Draw(spriteBatch);
+            }
+
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

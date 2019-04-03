@@ -35,5 +35,10 @@ namespace ForeFather
         {
             position = new Rectangle(x, y, secondX-x, secondY-y);
         }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(spriteSheet, position, Color.White);
+        }
     }
 }
