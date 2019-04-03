@@ -15,6 +15,7 @@ namespace ForeFather
     class TextBox
     {
         private Rectangle box;
+        //for the texture, just put like a black box or something. its for the background of the textbox
         private Texture2D texture;
         private const int DEFAULT_X = 50;
         private const int DEFAULT_Y = 500;

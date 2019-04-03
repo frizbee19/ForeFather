@@ -55,11 +55,9 @@ namespace ForeFather
             texture = Content.Load<Texture2D>("NPCtexture.png");
 
         }
+        
 
-        public void AddTextBox(string path)
-        {
 
-        }
 
         //public void ReadFile(string path, int maxLength)
         //{
