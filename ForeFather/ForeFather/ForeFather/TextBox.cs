@@ -32,42 +32,50 @@ namespace ForeFather
             get { return currentInd; }
         }
 
-        public TextBox(Texture2D t, Rectangle rect, int length, string p)
+        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile)
         {
             texture = t;
             box = rect;
             lineLength = length;
             path = p;
-            ReadFile(@path);
+            if (fromAFile)
+            {
+                ReadFile(@path);
+            }
+            else
+            {
+
+            }
             lines = new List<string>();
             currentInd = 1;
         }
 
-        public TextBox(Texture2D t, int x, int y, int width, int height, int length, string p) : this(t, new Rectangle(x, y, width, height), length, p)
+        public TextBox(Texture2D t, int x, int y, int width, int height, int length, string p, bool fromAFile) : this(t, new Rectangle(x, y, width, height), length, p, fromAFile)
         {
 
         }
 
-        public TextBox(Texture2D t, int length, string p) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p)
+        public TextBox(Texture2D t, int length, string p, bool fromAFile) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile)
         {
 
         }
 
-        public TextBox(Texture2D t, Rectangle rect, string p) : this(t, rect, DEFAULT_LINELENGTH, p)
+        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile)
         {
 
         }
 
-        public TextBox(Texture2D t, int x, int y, int width, int height, string p) : this(t, new Rectangle(x, y, width, height), DEFAULT_LINELENGTH, p)
+        public TextBox(Texture2D t, int x, int y, int width, int height, string p, bool fromAFile) : this(t, new Rectangle(x, y, width, height), DEFAULT_LINELENGTH, p, fromAFile)
         {
 
         }
 
-        public TextBox(Texture2D t, string p) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p)
+        public TextBox(Texture2D t, string p, bool fromAFile) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile)
         {
 
         }
 
+        
         public void ReadFile(string path)
         {
             try
@@ -104,6 +112,30 @@ namespace ForeFather
             catch (Exception e)
             {
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
+            }
+        }
+
+        //USE THIS IF USING A STRING INSTEAD OF A FILE
+        public void ReadString(string path)
+        {
+            List<string> tempLines = new List<string>();
+            string[] words = path.Split(' ');
+            lines.Add("");
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
+                {
+                    tempLines[tempLines.Count - 1] += " " + words[i];
+                }
+                else
+                {
+                    tempLines.Add(words[i]);
+                }
+            }
+
+            for (int i = 0; i < tempLines.Count; i++)
+            {
+                lines.Add(tempLines[0]);
             }
         }
 
