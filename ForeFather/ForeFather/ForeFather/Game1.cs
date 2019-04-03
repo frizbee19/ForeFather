@@ -19,9 +19,12 @@ namespace ForeFather
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Tile[,] tiles = new Tile[16, 16];
+        List<Tile[,]> maps = new List<Tile[,]>();
+        
         Rectangle[] tileSource = new Rectangle[4];
         Texture2D spritesheet;
+
+
 
         Texture2D bank;
         Texture2D hospital;
@@ -55,6 +58,7 @@ namespace ForeFather
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
+            maps.Add(new Tile[16, 16]);
             base.Initialize();
         }
 
@@ -72,10 +76,10 @@ namespace ForeFather
             inn = Content.Load<Texture2D>("Assets\\Inn");
             tilesSheet = Content.Load<Texture2D>("Assets\\Tiles");
             // TODO: use this.Content to load your game content here
-            ReadFile(@"Content\\Assets\\TownText.txt");
+            ReadFile(@"Content\\Assets\\TownText.txt", 0);
         }
 
-        public void ReadFile(string path)
+        public void ReadFile(string path, int numInList)
         {
             using (StreamReader reader = new StreamReader(path))
             {
@@ -91,49 +95,49 @@ namespace ForeFather
                         {
                             switch (charInput[i])
                             {
-                                case "-": tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50*i, 50*j, 50, 50), false); break;
-                                case "g": tiles[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "f": tiles[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "s": tiles[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50*i, 50*j, 50, 50), false); break;
+                                case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
 
                                     //These will also make a building
                                 case "1":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
                                     //if (!buildings.ContainsKey("1"))
                                     //    buildings.Add("1", new Building(consume, i*50, j*50));//replace to add consumableShop
                                     //else
                                     //    buildings["1"].setSize((i+1)*50, (j+1)*50);
                                     break;
                                 case "2":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
                                     //if (!buildings.ContainsKey("2"))
                                     //    buildings.Add("2", new Building(equip, i*50, j*50));//replace to add equippableShop
                                     //else
                                     //    buildings["2"].setSize((i+1)*50, (j+1)*50);
                                     break;
                                 case "i":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
                                     if (!buildings.ContainsKey("i"))
                                         buildings.Add("i", new Building(inn, i * 50, j * 50));
                                     else
                                         buildings["i"].setSize((i+1)*50, (j+1)*50);
                                     break;
                                 case "b":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
                                     if (!buildings.ContainsKey("b"))
                                         buildings.Add("b", new Building(bank, i * 50, j * 50));
                                     else
                                         buildings["b"].setSize((i + 1) * 50, (j + 1) * 50);
                                     break;
                                 case "h":
-                                    tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
                                     if (!buildings.ContainsKey("h"))
                                         buildings.Add("h", new Building(hospital, i * 50, j * 50));
                                     else
                                         buildings["h"].setSize((i + 1) * 50, (j + 1) * 50);
                                     break;
 
-                                default: tiles[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                default: maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
                             }
                         }
                         j++;
@@ -183,7 +187,7 @@ namespace ForeFather
             {
                 for (int j = 0; j < 16; j++)
                 {
-                    tiles[i, j].Draw(spriteBatch);
+                    maps.ElementAt(0)[j, i].Draw(spriteBatch);
                 }
             }
 

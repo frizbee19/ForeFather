@@ -1,6 +1,6 @@
 //256 tiles, 16 x 16 grid, 50px x 50px each(g is grass, f is grass w/ flowers, 
 //s is street, o is flooring for buildings inside, h is hospital, b is bank, 
-//i is inn, 1 is consumableShop, 2 is equippableShop)
+//i is inn, 1 is consumableShop, 2 is equippableShop, ? is black)
 
 1 - - g g g g s s s g 2 - - - -
 - - - g g f f g s g g - - - - -
