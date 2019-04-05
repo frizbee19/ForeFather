@@ -51,6 +51,11 @@ namespace ForeFather
             return isWalkable;
         }
 
+        public void setWalk(bool walk)
+        {
+            isWalkable = walk;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(spriteSheet, position, sourceRect, Color.White);
