@@ -23,6 +23,8 @@ namespace ForeFather
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -84,7 +86,10 @@ namespace ForeFather
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            TextBox test = new TextBox(Content.Load<Texture2D>("black or something"), "this is a test or something hopefully this go on to the next line", false, Content);
+            test.Draw(spriteBatch);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

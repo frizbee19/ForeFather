@@ -17,60 +17,52 @@ namespace ForeFather
         private Rectangle box;
         //for the texture, just put like a black box or something. its for the background of the textbox
         private Texture2D texture;
-        private const int DEFAULT_X = 50;
+        private const int DEFAULT_X = 25;
         private const int DEFAULT_Y = 500;
-        private const int DEFAULT_WIDTH = 700;
-        private const int DEFAULT_HEIGHT = 200;
+        private const int DEFAULT_WIDTH = 750;
+        private const int DEFAULT_HEIGHT = 250;
         private List<string> lines;
-        private const int DEFAULT_LINELENGTH = 30;
+        private const int DEFAULT_LINELENGTH = 40;
         private int lineLength;
         private SpriteFont font;
         private string path;
         private int currentInd;
+        private ContentManager Content;
         public int currentIndex
         {
             get { return currentInd; }
         }
 
-        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile)
+        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content)
         {
             texture = t;
             box = rect;
             lineLength = length;
             path = p;
+            lines = new List<string>();
+            currentInd = 0;
+            font = Content.Load<SpriteFont>("dialFont");
             if (fromAFile)
             {
                 ReadFile(@path);
             }
             else
             {
-
+                ReadString(path);
             }
-            lines = new List<string>();
-            currentInd = 1;
         }
 
-        public TextBox(Texture2D t, int x, int y, int width, int height, int length, string p, bool fromAFile) : this(t, new Rectangle(x, y, width, height), length, p, fromAFile)
+        public TextBox(Texture2D t, int length, string p, bool fromAFile, ContentManager Content) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content)
         {
 
         }
 
-        public TextBox(Texture2D t, int length, string p, bool fromAFile) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile)
+        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile, ContentManager Content) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile, Content)
         {
 
         }
 
-        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile)
-        {
-
-        }
-
-        public TextBox(Texture2D t, int x, int y, int width, int height, string p, bool fromAFile) : this(t, new Rectangle(x, y, width, height), DEFAULT_LINELENGTH, p, fromAFile)
-        {
-
-        }
-
-        public TextBox(Texture2D t, string p, bool fromAFile) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile)
+        public TextBox(Texture2D t, string p, bool fromAFile, ContentManager Content) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content)
         {
 
         }
@@ -104,7 +96,7 @@ namespace ForeFather
 
                         for (int i = 0; i < tempLines.Count; i++)
                         {
-                            lines.Add(tempLines[0]);
+                            lines.Add(tempLines[i]);
                         }
                     }
                 }
@@ -120,23 +112,27 @@ namespace ForeFather
         {
             List<string> tempLines = new List<string>();
             string[] words = path.Split(' ');
-            lines.Add("");
+            tempLines.Add("");
             for (int i = 0; i < words.Length; i++)
             {
                 if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                 {
-                    tempLines[tempLines.Count - 1] += " " + words[i];
+                    tempLines[tempLines.Count - 1] += words[i] + " ";
                 }
                 else
                 {
-                    tempLines.Add(words[i]);
+                    tempLines.Add(words[i] + " ");
                 }
             }
 
             for (int i = 0; i < tempLines.Count; i++)
             {
-                lines.Add(tempLines[0]);
+                lines.Add(tempLines[i]);
             }
+            //for(int i = 0; i < lines.Count; i++)
+            //{
+            //    Console.WriteLine(lines[i]);
+            //}
         }
 
         public void scroll()
@@ -150,8 +146,11 @@ namespace ForeFather
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, box, Color.White);
-            spriteBatch.DrawString(font, lines[currentInd - 1], new Vector2(box.X + 30, box.Y + 30), Color.White);
-            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 80, box.Y + 80), Color.White);
+            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 30), Color.White);
+            if (lines.Count > 1)
+            {
+                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 90), Color.White);
+            }
         }
 
     }
