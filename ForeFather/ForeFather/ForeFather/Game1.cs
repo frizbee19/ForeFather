@@ -30,6 +30,7 @@ namespace ForeFather
         List<Ally> allies;
         List<Enemy> enemies;
 
+        Player p1;
 
         List<Tile[,]> maps = new List<Tile[,]>();
         
@@ -44,6 +45,8 @@ namespace ForeFather
         Texture2D tilesSheet;
 
         Dictionary<string, Building> buildings = new Dictionary<string, Building>();
+
+        Rectangle startRect = new Rectangle(420, 10, 0, 0);
 
         public Game1()
         {
@@ -60,6 +63,8 @@ namespace ForeFather
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
+            p1 = new Player(Content, startRect, 1, 1);
             state = GameState.Town;
             testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
             testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
@@ -209,6 +214,8 @@ namespace ForeFather
                 combat.update(kb, oldkb);
             }
 
+            p1.update();
+
             oldkb = kb;
 
             base.Update(gameTime);
@@ -225,6 +232,7 @@ namespace ForeFather
             // TODO: Add your drawing code here
 
             spriteBatch.Begin();
+            
             if (state == GameState.Combat)
             {
                 combat.Draw(spriteFont, spriteBatch);
@@ -246,6 +254,7 @@ namespace ForeFather
 
 
             }
+            p1.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
