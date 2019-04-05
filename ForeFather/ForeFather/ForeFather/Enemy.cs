@@ -41,11 +41,14 @@ namespace ForeFather
             
         }
 
-        public override void attack()
+        public override void attack(Ally Target)
         {
             
         }
-
+        public override void attack(Enemy target)
+        {
+           
+        }
         public override void useMagic()
         {
             

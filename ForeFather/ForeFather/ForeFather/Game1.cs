@@ -22,6 +22,12 @@ namespace ForeFather
         GameState state;
         SpriteFont spriteFont;
         Combat combat;
+        KeyboardState kb;
+        KeyboardState oldkb;
+        Ally testAlly;
+        Enemy testEnemy;
+        List<Ally> allies;
+        List<Enemy> enemies;
 
         public Game1()
         {
@@ -39,7 +45,13 @@ namespace ForeFather
         {
             // TODO: Add your initialization logic here
             state = GameState.Combat;
-            combat = new Combat(this.Content);
+            testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
+            testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
+            allies = new List<Ally>() { testAlly };
+            enemies = new List<Enemy> { testEnemy };
+            testAlly.getTurn = true;
+            combat = new Combat(this.Content, allies, enemies);
+
             base.Initialize();
         }
 
@@ -74,8 +86,17 @@ namespace ForeFather
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-            
+
             // TODO: Add your update logic here
+
+            kb = Keyboard.GetState();
+
+            if (state == GameState.Combat)
+            {
+                combat.update(kb, oldkb);
+            }
+
+            oldkb = kb;
 
             base.Update(gameTime);
         }

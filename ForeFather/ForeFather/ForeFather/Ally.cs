@@ -13,12 +13,12 @@ namespace ForeFather
 {
     class Ally : Character
     {
-        private int maxhp;
-        private int offense;
-        private int defense;
-        private int luck;
-        private int mana;
-        private string name;
+        //private int maxhp;
+        //private int offense;
+        //private int defense;
+        //private int luck;
+        //private int mana;
+        //private string name;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana) : base(name, hp, off, def, luck, mana)
         {
@@ -37,7 +37,12 @@ namespace ForeFather
         {
 
         }
-        public override void attack() //basic attack
+        public override void attack(Enemy target) //basic attack
+        {
+            target.getCurHp -= 10;
+            getTurn = false;
+        }
+        public override void attack(Ally target)
         {
 
         }
