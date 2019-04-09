@@ -25,16 +25,19 @@ namespace ForeFather
         private const int DEFAULT_LINELENGTH = 40;
         private int lineLength;
         private SpriteFont font;
+        private SpriteFont nameFont;
         private string path;
         private int currentInd;
         private ContentManager Content;
+        private string title;
         public int currentIndex
         {
             get { return currentInd; }
         }
 
-        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content)
+        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content, string name)
         {
+            title = name;
             texture = t;
             box = rect;
             lineLength = length;
@@ -42,6 +45,7 @@ namespace ForeFather
             lines = new List<string>();
             currentInd = 0;
             font = Content.Load<SpriteFont>("dialFont");
+            nameFont = Content.Load<SpriteFont>("nameFont");
             if (fromAFile)
             {
                 ReadFile(@path);
@@ -50,6 +54,11 @@ namespace ForeFather
             {
                 ReadString(path);
             }
+        }
+
+        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content) : this(t, rect, length, p, fromAFile, Content, "")
+        {
+
         }
 
         public TextBox(Texture2D t, int length, string p, bool fromAFile, ContentManager Content) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content)
@@ -67,7 +76,22 @@ namespace ForeFather
 
         }
 
-        
+        public TextBox(Texture2D t, int length, string p, bool fromAFile, ContentManager Content, string name) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content, name)
+        {
+
+        }
+
+        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile, ContentManager Content, string name) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        {
+
+        }
+
+        public TextBox(Texture2D t, string p, bool fromAFile, ContentManager Content, string name) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        {
+
+        }
+
+
         public void ReadFile(string path)
         {
             try
@@ -137,7 +161,7 @@ namespace ForeFather
 
         public void scroll()
         {
-            if (currentInd < lines.Count - 1)
+            if (currentInd < lines.Count - 2)
             {
                 currentInd++;
             }
@@ -146,10 +170,11 @@ namespace ForeFather
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, box, Color.White);
-            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 30), Color.White);
+            spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
+            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
             if (lines.Count > 1)
             {
-                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 90), Color.White);
+                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
             }
         }
 
