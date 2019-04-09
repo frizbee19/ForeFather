@@ -26,7 +26,7 @@ namespace ForeFather
 
         public Player(ContentManager content, Rectangle rect, int t, int i)
         {
-            texture = content.Load<Texture2D>("spriteChar");
+            texture = content.Load<Texture2D>("Assets\\spriteChar");
             rectangle = new Rectangle(rect.X, rect.Y, WIDTH, HEIGTH);
             trail = t;
             

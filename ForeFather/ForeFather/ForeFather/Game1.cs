@@ -41,10 +41,6 @@ namespace ForeFather
 
         Player p1;
 
-        List<Tile[,]> maps = new List<Tile[,]>();
-        
-        Rectangle[] tileSource = new Rectangle[4];
-        Texture2D spritesheet;
 
 
 
@@ -222,75 +218,9 @@ namespace ForeFather
 
                 }
             }
-        }
+        
 
-        public void ReadFile(string path, int numInList)
-        {
-            using (StreamReader reader = new StreamReader(path))
-            {
-                int j = 0;//j is column
-                while (!reader.EndOfStream)
-                {
-                    string hmm = reader.ReadLine();
-                    
-                    if (!hmm.Contains("//") && !hmm.Equals(""))
-                    {
-                        string[] charInput = hmm.Split();
-                        for (int i = 0; i < charInput.Length; i++)//i also applies as row
-                        {
-                            switch (charInput[i])
-                            {
-                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50*i, 50*j, 50, 50), false); break;
-                                case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-
-                                    //These will also make a building
-                                case "1":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    //if (!buildings.ContainsKey("1"))
-                                    //    buildings.Add("1", new Building(consume, i*50, j*50));//replace to add consumableShop
-                                    //else
-                                    //    buildings["1"].setSize((i+1)*50, (j+1)*50);
-                                    break;
-                                case "2":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    //if (!buildings.ContainsKey("2"))
-                                    //    buildings.Add("2", new Building(equip, i*50, j*50));//replace to add equippableShop
-                                    //else
-                                    //    buildings["2"].setSize((i+1)*50, (j+1)*50);
-                                    break;
-                                case "i":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    if (!buildings.ContainsKey("i"))
-                                        buildings.Add("i", new Building(inn, i * 50, j * 50));
-                                    else
-                                        buildings["i"].setSize((i+1)*50, (j+1)*50);
-                                    break;
-                                case "b":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    if (!buildings.ContainsKey("b"))
-                                        buildings.Add("b", new Building(bank, i * 50, j * 50));
-                                    else
-                                        buildings["b"].setSize((i + 1) * 50, (j + 1) * 50);
-                                    break;
-                                case "h":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    if (!buildings.ContainsKey("h"))
-                                        buildings.Add("h", new Building(hospital, i * 50, j * 50));
-                                    else
-                                        buildings["h"].setSize((i + 1) * 50, (j + 1) * 50);
-                                    break;
-
-                                default: maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
-                            }
-                        }
-                        j++;
-                    }
-                    
-                                 
-                }
-            }
+        
         }
 
         /// <summary>
@@ -364,7 +294,6 @@ namespace ForeFather
                 default: break;
             } 
          
-            spriteBatch.Begin();
             
             if (state == GameState.Combat)
             {
