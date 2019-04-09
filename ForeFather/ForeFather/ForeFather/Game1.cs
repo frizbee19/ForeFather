@@ -33,6 +33,8 @@ namespace ForeFather
         Texture2D hospital;
         Texture2D inn;
         Texture2D tilesSheet;
+        Texture2D consume;
+        Texture2D equip;
 
         Dictionary<string, Building> buildings;
 
@@ -86,6 +88,8 @@ namespace ForeFather
             inn = Content.Load<Texture2D>("Assets\\Inn");
             tilesSheet = Content.Load<Texture2D>("Assets\\Tiles");
             blank = Content.Load<Texture2D>("blank");
+            consume = Content.Load<Texture2D>("Assets\\Consumable");
+            equip = Content.Load<Texture2D>("Assets\\Equipable");
             // TODO: use this.Content to load your game content here
             ReadFile(@"Content\\Assets\\TownText.txt", 0);
         }
@@ -114,27 +118,27 @@ namespace ForeFather
                                 //These will also make a building
                                 case "1":               
                                     maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    //if (!buildings.ContainsKey("1"))
-                                    //    buildings.Add("1", new Building(consume, i*50, j*50));//replace to add consumableShop
-                                    //else if(!buildings["1"].hasDoor())
-                                    //{
-                                    //    maps.ElementAt(numInList)[j, i].setWalk(true);
-                                    //    buildings["1"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
-                                    //}
-                                    //else
-                                    //    buildings["1"].setSize((i+1)*50, (j+1)*50);
+                                    if (!buildings.ContainsKey("1"))
+                                        buildings.Add("1", new Building(consume, i * 50, j * 50));//replace to add consumableShop
+                                    else if (!buildings["1"].hasDoor())
+                                    {
+                                        maps.ElementAt(numInList)[j, i].setWalk(true);
+                                        buildings["1"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                    }
+                                    else
+                                        buildings["1"].setSize((i + 1) * 50, (j + 1) * 50);
                                     break;
                                 case "2":
                                     maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
-                                    //if (!buildings.ContainsKey("2"))
-                                    //    buildings.Add("2", new Building(equip, i*50, j*50));//replace to add equippableShop
-                                    //else if(!buildings["2"].hasDoor())
-                                    //{
-                                    //    maps.ElementAt(numInList)[j, i].setWalk(true);
-                                    //    buildings["2"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
-                                    //}
-                                    //else
-                                    //    buildings["2"].setSize((i+1)*50, (j+1)*50);
+                                    if (!buildings.ContainsKey("2"))
+                                        buildings.Add("2", new Building(equip, i * 50, j * 50));//replace to add equippableShop
+                                    else if (!buildings["2"].hasDoor())
+                                    {
+                                        maps.ElementAt(numInList)[j, i].setWalk(true);
+                                        buildings["2"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                    }
+                                    else
+                                        buildings["2"].setSize((i + 1) * 50, (j + 1) * 50);
                                     break;
                                 case "i":
                                     maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
