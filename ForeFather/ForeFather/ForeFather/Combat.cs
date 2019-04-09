@@ -33,9 +33,25 @@ namespace ForeFather
         {
             if (turn == true)
             {
-                for()
+                for (int i = 0; i < allies.Count; i++)
+                {
+                    //makechoice
+                }
+            }
+            else if(turn == false)
+            {
+                for (int i = 0; i < enemies.Count; i++)
+                {
+                    //AI
+                }    
             }
         }
 
+        public void draw()
+        {
+            //TODO
+        }
+
+        //TODO: makechoice function
     }
 }

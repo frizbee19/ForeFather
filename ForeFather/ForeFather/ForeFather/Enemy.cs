@@ -11,70 +11,60 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Enemy : Character
+    class Enemy
     {
-        //private int maxhp;
-        //private int offense;
-        //private int defense;
-        //private int luck;
-        //private int mana;
-        //private string name;
+        private int maxhp;
+        private int offense;
+        private int defense;
+        private int luck;
+        private int mana;
+        private string name;
+        private int curHP;
+        private int level;
 
-        public Enemy( string name, int hp, int off, int def, int luck, int mana) : base(name, hp, off, def, luck, mana)
+        public int getMaxHp { get; set; }
+        public int getOffense { get; set; }
+        public int getDefense { get; set; }
+        public int getLuck { get; set; }
+        public int getMana { get; set; }
+        public int getCurHp { get; set; }
+        public int getLevel { get; set; }
+
+        public Enemy(string name, int hp, int off, int def, int luck, int mana)
         {
-            
-            getOffense = off;
+            this.maxhp = hp;
+            this.offense = off;
+            this.defense = def;
+            this.luck = luck;
+            this.mana = mana;
+            this.name = name;
+            this.curHP = maxhp;
         }
 
-        public override void enterCombat()
-        {
-           
-        }
-
-        public override void think()
-        {
-            
-        }
-
-        public override void targeting()
-        {
-            
-        }
-
-        public override void attack(Ally Target)
-        {
-            
-        }
-        public override void attack(Enemy target)
-        {
-           
-        }
-        public override void useMagic()
+        public void think()
         {
             
         }
 
-        public override void useGoods()
+        public void attack(Ally Target)
         {
             
         }
 
-        public override void runAway()
+        public void useMagic()
         {
             
         }
 
-        public override void faint()
+        public void useGoods()
         {
             
         }
 
-        public override void exitCombat()
+        public void faint()
         {
             
         }
-
-       
 
     }
 }

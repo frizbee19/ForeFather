@@ -66,12 +66,6 @@ namespace ForeFather
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
             state = GameState.Town;
-            testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
-            testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
-            allies = new List<Ally>() { testAlly };
-            enemies = new List<Enemy> { testEnemy };
-            testAlly.getTurn = true;
-            combat = new Combat(this.Content, allies, enemies);
 
 
             tileSource[0] = new Rectangle(0, 0, 50, 50); // grass
@@ -211,7 +205,7 @@ namespace ForeFather
 
             if (state == GameState.Combat)
             {
-                combat.update(kb, oldkb);
+                //combat.update(kb, oldkb);
             }
 
             p1.update();
@@ -235,7 +229,7 @@ namespace ForeFather
             
             if (state == GameState.Combat)
             {
-                combat.Draw(spriteFont, spriteBatch);
+                //combat.draw(spriteFont, spriteBatch);
             }
             if(state == GameState.Town)
             {
