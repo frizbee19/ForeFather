@@ -28,6 +28,25 @@ namespace ForeFather
         Texture2D spritesheet;
 
         Texture2D blank;
+        enum GameState { Wilderness, Town, Combat};
+        GameState state;
+        SpriteFont spriteFont;
+        Combat combat;
+        KeyboardState kb;
+        KeyboardState oldkb;
+        Ally testAlly;
+        Enemy testEnemy;
+        List<Ally> allies;
+        List<Enemy> enemies;
+
+        Player p1;
+
+        List<Tile[,]> maps = new List<Tile[,]>();
+        
+        Rectangle[] tileSource = new Rectangle[4];
+        Texture2D spritesheet;
+
+
 
         Texture2D bank;
         Texture2D hospital;
@@ -37,6 +56,9 @@ namespace ForeFather
         Texture2D equip;
 
         Dictionary<string, Building> buildings;
+
+        Rectangle startRect = new Rectangle(420, 10, 0, 0);
+
 
         public Game1()
         {
@@ -54,6 +76,17 @@ namespace ForeFather
         {
             // TODO: Add your initialization logic here
             tileSource = new Rectangle[4];
+            IsMouseVisible = true;
+            p1 = new Player(Content, startRect, 1, 1);
+            state = GameState.Town;
+            testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
+            testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
+            allies = new List<Ally>() { testAlly };
+            enemies = new List<Enemy> { testEnemy };
+            testAlly.getTurn = true;
+            combat = new Combat(this.Content, allies, enemies);
+
+
             tileSource[0] = new Rectangle(0, 0, 50, 50); // grass
             tileSource[1] = new Rectangle(50, 0, 50, 50); // flowers
             tileSource[2] = new Rectangle(100, 0, 50, 50); // street
@@ -64,6 +97,7 @@ namespace ForeFather
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 800;
             graphics.ApplyChanges();
+
 
             buildings = new Dictionary<string, Building>();
 
@@ -82,6 +116,8 @@ namespace ForeFather
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteFont = Content.Load<SpriteFont>("SpriteFont1");
+
 
             bank = Content.Load<Texture2D>("Assets\\Bank");
             hospital = Content.Load<Texture2D>("Assets\\Hospital");
@@ -188,6 +224,75 @@ namespace ForeFather
             }
         }
 
+        public void ReadFile(string path, int numInList)
+        {
+            using (StreamReader reader = new StreamReader(path))
+            {
+                int j = 0;//j is column
+                while (!reader.EndOfStream)
+                {
+                    string hmm = reader.ReadLine();
+                    
+                    if (!hmm.Contains("//") && !hmm.Equals(""))
+                    {
+                        string[] charInput = hmm.Split();
+                        for (int i = 0; i < charInput.Length; i++)//i also applies as row
+                        {
+                            switch (charInput[i])
+                            {
+                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50*i, 50*j, 50, 50), false); break;
+                                case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+
+                                    //These will also make a building
+                                case "1":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    //if (!buildings.ContainsKey("1"))
+                                    //    buildings.Add("1", new Building(consume, i*50, j*50));//replace to add consumableShop
+                                    //else
+                                    //    buildings["1"].setSize((i+1)*50, (j+1)*50);
+                                    break;
+                                case "2":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    //if (!buildings.ContainsKey("2"))
+                                    //    buildings.Add("2", new Building(equip, i*50, j*50));//replace to add equippableShop
+                                    //else
+                                    //    buildings["2"].setSize((i+1)*50, (j+1)*50);
+                                    break;
+                                case "i":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("i"))
+                                        buildings.Add("i", new Building(inn, i * 50, j * 50));
+                                    else
+                                        buildings["i"].setSize((i+1)*50, (j+1)*50);
+                                    break;
+                                case "b":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("b"))
+                                        buildings.Add("b", new Building(bank, i * 50, j * 50));
+                                    else
+                                        buildings["b"].setSize((i + 1) * 50, (j + 1) * 50);
+                                    break;
+                                case "h":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false);
+                                    if (!buildings.ContainsKey("h"))
+                                        buildings.Add("h", new Building(hospital, i * 50, j * 50));
+                                    else
+                                        buildings["h"].setSize((i + 1) * 50, (j + 1) * 50);
+                                    break;
+
+                                default: maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                            }
+                        }
+                        j++;
+                    }
+                    
+                                 
+                }
+            }
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -209,6 +314,23 @@ namespace ForeFather
                 this.Exit();
 
             // TODO: Add your update logic here
+
+
+            kb = Keyboard.GetState();
+
+            if (kb.IsKeyDown(Keys.F8) && oldkb.IsKeyDown(Keys.F8))
+            {
+                state = GameState.Combat;
+            }
+
+            if (state == GameState.Combat)
+            {
+                combat.update(kb, oldkb);
+            }
+
+            p1.update();
+
+            oldkb = kb;
 
             base.Update(gameTime);
         }
@@ -239,10 +361,33 @@ namespace ForeFather
                         kvp.Value.Draw(spriteBatch, Color.Beige);//check if player intersects door, then give white if intersecting, else go black
                     }
                     break;
-
                 default: break;
             } 
          
+            spriteBatch.Begin();
+            
+            if (state == GameState.Combat)
+            {
+                combat.Draw(spriteFont, spriteBatch);
+            }
+            if(state == GameState.Town)
+            {
+            	for (int i = 0; i < 16; i++)
+            {
+                for (int j = 0; j < 16; j++)
+                {
+                    maps.ElementAt(0)[j, i].Draw(spriteBatch);
+                }
+            }
+
+            foreach (KeyValuePair<string, Building> kvp in buildings)
+            {
+                kvp.Value.Draw(spriteBatch);
+            }
+
+
+            }
+            p1.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

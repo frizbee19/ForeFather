@@ -15,6 +15,7 @@ namespace ForeFather
         private Door door;
 
 
+
         public Building()
         {
 
@@ -26,6 +27,7 @@ namespace ForeFather
             y = nY;
             spriteSheet = s;
             door = null;
+
         }
 
         public Building(Texture2D s, Rectangle p) 
@@ -55,8 +57,13 @@ namespace ForeFather
         public void Draw(SpriteBatch spriteBatch, Color doorC)
         {
             spriteBatch.Draw(spriteSheet, position, Color.White);
-            if(door!=null)
-            door.Draw(spriteBatch, doorC);
+            if (door != null)
+                door.Draw(spriteBatch, doorC);
+        }
+
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(spriteSheet, position, Color.White);
         }
     }
 }
