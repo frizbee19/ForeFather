@@ -52,6 +52,8 @@ namespace ForeFather
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferWidth = 800;
         }
 
         /// <summary>
@@ -230,6 +232,7 @@ namespace ForeFather
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
 
             spriteBatch.Begin();
             
