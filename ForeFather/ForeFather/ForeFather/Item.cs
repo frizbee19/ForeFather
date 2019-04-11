@@ -42,7 +42,7 @@ namespace ForeFather
             count++;
         }
         //all items will have a unique use method
-        public abstract void Use();
+        public abstract int Use();
 
     }
 }
