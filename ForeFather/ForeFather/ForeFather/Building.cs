@@ -37,9 +37,19 @@ namespace ForeFather
             door = null;
         }
 
+        public Rectangle getPos()
+        {
+            return position;
+        }
+
         public void setSize(int secondX, int secondY)
         {
             position = new Rectangle(x, y, secondX-x, secondY-y);
+        }
+
+        public Door getDoor()
+        {
+            return door;
         }
 
         public void setDoor(Door d)
@@ -54,11 +64,11 @@ namespace ForeFather
             return false;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color doorC)
+        public void Draw(SpriteBatch spriteBatch, Player p)
         {
             spriteBatch.Draw(spriteSheet, position, Color.White);
             if (door != null)
-                door.Draw(spriteBatch, doorC);
+                door.Draw(spriteBatch, p);
         }
 
         public void Draw(SpriteBatch spriteBatch)

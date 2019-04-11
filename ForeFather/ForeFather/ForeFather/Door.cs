@@ -28,9 +28,25 @@ namespace ForeFather
             position = pos;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color draw)
+        public Rectangle getPos()
         {
-            spriteBatch.Draw(sprite, position, draw);
+            return position;
+        }
+
+        public bool Intersects(Rectangle r)
+        {
+            if (r.Intersects(position) && (r.Y >= position.Y) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
+                return true;
+            return false;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Player p)
+        {
+            if(p.Intersects(position))
+                spriteBatch.Draw(sprite, position, Color.Beige);
+            else
+                spriteBatch.Draw(sprite, position, Color.Black);
+
         }
 
     }

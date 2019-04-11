@@ -15,7 +15,7 @@ namespace ForeFather
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    enum map {Town, Wild, ConShop, EquiShop, Bank, Hospital, Inn, Mountain};
+    enum map {Town, Wild, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -28,8 +28,6 @@ namespace ForeFather
         Texture2D spritesheet;
 
         Texture2D blank;
-        enum GameState { Wilderness, Town, Combat};
-        GameState state;
         SpriteFont spriteFont;
         Combat combat;
         KeyboardState kb;
@@ -74,7 +72,6 @@ namespace ForeFather
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
-            state = GameState.Town;
             testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
             testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
             allies = new List<Ally>() { testAlly };
@@ -155,7 +152,7 @@ namespace ForeFather
                                     else if (!buildings["1"].hasDoor())
                                     {
                                         maps.ElementAt(numInList)[j, i].setWalk(true);
-                                        buildings["1"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        buildings["1"].setDoor(new Door(blank, new Rectangle(i * 50 - 5, j * 50 - 3, 60, 53)));
                                     }
                                     else
                                         buildings["1"].setSize((i + 1) * 50, (j + 1) * 50);
@@ -167,7 +164,7 @@ namespace ForeFather
                                     else if (!buildings["2"].hasDoor())
                                     {
                                         maps.ElementAt(numInList)[j, i].setWalk(true);
-                                        buildings["2"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        buildings["2"].setDoor(new Door(blank, new Rectangle(i * 50 - 5, j * 50 - 3, 60, 53)));
                                     }
                                     else
                                         buildings["2"].setSize((i + 1) * 50, (j + 1) * 50);
@@ -179,7 +176,7 @@ namespace ForeFather
                                     else if (!buildings["i"].hasDoor())
                                     {
                                         maps.ElementAt(numInList)[j, i].setWalk(true);
-                                        buildings["i"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        buildings["i"].setDoor(new Door(blank, new Rectangle(i * 50 - 5, j * 50 - 3, 60, 53)));
                                     }
                                     else
                                         buildings["i"].setSize((i + 1) * 50, (j + 1) * 50);
@@ -191,7 +188,7 @@ namespace ForeFather
                                     else if (!buildings["b"].hasDoor())
                                     {
                                         maps.ElementAt(numInList)[j, i].setWalk(true);
-                                        buildings["b"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        buildings["b"].setDoor(new Door(blank, new Rectangle(i * 50 - 5, j * 50 - 3, 60, 53)));
                                     }
                                     else
                                         buildings["b"].setSize((i + 1) * 50, (j + 1) * 50);
@@ -203,7 +200,7 @@ namespace ForeFather
                                     else if (!buildings["h"].hasDoor())
                                     {
                                         maps.ElementAt(numInList)[j, i].setWalk(true);
-                                        buildings["h"].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        buildings["h"].setDoor(new Door(blank, new Rectangle(i * 50-5, j * 50-3, 60, 53)));
                                     }
                                     else
                                         buildings["h"].setSize((i + 1) * 50, (j + 1) * 50);
@@ -250,15 +247,15 @@ namespace ForeFather
 
             if (kb.IsKeyDown(Keys.F8) && oldkb.IsKeyDown(Keys.F8))
             {
-                state = GameState.Combat;
+                currentMap = map.Combat;
             }
 
-            if (state == GameState.Combat)
+            if (currentMap == map.Combat)
             {
                 combat.update(kb, oldkb);
             }
 
-            p1.update();
+            p1.update(buildings);
 
             oldkb = kb;
 
@@ -288,34 +285,23 @@ namespace ForeFather
 
                     foreach (KeyValuePair<string, Building> kvp in buildings)
                     {
-                        kvp.Value.Draw(spriteBatch, Color.Beige);//check if player intersects door, then give white if intersecting, else go black
+                        kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
                     }
                     break;
+
+                case map.Combat:
+                    {
+                        combat.Draw(spriteFont, spriteBatch);
+                    }
+                    break;
+
                 default: break;
             } 
          
+
+
+
             
-            if (state == GameState.Combat)
-            {
-                combat.Draw(spriteFont, spriteBatch);
-            }
-            if(state == GameState.Town)
-            {
-            	for (int i = 0; i < 16; i++)
-            {
-                for (int j = 0; j < 16; j++)
-                {
-                    maps.ElementAt(0)[j, i].Draw(spriteBatch);
-                }
-            }
-
-            foreach (KeyValuePair<string, Building> kvp in buildings)
-            {
-                kvp.Value.Draw(spriteBatch);
-            }
-
-
-            }
             p1.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);

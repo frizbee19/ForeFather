@@ -18,7 +18,7 @@ namespace ForeFather
         private Rectangle rectangle;
         private Rectangle sourceRectangle;
         private int trail;
-        private const int MS = 3;
+        private const int MS = 5;
         private const int WIDTH = 34;
         private const int HEIGTH = 50;
         Keys lastKey;
@@ -53,30 +53,38 @@ namespace ForeFather
             }
         }
 
-        public void update()
+        public void update(Dictionary<string, Building> buildings)
         {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
             {
                 rectangle.Y -= MS;
+                if (Intersects(buildings))
+                    rectangle.Y += MS;
                 lastKey = Keys.Up;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
             {
                 rectangle.Y += MS;
+                if (Intersects(buildings))
+                    rectangle.Y -= MS;
                 lastKey = Keys.Down;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0)
             {
                 rectangle.X -= MS;
+                if (Intersects(buildings))
+                    rectangle.X += MS;
                 lastKey = Keys.Left;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800)
             {
                 rectangle.X += MS;
+                if (Intersects(buildings))
+                    rectangle.X -= MS;
                 lastKey = Keys.Right;
             }
 
@@ -153,9 +161,34 @@ namespace ForeFather
             }
         }
 
+        public bool Intersects(Rectangle r)
+        {
+            if (r.Intersects(rectangle))
+                return true;
+            return false;
+        }
+
+        public bool Intersects(Dictionary<string, Building> buildings)
+        {
+            foreach (KeyValuePair<string, Building> kvp in buildings)
+            {
+                if (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle))
+                {
+                    return false;
+                }
+                else if(kvp.Value.getPos().Intersects(rectangle))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, sourceRectangle, Color.White);
         }
+
+
     }
 }
