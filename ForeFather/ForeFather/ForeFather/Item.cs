@@ -15,6 +15,11 @@ namespace ForeFather
     abstract class Item
     {
         private string name;
+        private int count;
+        public int Count
+        {
+            get { return count; } set { count = value; }
+        }
         public String Name
         {
             get { return name; }
@@ -29,6 +34,12 @@ namespace ForeFather
         {
             name = n;
             description = d;
+            count = 1;
+        }
+
+        public void Increment()
+        {
+            count++;
         }
         //all items will have a unique use method
         public abstract void Use();
