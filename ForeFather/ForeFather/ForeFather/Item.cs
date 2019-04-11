@@ -44,5 +44,7 @@ namespace ForeFather
         //all items will have a unique use method
         public abstract int Use();
 
+        public abstract bool Equals(Item item);
+
     }
 }

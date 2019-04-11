@@ -40,5 +40,10 @@ namespace ForeFather
                 return 0;
             }
         }
+        
+        public override bool Equals(Item item)
+        {
+            return item.GetType() == this.GetType();
+        }
     }
 }

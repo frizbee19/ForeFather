@@ -35,10 +35,9 @@ namespace ForeFather
             get { return currentInd; }
         }
 
-        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content, string name)
+        public TextBox(Rectangle rect, int length, string p, bool fromAFile, ContentManager Content, string name)
         {
             title = name;
-            texture = t;
             box = rect;
             lineLength = length;
             path = p;
@@ -46,6 +45,7 @@ namespace ForeFather
             currentInd = 0;
             font = Content.Load<SpriteFont>("dialFont");
             nameFont = Content.Load<SpriteFont>("nameFont");
+            texture = Content.Load<Texture2D>("black or something");
             if (fromAFile)
             {
                 ReadFile(@path);
@@ -56,37 +56,37 @@ namespace ForeFather
             }
         }
 
-        public TextBox(Texture2D t, Rectangle rect, int length, string p, bool fromAFile, ContentManager Content) : this(t, rect, length, p, fromAFile, Content, "")
+        public TextBox(Rectangle rect, int length, string p, bool fromAFile, ContentManager Content) : this(rect, length, p, fromAFile, Content, "")
         {
 
         }
 
-        public TextBox(Texture2D t, int length, string p, bool fromAFile, ContentManager Content) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content)
+        public TextBox(int length, string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content)
         {
 
         }
 
-        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile, ContentManager Content) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile, Content)
+        public TextBox(Rectangle rect, string p, bool fromAFile, ContentManager Content) : this(rect, DEFAULT_LINELENGTH, p, fromAFile, Content)
         {
 
         }
 
-        public TextBox(Texture2D t, string p, bool fromAFile, ContentManager Content) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content)
+        public TextBox(string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content)
         {
 
         }
 
-        public TextBox(Texture2D t, int length, string p, bool fromAFile, ContentManager Content, string name) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content, name)
+        public TextBox(int length, string p, bool fromAFile, ContentManager Content, string name) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content, name)
         {
 
         }
 
-        public TextBox(Texture2D t, Rectangle rect, string p, bool fromAFile, ContentManager Content, string name) : this(t, rect, DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        public TextBox(Rectangle rect, string p, bool fromAFile, ContentManager Content, string name) : this(rect, DEFAULT_LINELENGTH, p, fromAFile, Content, name)
         {
 
         }
 
-        public TextBox(Texture2D t, string p, bool fromAFile, ContentManager Content, string name) : this(t, new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        public TextBox(string p, bool fromAFile, ContentManager Content, string name) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content, name)
         {
 
         }
