@@ -50,8 +50,11 @@ namespace ForeFather
         Texture2D equip;
 
         Dictionary<string, Building> buildings;
+        Dictionary<string, Building> insideBuilds;
 
         Rectangle startRect = new Rectangle(420, 10, 0, 0);
+
+        Rectangle blankRect;
 
 
         public Game1()
@@ -93,9 +96,12 @@ namespace ForeFather
 
 
             buildings = new Dictionary<string, Building>();
+            insideBuilds = new Dictionary<string, Building>();
 
             maps = new List<Tile[,]>();
             maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+
 
             currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
@@ -121,6 +127,7 @@ namespace ForeFather
             equip = Content.Load<Texture2D>("Assets\\Equipable");
             // TODO: use this.Content to load your game content here
             ReadFile(@"Content\\Assets\\TownText.txt", 0);
+            ReadFile(@"Content\\Assets\\ConsumableText.txt", 1);
         }
 
         public void ReadFile(string path, int numInList)
@@ -140,9 +147,20 @@ namespace ForeFather
                             switch (charInput[i])
                             {
                                 case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, Color.Black); break;
                                 case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
+                                case "t":
+                                    maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true);
+                                    insideBuilds.Add("" + numInList, new Building(new Rectangle(0, 0, 800, 800)));
+                                    if(!insideBuilds["" + numInList].hasDoor())
+                                    insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                    else
+                                    {
+
+                                    }
+                                    break;
 
                                 //These will also make a building
                                 case "1":               
@@ -245,9 +263,48 @@ namespace ForeFather
 
             kb = Keyboard.GetState();
 
-            if (kb.IsKeyDown(Keys.F8) && oldkb.IsKeyDown(Keys.F8))
+            if (kb.IsKeyDown(Keys.F8) && !oldkb.IsKeyDown(Keys.F8))
             {
                 currentMap = map.Combat;
+            }
+
+            if (kb.IsKeyDown(Keys.Space) && !oldkb.IsKeyDown(Keys.Space))
+            {
+                switch (currentMap)
+                {
+
+                    case map.Town:
+                        {
+                            string whatBuild = p1.Intersects(buildings);
+                            switch (whatBuild)
+                            {
+                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y); break;
+                                case "2": currentMap = map.EquiShop; break;
+                                case "i": currentMap = map.Inn; break;
+                                case "b": currentMap = map.Bank; break;
+                                case "h": currentMap = map.Hospital; break;
+
+                                default: break;
+                            }
+                            break;
+                        }
+                    default:
+                        {
+                            string whatBuild = p1.Intersects(insideBuilds);
+                            switch (whatBuild)
+                            {
+                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
+                                case "2": currentMap = map.EquiShop; break;
+                                case "i": currentMap = map.Inn; break;
+                                case "b": currentMap = map.Bank; break;
+                                case "h": currentMap = map.Hospital; break;
+
+                                default: break;
+                            }
+                            break;
+                        }
+                        break;
+                }         
             }
 
             if (currentMap == map.Combat)
@@ -255,7 +312,7 @@ namespace ForeFather
                 combat.update(kb, oldkb);
             }
 
-            p1.update(buildings);
+            p1.update(buildings, currentMap);
 
             oldkb = kb;
 
@@ -287,11 +344,22 @@ namespace ForeFather
                     {
                         kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
                     }
+
                     break;
 
                 case map.Combat:
                     {
                         combat.Draw(spriteFont, spriteBatch);
+                    }
+                    break;
+
+                case map.ConShop:
+                    for (int i = 0; i < 16; i++)
+                    {
+                        for (int j = 0; j < 16; j++)
+                        {
+                            maps.ElementAt(1)[j, i].Draw(spriteBatch);
+                        }
                     }
                     break;
 

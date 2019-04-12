@@ -37,6 +37,13 @@ namespace ForeFather
             door = null;
         }
 
+        public Building(Rectangle p)
+        {
+            spriteSheet = null;
+            position = p;
+            door = null;
+        }
+
         public Rectangle getPos()
         {
             return position;
@@ -57,6 +64,11 @@ namespace ForeFather
             door = d;
         }
 
+        public void changeDoorSize(int newWidth, int newHeight)
+        {
+            door.
+        }
+
         public bool hasDoor()
         {
             if (door != null)
@@ -66,6 +78,7 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch, Player p)
         {
+            if(spriteSheet!=null)
             spriteBatch.Draw(spriteSheet, position, Color.White);
             if (door != null)
                 door.Draw(spriteBatch, p);
@@ -73,7 +86,8 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, Color.White);
+            if (spriteSheet != null)
+                spriteBatch.Draw(spriteSheet, position, Color.White);
         }
     }
 }

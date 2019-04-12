@@ -53,40 +53,49 @@ namespace ForeFather
             }
         }
 
-        public void update(Dictionary<string, Building> buildings)
+        public void setCoords(int newX, int newY)
+        {
+            rectangle.X = newX;
+            rectangle.Y = newY;
+        }
+
+        public void update(Dictionary<string, Building> buildings, map current)
         {
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
             {
                 rectangle.Y -= MS;
-                if (Intersects(buildings))
+                if (Intersects(buildings).Equals("0") && current==map.Town)
                     rectangle.Y += MS;
-                lastKey = Keys.Up;
+                //else if (!Intersects(buildings).Equals("0") && current != map.Town && current!=map.Combat && current!=map.Wild && current!=map.Mountain)
+
+                    lastKey = Keys.Up;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800 && current == map.Town)
             {
                 rectangle.Y += MS;
-                if (Intersects(buildings))
+                if (Intersects(buildings).Equals("0"))
                     rectangle.Y -= MS;
                 lastKey = Keys.Down;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0 && current == map.Town)
             {
                 rectangle.X -= MS;
-                if (Intersects(buildings))
+                if (Intersects(buildings).Equals("0"))
                     rectangle.X += MS;
                 lastKey = Keys.Left;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800 && current == map.Town)
             {
                 rectangle.X += MS;
-                if (Intersects(buildings))
+                if (Intersects(buildings).Equals("0"))
                     rectangle.X -= MS;
                 lastKey = Keys.Right;
             }
+
 
             switch (character)
             {
@@ -159,6 +168,7 @@ namespace ForeFather
                     }
                     break;
             }
+
         }
 
         public bool Intersects(Rectangle r)
@@ -168,20 +178,20 @@ namespace ForeFather
             return false;
         }
 
-        public bool Intersects(Dictionary<string, Building> buildings)
+        public string Intersects(Dictionary<string, Building> buildings)
         {
             foreach (KeyValuePair<string, Building> kvp in buildings)
             {
                 if (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle))
                 {
-                    return false;
+                    return kvp.Key;
                 }
                 else if(kvp.Value.getPos().Intersects(rectangle))
                 {
-                    return true;
+                    return "0";
                 }
             }
-            return false;
+            return "";
         }
 
         public void Draw(SpriteBatch spriteBatch)
