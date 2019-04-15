@@ -66,7 +66,7 @@ namespace ForeFather
 
         public void changeDoorSize(int newWidth, int newHeight)
         {
-            door.
+            //door.
         }
 
         public bool hasDoor()

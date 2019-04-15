@@ -11,62 +11,64 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Ally : Character
+    class Ally
     {
-        //private int maxhp;
-        //private int offense;
-        //private int defense;
-        //private int luck;
-        //private int mana;
-        //private string name;
+        private int maxhp;
+        private int offense;
+        private int defense;
+        private int luck;
+        private int mana;
+        private string name;
+        private int curHP;
+        private int XP;
+        private int level;
+        private int maxMana;
 
-        public Ally(string name, int hp, int off, int def, int luck, int mana) : base(name, hp, off, def, luck, mana)
+        public int getMaxHp { get; set; }
+        public int getOffense { get; set; }
+        public int getDefense { get; set; }
+        public int getLuck { get; set; }
+        public int getMana { get; set; }
+        public int getCurHp { get; set; }
+        public int getXP { get; set; }
+        public int getLevel { get; set; }
+        public int getMaxMana { get; set; }
+
+        public Ally(string name, int hp, int off, int def, int luck, int mana)
+        {
+            this.maxhp = hp;
+            this.offense = off;
+            this.defense = def;
+            this.luck = luck;
+            this.maxMana = mana;
+            this.mana = maxMana;
+            this.name = name;
+            this.curHP = maxhp;
+            this.XP = 0;
+            this.level = 0;
+        }
+
+        public void attack(Enemy target) //basic attack
+        {
+
+        }
+        public void useMagic() //takes a ability object as parameter
+        {
+
+        }
+        public void useGoods() //takes a inventory item as parameter
+        {
+
+        }
+        public void runAway()
+        {
+
+        }
+        public void faint()
         {
 
         }
 
-        public override void enterCombat()
-        {
-
-        }
-        public override void think() //option selection in combat
-        {
-
-        }
-        public override void targeting() //target selection
-        {
-
-        }
-        public override void attack(Enemy target) //basic attack
-        {
-            target.getCurHp -= 10;
-            getTurn = false;
-        }
-        public override void attack(Ally target)
-        {
-
-        }
-        public override void useMagic() //takes a ability object as parameter
-        {
-
-        }
-        public override void useGoods() //takes a inventory item as parameter
-        {
-
-        }
-
-        public override void runAway()
-        {
-
-        }
-        public override void faint()
-        {
-
-        }
-        public override void exitCombat()
-        {
-
-        }
 
     }
 }
