@@ -64,9 +64,9 @@ namespace ForeFather
             door = d;
         }
 
-        public void changeDoorSize(int newWidth, int newHeight)
+        public void changeDoorSize(int howMuchWidth, int howMuchHeight)
         {
-            door.
+            door.setSize(howMuchWidth, howMuchHeight);
         }
 
         public bool hasDoor()

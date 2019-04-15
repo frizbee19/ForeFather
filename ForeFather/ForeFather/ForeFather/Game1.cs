@@ -155,12 +155,19 @@ namespace ForeFather
                                 case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "t":
                                     maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true);
-                                    insideBuilds.Add("" + numInList, new Building(new Rectangle(0, 0, 800, 800)));
-                                    if(!insideBuilds["" + numInList].hasDoor())
-                                    insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                    if (!insideBuilds.ContainsKey("" + numInList))
+                                        insideBuilds.Add("" + numInList, new Building(new Rectangle(0, 0, 800, 800)));
                                     else
                                     {
-
+                                        if (!insideBuilds["" + numInList].hasDoor())
+                                            insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                        else
+                                        {
+                                            if(j*50 > insideBuilds["" + numInList].getDoor().getPos().X)
+                                            insideBuilds["" + numInList].changeDoorSize(50, 0);
+                                            if(i * 50 > insideBuilds["" + numInList].getDoor().getPos().Y)
+                                            insideBuilds["" + numInList].changeDoorSize(0, 50);
+                                        }
                                     }
                                     break;
 

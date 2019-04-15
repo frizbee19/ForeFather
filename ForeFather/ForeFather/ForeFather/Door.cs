@@ -33,6 +33,12 @@ namespace ForeFather
             return position;
         }
 
+        public void setSize(int howMuchWidth, int howMuchHeight)
+        {
+            position.Width += howMuchWidth;
+            position.Height += howMuchHeight;
+        }
+
         public bool Intersects(Rectangle r)
         {
             if (r.Intersects(position) && (r.Y >= position.Y) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
