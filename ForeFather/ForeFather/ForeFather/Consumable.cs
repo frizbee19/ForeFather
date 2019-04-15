@@ -7,7 +7,7 @@ namespace ForeFather
 {
     enum ConsumeType
     {
-        Health
+        CurHealth, MaxHealth, Luck, Offense, Defense, Mana
     }
     class Consumable : Item
     {
@@ -24,21 +24,39 @@ namespace ForeFather
             magnitude = m;
         }
         /*
-        Change this later on to make it so that the Use method takes Player as a parameter and put a switch statement to check the type and increment the stats in the method.
-        Set player = method return in whatever class calls Use method.
+        make sure to update the character in whatever class you use this method in after you call it
         */
-        override
-        public int Use()
+        override //replace character with ally eventually idk
+        public Character Use(Character character)
         {
             if (Count > 0)
             {
                 Count--;
-                return magnitude;
+                switch(itemType)
+                {
+                    case ConsumeType.CurHealth:
+                        character.getCurHp += magnitude;
+                        break;
+                    case ConsumeType.MaxHealth:
+                        character.getMaxHp += magnitude;
+                        break;
+                    case ConsumeType.Luck:
+                        character.getLuck += magnitude;
+                        break;
+                    case ConsumeType.Offense:
+                        character.getOffense += magnitude;
+                        break;
+                    case ConsumeType.Defense:
+                        character.getDefense += magnitude;
+                        break;
+                    case ConsumeType.Mana:
+                        character.getMana += magnitude;
+                        break;
+                    default:
+                        break;
+                }
             }
-            else
-            {
-                return 0;
-            }
+            return character;
         }
         
         public override bool Equals(Item item)
