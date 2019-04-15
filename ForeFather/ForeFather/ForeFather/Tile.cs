@@ -13,6 +13,7 @@ namespace ForeFather
         private Texture2D spriteSheet;
         private Rectangle sourceRect;
         private Rectangle position;
+        private Color color;
         private bool isWalkable;
 
         public Tile() : base()
@@ -24,6 +25,7 @@ namespace ForeFather
         {
             spriteSheet = s;
             sourceRect = sR;
+            color = Color.White;
         }
 
         public Tile(Texture2D s, Rectangle sR, Rectangle p)
@@ -31,6 +33,7 @@ namespace ForeFather
             spriteSheet = s;
             sourceRect = sR;
             position = p;
+            color = Color.White;
         }
 
         public Tile(Texture2D s, Rectangle sR, Rectangle p, bool isWalk)
@@ -39,6 +42,16 @@ namespace ForeFather
             sourceRect = sR;
             position = p;
             isWalkable = isWalk;
+            color = Color.White;
+        }
+
+        public Tile(Texture2D s, Rectangle sR, Rectangle p, bool isWalk, Color c)
+        {
+            spriteSheet = s;
+            sourceRect = sR;
+            position = p;
+            isWalkable = isWalk;
+            color = Color.Black;
         }
 
         public Rectangle getPos()
@@ -51,9 +64,14 @@ namespace ForeFather
             return isWalkable;
         }
 
+        public void setWalk(bool walk)
+        {
+            isWalkable = walk;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(spriteSheet, position, sourceRect, Color.White);
+            spriteBatch.Draw(spriteSheet, position, sourceRect, color);
         }
 
     }

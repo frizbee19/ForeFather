@@ -18,7 +18,7 @@ namespace ForeFather
         private Rectangle rectangle;
         private Rectangle sourceRectangle;
         private int trail;
-        private const int MS = 3;
+        private const int MS = 5;
         private const int WIDTH = 34;
         private const int HEIGTH = 50;
         Keys lastKey;
@@ -26,7 +26,7 @@ namespace ForeFather
 
         public Player(ContentManager content, Rectangle rect, int t, int i)
         {
-            texture = content.Load<Texture2D>("spriteChar");
+            texture = content.Load<Texture2D>("Assets\\spriteChar");
             rectangle = new Rectangle(rect.X, rect.Y, WIDTH, HEIGTH);
             trail = t;
             
@@ -53,32 +53,49 @@ namespace ForeFather
             }
         }
 
-        public void update()
+        public void setCoords(int newX, int newY)
+        {
+            rectangle.X = newX;
+            rectangle.Y = newY;
+        }
+
+        public void update(Dictionary<string, Building> buildings, map current)
         {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
             {
                 rectangle.Y -= MS;
-                lastKey = Keys.Up;
+                if (Intersects(buildings).Equals("0") && current==map.Town)
+                    rectangle.Y += MS;
+                //else if (!Intersects(buildings).Equals("0") && current != map.Town && current!=map.Combat && current!=map.Wild && current!=map.Mountain)
+
+                    lastKey = Keys.Up;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800 && current == map.Town)
             {
                 rectangle.Y += MS;
+                if (Intersects(buildings).Equals("0"))
+                    rectangle.Y -= MS;
                 lastKey = Keys.Down;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0 && current == map.Town)
             {
                 rectangle.X -= MS;
+                if (Intersects(buildings).Equals("0"))
+                    rectangle.X += MS;
                 lastKey = Keys.Left;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800 && current == map.Town)
             {
                 rectangle.X += MS;
+                if (Intersects(buildings).Equals("0"))
+                    rectangle.X -= MS;
                 lastKey = Keys.Right;
             }
+
 
             switch (character)
             {
@@ -151,11 +168,37 @@ namespace ForeFather
                     }
                     break;
             }
+
+        }
+
+        public bool Intersects(Rectangle r)
+        {
+            if (r.Intersects(rectangle))
+                return true;
+            return false;
+        }
+
+        public string Intersects(Dictionary<string, Building> buildings)
+        {
+            foreach (KeyValuePair<string, Building> kvp in buildings)
+            {
+                if (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle))
+                {
+                    return kvp.Key;
+                }
+                else if(kvp.Value.getPos().Intersects(rectangle))
+                {
+                    return "0";
+                }
+            }
+            return "";
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(texture, rectangle, sourceRectangle, Color.White);
         }
+
+
     }
 }
