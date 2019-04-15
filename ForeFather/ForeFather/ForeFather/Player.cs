@@ -65,33 +65,34 @@ namespace ForeFather
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
             {
                 rectangle.Y -= MS;
-                if (Intersects(buildings).Equals("0") && current==map.Town)
+                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
                     rectangle.Y += MS;
-                //else if (!Intersects(buildings).Equals("0") && current != map.Town && current!=map.Combat && current!=map.Wild && current!=map.Mountain)
 
-                    lastKey = Keys.Up;
+                lastKey = Keys.Up;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800 && current == map.Town)
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
             {
                 rectangle.Y += MS;
-                if (Intersects(buildings).Equals("0"))
+                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
                     rectangle.Y -= MS;
+            
                 lastKey = Keys.Down;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0 && current == map.Town)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0)
             {
                 rectangle.X -= MS;
-                if (Intersects(buildings).Equals("0"))
+                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
                     rectangle.X += MS;
+
                 lastKey = Keys.Left;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800 && current == map.Town)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800)
             {
                 rectangle.X += MS;
-                if (Intersects(buildings).Equals("0"))
+                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
                     rectangle.X -= MS;
                 lastKey = Keys.Right;
             }
@@ -178,15 +179,25 @@ namespace ForeFather
             return false;
         }
 
-        public string Intersects(Dictionary<string, Building> buildings)
+        public string Intersects(Dictionary<string, Building> buildings, map currentMap)
         {
             foreach (KeyValuePair<string, Building> kvp in buildings)
             {
-                if (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle))
-                {
+                if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle)))
                     return kvp.Key;
+                if (currentMap != map.Town && currentMap != map.Wild && kvp.Value.Intersects(rectangle))
+                {
+                    switch (kvp.Key)
+                    {
+                        case "1": if (currentMap == map.ConShop) { return kvp.Key; } break;
+                        case "2": if (currentMap == map.EquiShop) { return kvp.Key; } break;
+                        case "b": if (currentMap == map.Bank) { return kvp.Key; } break;
+                        case "i": if (currentMap == map.Inn) { return kvp.Key; } break;
+                        case "h": if (currentMap == map.Hospital) { return kvp.Key; } break;
+                        default: return "0";
+                    }
                 }
-                else if(kvp.Value.getPos().Intersects(rectangle))
+                else if(kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(rectangle)))
                 {
                     return "0";
                 }

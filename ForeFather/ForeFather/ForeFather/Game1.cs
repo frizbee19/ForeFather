@@ -149,6 +149,7 @@ namespace ForeFather
                             switch (charInput[i])
                             {
                                 case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, Color.Black); break;
                                 case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
@@ -156,9 +157,10 @@ namespace ForeFather
                                 case "t":
                                     maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true);
                                     if (!insideBuilds.ContainsKey("" + numInList))
-                                        insideBuilds.Add("" + numInList, new Building(new Rectangle(0, 0, 800, 800)));
+                                        insideBuilds.Add("" + numInList, new Building(i*50, j*50));
                                     else
                                     {
+                                        insideBuilds["" + numInList].setSize(i * 50, j * 50);
                                         if (!insideBuilds["" + numInList].hasDoor())
                                             insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
                                         else
@@ -284,44 +286,51 @@ namespace ForeFather
 
                     case map.Town:
                         {
-                            string whatBuild = p1.Intersects(buildings);
+                            string whatBuild = p1.Intersects(buildings, currentMap);
                             switch (whatBuild)
                             {
-                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y); break;
+                                case "1": currentMap = map.ConShop; p1.setCoords(insideBuilds["1"].getDoor().getPos().X, insideBuilds["1"].getDoor().getPos().Y); break;
                                 case "2": currentMap = map.EquiShop; break;
                                 case "i": currentMap = map.Inn; break;
                                 case "b": currentMap = map.Bank; break;
                                 case "h": currentMap = map.Hospital; break;
 
                                 default: break;
+                                
                             }
                             break;
                         }
                     default:
                         {
-                            string whatBuild = p1.Intersects(insideBuilds);
+                            string whatBuild = p1.Intersects(insideBuilds, currentMap);
                             switch (whatBuild)
                             {
-                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
-                                case "2": currentMap = map.EquiShop; break;
-                                case "i": currentMap = map.Inn; break;
-                                case "b": currentMap = map.Bank; break;
-                                case "h": currentMap = map.Hospital; break;
+                                case "1": currentMap = map.Town; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
+                                case "2": currentMap = map.Town; break;
+                                case "i": currentMap = map.Town; break;
+                                case "b": currentMap = map.Town; break;
+                                case "h": currentMap = map.Town; break;
 
                                 default: break;
                             }
                             break;
                         }
-                        break;
                 }         
             }
 
-            if (currentMap == map.Combat)
+            switch(currentMap)
             {
-                combat.update(kb, oldkb);
+                case map.Combat:
+                    combat.update(kb, oldkb); break;
+
+                case map.Town:
+                    p1.update(buildings, currentMap); break;                
+
+                default:
+                    p1.update(insideBuilds, currentMap); break; ;
             }
 
-            p1.update(buildings, currentMap);
+            
 
             oldkb = kb;
 

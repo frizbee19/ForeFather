@@ -30,6 +30,14 @@ namespace ForeFather
 
         }
 
+        public Building( int nX, int nY)
+        {
+            x = nX;
+            y = nY;
+            door = null;
+
+        }
+
         public Building(Texture2D s, Rectangle p) 
         {
             spriteSheet = s;
@@ -76,6 +84,13 @@ namespace ForeFather
             return false;
         }
 
+        public bool Intersects(Rectangle r)
+        {
+            if (r.Intersects(position) && (r.Y >= position.Y) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
+                return true;
+            return false;
+        }
+
         public void Draw(SpriteBatch spriteBatch, Player p)
         {
             if(spriteSheet!=null)
@@ -83,6 +98,7 @@ namespace ForeFather
             if (door != null)
                 door.Draw(spriteBatch, p);
         }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
