@@ -58,10 +58,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ally.cs" />
+    <Compile Include="Armor.cs" />
     <Compile Include="Building.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="Consumable.cs" />
+    <Compile Include="Crystal.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Inventory.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="QuestItem.cs" />
     <Compile Include="TextBox.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
