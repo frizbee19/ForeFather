@@ -91,6 +91,13 @@ namespace ForeFather
             return false;
         }
 
+        public bool Intersects(Player p)
+        {
+            if (p.getPos().X>=position.X && p.getPos().X+p.getPos().Width<=position.X+position.Width && p.getPos().Y>=position.Y && p.getPos().Y+p.getPos().Height<=position.Y+position.Height)
+                return true;
+            return false;
+        }
+
         public void Draw(SpriteBatch spriteBatch, Player p)
         {
             if(spriteSheet!=null)

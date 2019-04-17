@@ -172,6 +172,11 @@ namespace ForeFather
 
         }
 
+        public Rectangle getPos()
+        {
+            return rectangle;
+        }
+
         public bool Intersects(Rectangle r)
         {
             if (r.Intersects(rectangle))
@@ -181,28 +186,31 @@ namespace ForeFather
 
         public string Intersects(Dictionary<string, Building> buildings, map currentMap)
         {
+            string what="";
             foreach (KeyValuePair<string, Building> kvp in buildings)
             {
                 if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle)))
                     return kvp.Key;
-                if (currentMap != map.Town && currentMap != map.Wild && kvp.Value.Intersects(rectangle))
+                if (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(this))
                 {
                     switch (kvp.Key)
                     {
-                        case "1": if (currentMap == map.ConShop) { return kvp.Key; } break;
-                        case "2": if (currentMap == map.EquiShop) { return kvp.Key; } break;
-                        case "b": if (currentMap == map.Bank) { return kvp.Key; } break;
-                        case "i": if (currentMap == map.Inn) { return kvp.Key; } break;
-                        case "h": if (currentMap == map.Hospital) { return kvp.Key; } break;
-                        default: return "0";
+                        case "1": if (currentMap == map.ConShop) { return "0"; } break;
+                        case "2": if (currentMap == map.EquiShop) { return "0"; } break;
+                        case "b": if (currentMap == map.Bank) { return "0"; } break;
+                        case "i": if (currentMap == map.Inn) { return "0"; } break;
+                        case "h": if (currentMap == map.Hospital) { return "0"; } break;
+                        default: return "";
                     }
                 }
-                else if(kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(rectangle)))
+                else if((currentMap == map.Town || currentMap == map.Wild) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(rectangle)))
                 {
                     return "0";
                 }
+                else
+                what = kvp.Key;
             }
-            return "";
+            return what;
         }
 
         public void Draw(SpriteBatch spriteBatch)
