@@ -61,7 +61,7 @@ namespace ForeFather
         
         public override bool Equals(Item item)
         {
-            return item.GetType() == this.GetType();
+            return item.Name == this.Name && item.GetType() == this.GetType();
         }
     }
 }
