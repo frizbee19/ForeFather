@@ -18,31 +18,43 @@ namespace ForeFather
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
 
+        Rectangle selectRect;
+        Texture2D selectTex;
+
         private List<Ally> allies;
         private List<Enemy> enemies;
         private bool turn;
         Random rand = new Random();
+        string text;
 
-        public Combat(ContentManager content, SpriteFont spriteFont, SpriteBatch spriteBatch, List<Ally> allies, List<Enemy> enemies)
+        public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies)
         {
             this.allies = allies;
             this.enemies = enemies;
             this.content = content;
-            this.spriteBatch = spriteBatch;
-            this.spriteFont = spriteFont;
 
-            if (rand.Next(1) == 0)
+            if (rand.Next(1) == 0) //coinflip for first turn
                 turn = false;
             else
                 turn = true;
+
+            initialize();
         }
 
         public void initialize()
         {
-            comText = new TextBox("haha", false, content);
+            text = "Bash \nAbilities \nGoods \nRun";
+            comText = new TextBox(new Rectangle(10,10, 780, 250), 100,text, false, content);
+            
         }
 
-        public void update()
+        public void loadContent(SpriteFont spriteFont, SpriteBatch spriteBatch)
+        {
+            this.spriteBatch = spriteBatch;
+            this.spriteFont = spriteFont;
+        }
+
+        public void update(KeyboardState kb, KeyboardState oldkb)
         {
             if (turn == true)
             {
@@ -62,7 +74,14 @@ namespace ForeFather
 
         public void draw()
         {
-            comText.Draw();
+            
+            comText.Draw(spriteBatch);
+            
+        }
+
+        private int select(int numChoices, KeyboardState kb, KeyboardState oldkb)
+        {
+            
         }
 
         //TODO: makechoice function

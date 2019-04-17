@@ -115,6 +115,8 @@ namespace ForeFather
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("SpriteFont1");
 
+            combat.loadContent(spriteFont, spriteBatch);
+
 
             bank = Content.Load<Texture2D>("Assets\\Bank");
             hospital = Content.Load<Texture2D>("Assets\\Hospital");
@@ -352,7 +354,7 @@ namespace ForeFather
 
                 case map.Combat:
                     {
-                        combat.draw(spriteFont, spriteBatch);
+                        combat.draw();
                     }
                     break;
 
