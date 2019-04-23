@@ -356,6 +356,7 @@ namespace ForeFather
 
                 case map.Combat:
                     {
+                        
                         combat.draw();
                     }
                     break;
