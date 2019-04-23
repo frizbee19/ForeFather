@@ -22,14 +22,15 @@ namespace ForeFather
         override
         public Ally Use(Ally c)
         {
-            //placeholder
+            //make sure to set the character equal to the return
+            c.getCrystal = this;
             return c;
         }
 
         override
         public bool Equals(Item item)
         {
-            return item.Name == this.Name && ((Crystal)item).Mana == this.Mana;
+            return item.Name == this.Name && ((Crystal)item).Mana == this.Mana && item.Description == this.Description;
         }
     }
 }

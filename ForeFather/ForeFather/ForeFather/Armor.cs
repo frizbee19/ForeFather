@@ -21,14 +21,15 @@ namespace ForeFather
         override
         public Ally Use(Ally c)
         {
-            //placeholder
+            //make sure to set the character equal to the return
+            c.getArmor = this;
             return c;
         }
 
         override
         public bool Equals(Item item)
         {
-            return item.Name == this.Name && ((Armor)item).Defense == this.Defense;
+            return item.Name == this.Name && ((Armor)item).Defense == this.Defense && item.Description == this.Description;
         }
     }
 }
