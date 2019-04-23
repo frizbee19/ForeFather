@@ -11,70 +11,61 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Enemy : Character
+    class Enemy
     {
-        //private int maxhp;
-        //private int offense;
-        //private int defense;
-        //private int luck;
-        //private int mana;
-        //private string name;
+        private int maxhp;
+        private int offense;
+        private int defense;
+        private int luck;
+        private int mana;
+        private string name;
+        private int curHP;
+        private int level;
 
-        public Enemy( string name, int hp, int off, int def, int luck, int mana) : base(name, hp, off, def, luck, mana)
-        {
-            
-            getOffense = off;
-        }
+        public int getMaxHp { get; set; }
+        public int getOffense { get; set; }
+        public int getDefense { get; set; }
+        public int getLuck { get; set; }
+        public int getMana { get; set; }
+        public int getCurHp { get; set; }
+        public int getLevel { get; set; }
+        public int totalDmg;
 
-        public override void enterCombat()
+        public Enemy(string name, int hp, int off, int def, int luck, int mana)
         {
-           
-        }
-
-        public override void think()
-        {
-            
-        }
-
-        public override void targeting()
-        {
-            
-        }
-
-        public override void attack(Ally Target)
-        {
-            
-        }
-        public override void attack(Enemy target)
-        {
-           
-        }
-        public override void useMagic()
-        {
-            
+            this.maxhp = hp;
+            this.offense = off;
+            this.defense = def;
+            this.luck = luck;
+            this.mana = mana;
+            this.name = name;
+            this.curHP = maxhp;
         }
 
-        public override void useGoods()
+        public void think()
         {
-            
+
         }
 
-        public override void runAway()
+        public void attack(Ally Target)
         {
-            
+
         }
 
-        public override void faint()
+        public void useMagic()
         {
-            
+
         }
 
-        public override void exitCombat()
+        public void useGoods()
         {
-            
+
         }
 
-       
+        public void faint()
+        {
+
+        }
 
     }
 }
