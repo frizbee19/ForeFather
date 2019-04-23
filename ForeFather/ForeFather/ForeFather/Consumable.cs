@@ -27,7 +27,7 @@ namespace ForeFather
         make sure to update the character in whatever class you use this method in after you call it
         */
         override //replace character with ally eventually idk
-        public Character Use(Character character)
+        public Ally Use(Ally character)
         {
             if (Count > 0)
             {

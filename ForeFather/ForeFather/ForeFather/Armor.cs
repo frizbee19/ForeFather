@@ -19,7 +19,7 @@ namespace ForeFather
         } 
 
         override
-        public Character Use(Character c)
+        public Ally Use(Ally c)
         {
             //placeholder
             return c;
