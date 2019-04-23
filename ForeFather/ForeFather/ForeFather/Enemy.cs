@@ -29,6 +29,7 @@ namespace ForeFather
         public int getMana { get; set; }
         public int getCurHp { get; set; }
         public int getLevel { get; set; }
+        public int totalDmg;
 
         public Enemy(string name, int hp, int off, int def, int luck, int mana)
         {

@@ -33,6 +33,7 @@ namespace ForeFather
         public int getXP { get; set; }
         public int getLevel { get; set; }
         public int getMaxMana { get; set; }
+        public int TotalDmg;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana)
         {

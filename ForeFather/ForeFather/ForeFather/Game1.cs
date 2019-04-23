@@ -77,9 +77,11 @@ namespace ForeFather
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
-            combat = new Combat(this.Content, allies, enemies);
-            currentMap = map.Combat;
+            
 
+            allies = new List<Ally>() { testAlly };
+            enemies = new List<Enemy>() { testEnemy };
+            combat = new Combat(this.Content, allies, enemies);
 
             tileSource[0] = new Rectangle(0, 0, 50, 50); // grass
             tileSource[1] = new Rectangle(50, 0, 50, 50); // flowers
@@ -115,7 +117,7 @@ namespace ForeFather
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("SpriteFont1");
 
-            combat.loadContent(spriteFont, spriteBatch);
+            combat.loadContent(this.Content, spriteFont, spriteBatch);
 
 
             bank = Content.Load<Texture2D>("Assets\\Bank");
@@ -309,7 +311,7 @@ namespace ForeFather
 
             if (currentMap == map.Combat)
             {
-                //combat.update(kb, oldkb);
+                combat.update(kb, oldkb);
             }
 
             if (currentMap != map.Combat)
