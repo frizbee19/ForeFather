@@ -46,6 +46,12 @@ namespace ForeFather
             return false;
         }
 
+        public bool Intersects(Rectangle r, bool outOfBox)
+        {
+            if (r.Intersects(position))
+                return true;
+            return false;
+        }
 
         public void Draw(SpriteBatch spriteBatch, Player p)
         {

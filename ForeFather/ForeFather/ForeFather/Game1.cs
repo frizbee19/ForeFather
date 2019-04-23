@@ -134,10 +134,10 @@ namespace ForeFather
             // TODO: use this.Content to load your game content here
             ReadFile(@"Content\\Assets\\TownText.txt", 0);
             ReadFile(@"Content\\Assets\\ConsumableText.txt", 1);
-            //ReadFile(@"Content\\Assets\\EquipableText.txt", 2);
-            //ReadFile(@"Content\\Assets\\HospitalText.txt", 3); // bug with doors
-            //ReadFile(@"Content\\Assets\\InnText.txt", 4);
-            //ReadFile(@"Content\\Assets\\BankText.txt", 5);
+            ReadFile(@"Content\\Assets\\EquipableText.txt", 2);
+            ReadFile(@"Content\\Assets\\HospitalText.txt", 3); // bug with doors
+            ReadFile(@"Content\\Assets\\InnText.txt", 4);
+            ReadFile(@"Content\\Assets\\BankText.txt", 5);
         }
 
         public void ReadFile(string path, int numInList)
@@ -298,9 +298,9 @@ namespace ForeFather
                             {
                                 case "1": currentMap = map.ConShop; p1.setCoords(insideBuilds["1"].getDoor().getPos().X, insideBuilds["1"].getDoor().getPos().Y); break;
                                 case "2": currentMap = map.EquiShop; p1.setCoords(insideBuilds["2"].getDoor().getPos().X, insideBuilds["2"].getDoor().getPos().Y); break;
-                                case "i": currentMap = map.Inn; p1.setCoords(insideBuilds["3"].getDoor().getPos().X, insideBuilds["3"].getDoor().getPos().Y); break;
-                                case "b": currentMap = map.Bank; p1.setCoords(insideBuilds["4"].getDoor().getPos().X, insideBuilds["4"].getDoor().getPos().Y); break;
-                                case "h": currentMap = map.Hospital; p1.setCoords(insideBuilds["5"].getDoor().getPos().X, insideBuilds["5"].getDoor().getPos().Y); break;
+                                case "h": currentMap = map.Hospital; p1.setCoords(insideBuilds["3"].getDoor().getPos().X, insideBuilds["3"].getDoor().getPos().Y); break;
+                                case "i": currentMap = map.Inn; p1.setCoords(insideBuilds["4"].getDoor().getPos().X, insideBuilds["4"].getDoor().getPos().Y); break;
+                                case "b": currentMap = map.Bank; p1.setCoords(insideBuilds["5"].getDoor().getPos().X, insideBuilds["5"].getDoor().getPos().Y); break;
 
                                 default: break;
                                 
@@ -316,9 +316,12 @@ namespace ForeFather
                             {
                                 case "1": currentMap = map.Town; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
                                 case "2": currentMap = map.Town; p1.setCoords(buildings["2"].getDoor().getPos().X, buildings["2"].getDoor().getPos().Y); break;
-                                case "i": currentMap = map.Town; p1.setCoords(buildings["3"].getDoor().getPos().X, buildings["3"].getDoor().getPos().Y); break;
-                                case "b": currentMap = map.Town; p1.setCoords(buildings["4"].getDoor().getPos().X, buildings["4"].getDoor().getPos().Y); break;
-                                case "h": currentMap = map.Town; p1.setCoords(buildings["5"].getDoor().getPos().X, buildings["5"].getDoor().getPos().Y); break;
+                                case "3":
+                                case "h": currentMap = map.Town; p1.setCoords(buildings["h"].getDoor().getPos().X, buildings["h"].getDoor().getPos().Y); break;
+                                case "4":
+                                case "i": currentMap = map.Town; p1.setCoords(buildings["i"].getDoor().getPos().X, buildings["i"].getDoor().getPos().Y); break;
+                                case "5":
+                                case "b": currentMap = map.Town; p1.setCoords(buildings["b"].getDoor().getPos().X, buildings["b"].getDoor().getPos().Y); break;
 
                                 default: break;
                             }

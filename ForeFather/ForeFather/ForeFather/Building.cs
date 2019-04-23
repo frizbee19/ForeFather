@@ -86,7 +86,7 @@ namespace ForeFather
 
         public bool Intersects(Rectangle r)
         {
-            if (r.Intersects(position) && (r.Y >= position.Y) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
+            if (r.Intersects(position) && (r.Y >= position.Y && r.Y+r.Height<=position.Y+position.Height) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
                 return true;
             return false;
         }

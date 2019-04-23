@@ -189,28 +189,47 @@ namespace ForeFather
             string what="";
             foreach (KeyValuePair<string, Building> kvp in buildings)
             {
+                switch (kvp.Key)
+                {
+                    case "1": if (currentMap != map.ConShop) { what = "!"; } break;
+                    case "2": if (currentMap != map.EquiShop) { what = "!"; } break;
+                    case "3":
+                    case "h": if (currentMap != map.Hospital) { what = "!"; } break;
+                    case "4":
+                    case "i": if (currentMap != map.Inn) { what = "!"; } break;
+                    case "5":
+                    case "b": if (currentMap != map.Bank) { what = "!"; } break;
+                    default: break;
+                }
                 if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle)))
                     return kvp.Key;
-                if (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(this))
+                if (currentMap != map.Town && currentMap != map.Wild && (kvp.Value.Intersects(this) && kvp.Value.getDoor().Intersects(rectangle, true)))//adds true when intersecting door bc door can be halfway into player
                 {
                     switch (kvp.Key)
                     {
-                        case "1": if (currentMap == map.ConShop) { return "0"; } break;
-                        case "2": if (currentMap == map.EquiShop) { return "0"; } break;
-                        case "b": if (currentMap == map.Bank) { return "0"; } break;
-                        case "i": if (currentMap == map.Inn) { return "0"; } break;
-                        case "h": if (currentMap == map.Hospital) { return "0"; } break;
-                        default: return "";
+                        case "1": if (currentMap == map.ConShop) { return kvp.Key; } break;
+                        case "2": if (currentMap == map.EquiShop) { return kvp.Key; } break;
+                        case "3":
+                        case "h": if (currentMap == map.Hospital) { return kvp.Key; } break;
+                        case "4":
+                        case "i": if (currentMap == map.Inn) { return kvp.Key; } break;
+                        case "5":
+                        case "b": if (currentMap == map.Bank) { return kvp.Key; } break;
+                        default: return "0";
                     }
                 }
-                else if((currentMap == map.Town || currentMap == map.Wild) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(rectangle)))
+                else if((currentMap == map.Town || currentMap == map.Wild) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild && !kvp.Value.Intersects(rectangle)) && what!="!")
                 {
                     return "0";
                 }
-                else
-                what = kvp.Key;
+
+                if (what == "!")
+                    what = "";
+                
             }
+            if(what!="!")
             return what;
+            return "";
         }
 
         public void Draw(SpriteBatch spriteBatch)
