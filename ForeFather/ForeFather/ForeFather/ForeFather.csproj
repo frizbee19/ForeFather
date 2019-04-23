@@ -60,7 +60,6 @@
     <Compile Include="Ally.cs" />
     <Compile Include="Armor.cs" />
     <Compile Include="Building.cs" />
-    <Compile Include="Character.cs" />
     <Compile Include="Combat.cs" />
     <Compile Include="Consumable.cs" />
     <Compile Include="Crystal.cs" />
