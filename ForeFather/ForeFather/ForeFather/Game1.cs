@@ -39,7 +39,7 @@ namespace ForeFather
 
         Player p1;
 
-
+        TextBox helpMenu;
 
 
         Texture2D bank;
@@ -106,6 +106,7 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]);
             maps.Add(new Tile[16, 16]);
 
+            
 
             currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
@@ -138,6 +139,8 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\HospitalText.txt", 3); // bug with doors
             ReadFile(@"Content\\Assets\\InnText.txt", 4);
             ReadFile(@"Content\\Assets\\BankText.txt", 5);
+
+            helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
         }
 
         public void ReadFile(string path, int numInList)
@@ -287,6 +290,8 @@ namespace ForeFather
                 currentMap = map.Combat;
             }
 
+            
+
             if (kb.IsKeyDown(Keys.Space) && !oldkb.IsKeyDown(Keys.Space))
             {
                 switch (currentMap)
@@ -338,12 +343,25 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    p1.update(buildings, currentMap); break;                
+                    if(!helpMenu.isDisplaying())
+                         p1.update(buildings, currentMap); break;                
 
                 default:
-                    p1.update(insideBuilds, currentMap); break; ;
+                    if (!helpMenu.isDisplaying())
+                        p1.update(insideBuilds, currentMap); break; ;
             }
 
+
+            if (kb.IsKeyDown(Keys.H) && !oldkb.IsKeyDown(Keys.H))
+            {
+                if (!helpMenu.isDisplaying())
+                    helpMenu.Display();
+                else
+                    helpMenu.exit();
+            }
+
+            if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
+                helpMenu.scroll();
 
             oldkb = kb;
 
@@ -360,6 +378,7 @@ namespace ForeFather
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            
             switch (currentMap)
             {
                 case map.Town:
@@ -394,11 +413,9 @@ namespace ForeFather
                             maps.ElementAt(1)[j, i].Draw(spriteBatch);
                         }
 
-                        foreach (KeyValuePair<string, Building> kvp in insideBuilds)
-                        {
-                            kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
-                        }
+                        insideBuilds["1"].Draw(spriteBatch, p1);
                     }
+                    p1.Draw(spriteBatch);
                     break;
 
                 case map.EquiShop:
@@ -409,11 +426,9 @@ namespace ForeFather
                             maps.ElementAt(2)[j, i].Draw(spriteBatch);
                         }
 
-                        foreach (KeyValuePair<string, Building> kvp in insideBuilds)
-                        {
-                            kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
-                        }
+                        insideBuilds["2"].Draw(spriteBatch, p1);
                     }
+                    p1.Draw(spriteBatch);
                     break;
 
                 case map.Hospital:
@@ -424,11 +439,9 @@ namespace ForeFather
                             maps.ElementAt(3)[j, i].Draw(spriteBatch);
                         }
 
-                        foreach (KeyValuePair<string, Building> kvp in insideBuilds)
-                        {
-                            kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
-                        }
+                        insideBuilds["3"].Draw(spriteBatch, p1);
                     }
+                    p1.Draw(spriteBatch);
                     break;
                 case map.Inn:
                     for (int i = 0; i < 16; i++)
@@ -438,11 +451,9 @@ namespace ForeFather
                             maps.ElementAt(4)[j, i].Draw(spriteBatch);
                         }
 
-                        foreach (KeyValuePair<string, Building> kvp in insideBuilds)
-                        {
-                            kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
-                        }
+                        insideBuilds["4"].Draw(spriteBatch, p1);
                     }
+                    p1.Draw(spriteBatch);
                     break;
                 case map.Bank:
                     for (int i = 0; i < 16; i++)
@@ -452,21 +463,19 @@ namespace ForeFather
                             maps.ElementAt(5)[j, i].Draw(spriteBatch);
                         }
 
-                        foreach (KeyValuePair<string, Building> kvp in insideBuilds)
-                        {
-                            kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
-                        }
+                        insideBuilds["5"].Draw(spriteBatch, p1);
                     }
+                    p1.Draw(spriteBatch);
                     break;
 
                 default: break;
-            } 
-         
+            }
 
 
 
-            
-            
+            helpMenu.Draw(spriteBatch);
+
+
             spriteBatch.End();
             base.Draw(gameTime);
         }

@@ -1,0 +1,2 @@
+Press H to pull this screen up!
+Press Space when in a doorway to use it(It will be highlighted)
