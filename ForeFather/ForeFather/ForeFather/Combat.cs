@@ -13,75 +13,134 @@ namespace ForeFather
 {
     class Combat
     {
+        TextBox comText;
+        ContentManager content;
+        SpriteBatch spriteBatch;
+        SpriteFont spriteFont;
+
+        Rectangle selectRect;
+        Texture2D selectTex;
+
+        private int choice = 0;
         private List<Ally> allies;
         private List<Enemy> enemies;
-        private Rectangle selection;
-        private Texture2D selectionTex;
-        private int choice;
-        string combatText = "";
+        private bool turn;
+        int currentMember;
+        
+        Random rand = new Random();
+        string text;
 
         public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies)
         {
-            selectionTex = content.Load<Texture2D>("blank");
-            selection = new Rectangle(0, 0, 28, 28);
-            allies[0].getTurn = true;
-            //enemies[0].getTurn = false;
             this.allies = allies;
             this.enemies = enemies;
-        }
-        
-        public void Draw(SpriteFont spriteFont, SpriteBatch spriteBatch)
-        {
-            if (allies[0].getTurn == true)
-            {
-                spriteBatch.DrawString(spriteFont, "1. Bash \n2. Abilities \n3. Goods \n4. Run", new Vector2(0, 0), Color.White);
-                spriteBatch.Draw(selectionTex, selection, new Color(255, 0, 0, 75));
-                
-            }
+            this.content = content;
 
-            DrawText(combatText, spriteFont, spriteBatch);
+            //if (rand.Next(1) == 0) //coinflip for first turn
+            //    turn = false;
+            //else
+                turn = true;
+
+            initialize();
         }
 
-        public void DrawText(string text, SpriteFont spriteFont, SpriteBatch spriteBatch)
+        public void initialize()
         {
-            spriteBatch.DrawString(spriteFont, text, new Vector2(100, 200), Color.White);
+            text = "Bash \nAbilities \nGoods \nRun";
+            comText = new TextBox(new Rectangle(10,10, 780, 250), 100,text, false, content);
+            selectRect = new Rectangle(0, 70, 25, 25);
+            currentMember = 0;
         }
 
-        public void makeChoice()
+        public void loadContent(ContentManager content, SpriteFont spriteFont, SpriteBatch spriteBatch)
         {
-
+            this.spriteBatch = spriteBatch;
+            this.spriteFont = spriteFont;
+            selectTex = content.Load<Texture2D>("arrow");
         }
 
         public void update(KeyboardState kb, KeyboardState oldkb)
         {
-            if (allies[0].getTurn == true)
+            
+            if (turn == true)
             {
+                
+
+                switch (select(4, kb, oldkb))
+                {
+                    
+                    case 0:
+                        currentMember++;
+                        break;
+                    case 1:
+                        currentMember++;
+                        break;
+                    case 2:
+                        currentMember++;
+                        break;
+                    case 3:
+                        currentMember++;
+                        break;
+                    default:
+                        break;
+
+
+                }
+
+                if (currentMember >= allies.Count)
+                {
+                    currentMember = 0;
+                    turn = false;
+                    selectRect = new Rectangle(0, 70, 25, 25);
+                }
+            }
+            else if (turn == false)
+            {
+                for (int i = 0; i < enemies.Count; i++) //loops through each enemy
+                {
+                    comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "Enemy Turn", false, content);
+                }
+            }
+        }
+
+        public void draw()
+        {
+
+            comText.Draw(spriteBatch);
+            if (turn == true)
+                spriteBatch.Draw(selectTex, selectRect, Color.White);
+            
+        }
+
+        private int select(int numChoices, KeyboardState kb, KeyboardState oldkb)
+        {
                 if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down))
                 {
-                    selection.Y += 26;
+
+                    selectRect.Y += 30;
+                    choice++;
+
+
                 }
                 if (kb.IsKeyDown(Keys.Up) && !oldkb.IsKeyDown(Keys.Up))
                 {
-                    selection.Y -= 26;
+                    selectRect.Y -= 30;
+                    choice--;
                 }
-                if (kb.IsKeyDown(Keys.Enter) && !oldkb.IsKeyDown(Keys.Enter))
+                if (choice >= numChoices || choice < 0)
                 {
-                    if (selection.Y == 0)
-                    {
-                        allies[0].attack(enemies[0]);
-                        enemies[0].getTurn = true;
-                        combatText = "attack did " + 10 + " damage to enemy";
-                    }
+                    choice = 0;
+                    selectRect.Y = 70;
                 }
-            }
-            if (enemies[0].getTurn == true)
+
+            if (kb.IsKeyDown(Keys.Enter) && !oldkb.IsKeyDown(Keys.Enter))
             {
-                enemies[0].getTurn = false;
-                allies[0].getTurn = true;
+                return choice;
             }
-
-
+            else
+                return numChoices + 5;
         }
-      }
-    }
 
+        //TODO: makechoice function
+    }
+}

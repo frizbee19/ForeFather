@@ -77,13 +77,11 @@ namespace ForeFather
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
-            testAlly = new Ally("testAlly", 100, 10, 10, 10, 10);
-            testEnemy = new Enemy("testEnemy", 100, 10, 10, 10, 10);
-            allies = new List<Ally>() { testAlly };
-            enemies = new List<Enemy> { testEnemy };
-            testAlly.getTurn = true;
-            combat = new Combat(this.Content, allies, enemies);
+            
 
+            allies = new List<Ally>() { testAlly };
+            enemies = new List<Enemy>() { testEnemy };
+            combat = new Combat(this.Content, allies, enemies);
 
             tileSource[0] = new Rectangle(0, 0, 50, 50); // grass
             tileSource[1] = new Rectangle(50, 0, 50, 50); // flowers
@@ -122,6 +120,8 @@ namespace ForeFather
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Content.Load<SpriteFont>("SpriteFont1");
+
+            combat.loadContent(this.Content, spriteFont, spriteBatch);
 
 
             bank = Content.Load<Texture2D>("Assets\\Bank");
@@ -178,6 +178,7 @@ namespace ForeFather
                                             if(j*50 > insideBuilds["" + numInList].getDoor().getPos().X)
                                             insideBuilds["" + numInList].changeDoorSize(50, 0);
                                         }                               
+
                                     break;
 
                                 //These will also make a building
@@ -343,7 +344,6 @@ namespace ForeFather
                     p1.update(insideBuilds, currentMap); break; ;
             }
 
-            
 
             oldkb = kb;
 
@@ -376,11 +376,13 @@ namespace ForeFather
                         kvp.Value.Draw(spriteBatch, p1);//check if player intersects door, then give white if intersecting, else go black
                     }
 
+                    p1.Draw(spriteBatch);
+
                     break;
 
                 case map.Combat:
                     {
-                        combat.Draw(spriteFont, spriteBatch);
+                        combat.draw();
                     }
                     break;
 
@@ -464,7 +466,7 @@ namespace ForeFather
 
 
             
-            p1.Draw(spriteBatch);
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
