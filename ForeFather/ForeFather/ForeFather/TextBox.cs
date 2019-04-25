@@ -112,11 +112,11 @@ namespace ForeFather
                         {
                             if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                             {
-                                tempLines[tempLines.Count - 1] += " " + words[i];
+                                tempLines[tempLines.Count - 1] +=  words[i] + " ";
                             }
                             else
                             {
-                                tempLines.Add(words[i]);
+                                tempLines.Add(words[i] + " ");
                             }
                         }
 
@@ -177,7 +177,7 @@ namespace ForeFather
             {
                 currentInd++;
             }
-            if(currentInd == lines.Count - 2)
+            else if(currentInd == lines.Count - 2)
             {
                 displayBox = false;
                 currentInd = 0;

@@ -49,6 +49,8 @@ namespace ForeFather
         Texture2D consume;
         Texture2D equip;
 
+        int timer;
+
         Dictionary<string, Building> buildings;
         Dictionary<string, Building> insideBuilds;
 
@@ -343,11 +345,11 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    if(!helpMenu.isDisplaying())
+                    if(!helpMenu.isDisplaying() && timer<1)
                          p1.update(buildings, currentMap); break;                
 
                 default:
-                    if (!helpMenu.isDisplaying())
+                    if (!helpMenu.isDisplaying() && timer<1)
                         p1.update(insideBuilds, currentMap); break; ;
             }
 
@@ -357,13 +359,23 @@ namespace ForeFather
                 if (!helpMenu.isDisplaying())
                     helpMenu.Display();
                 else
-                    helpMenu.exit();
+                {
+                    helpMenu.exit(); 
+                    timer = 30;
+                }
             }
 
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
+            {
                 helpMenu.scroll();
+                if (!helpMenu.isDisplaying())
+                    timer = 30;
+            }
 
+            timer--;
             oldkb = kb;
+
+
 
             base.Update(gameTime);
         }
