@@ -7,7 +7,7 @@ namespace ForeFather
 {
     enum ConsumeType
     {
-        CurHealth, MaxHealth, Luck, Offense, Defense, Mana
+        Health
     }
     class Consumable : Item
     {
@@ -24,44 +24,26 @@ namespace ForeFather
             magnitude = m;
         }
         /*
-        make sure to update the character in whatever class you use this method in after you call it
+        Change this later on to make it so that the Use method takes Player as a parameter and put a switch statement to check the type and increment the stats in the method.
+        Set player = method return in whatever class calls Use method.
         */
-        override //replace character with ally eventually idk
-        public Ally Use(Ally character)
+        override
+        public int Use()
         {
             if (Count > 0)
             {
                 Count--;
-                switch(itemType)
-                {
-                    case ConsumeType.CurHealth:
-                        character.getCurHp += magnitude;
-                        break;
-                    case ConsumeType.MaxHealth:
-                        character.getMaxHp += magnitude;
-                        break;
-                    case ConsumeType.Luck:
-                        character.getLuck += magnitude;
-                        break;
-                    case ConsumeType.Offense:
-                        character.getOffense += magnitude;
-                        break;
-                    case ConsumeType.Defense:
-                        character.getDefense += magnitude;
-                        break;
-                    case ConsumeType.Mana:
-                        character.getMana += magnitude;
-                        break;
-                    default:
-                        break;
-                }
+                return magnitude;
             }
-            return character;
+            else
+            {
+                return 0;
+            }
         }
         
         public override bool Equals(Item item)
         {
-            return item.Name == this.Name && item.GetType() == this.GetType();
+            return item.GetType() == this.GetType();
         }
     }
 }

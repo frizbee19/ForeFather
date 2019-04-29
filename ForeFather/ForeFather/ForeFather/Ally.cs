@@ -23,9 +23,6 @@ namespace ForeFather
         private int XP;
         private int level;
         private int maxMana;
-        private Armor armor;
-        private Weapon weapon;
-        private Crystal crystal;
 
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
@@ -36,9 +33,6 @@ namespace ForeFather
         public int getXP { get; set; }
         public int getLevel { get; set; }
         public int getMaxMana { get; set; }
-        public Armor getArmor { get; set; }
-        public Weapon getWeapon { get; set; }
-        public Crystal getCrystal { get; set; }
         public int TotalDmg;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana)
@@ -53,9 +47,6 @@ namespace ForeFather
             this.curHP = maxhp;
             this.XP = 0;
             this.level = 0;
-            this.armor = new Armor("Nothing", "No Armor is equipped", 0);
-            this.weapon = new Weapon("Nothing", "No Weapon is equipped", 0);
-            this.crystal = new Crystal("Nothing", "No Crystal is equipped", 0);
         }
 
         public void attack(Enemy target) //basic attack
