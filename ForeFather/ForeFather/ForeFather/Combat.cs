@@ -73,7 +73,7 @@ namespace ForeFather
                     {
 
                         case 0:
-
+                            
                             currentMember++;
                             break;
                         case 1:
