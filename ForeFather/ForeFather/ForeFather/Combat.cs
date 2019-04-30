@@ -14,6 +14,7 @@ namespace ForeFather
     class Combat
     {
         TextBox comText;
+        TextBox tempText;
         ContentManager content;
         SpriteBatch spriteBatch;
         SpriteFont spriteFont;
@@ -66,8 +67,6 @@ namespace ForeFather
             
             if (turn == true)
             {
-                if (isPrinting == false)
-                {
 
                     switch (select(4, kb, oldkb))
                     {
@@ -98,13 +97,20 @@ namespace ForeFather
                         turn = false;
                         selectRect = new Rectangle(0, 70, 25, 25);
                     }
-                }
+                
             }
             else if (turn == false)
             {
-                for (int i = 0; i < enemies.Count; i++) //loops through each enemy
-                {
                     comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "Enemy Turn", false, content);
+
+
+                enemies[currentMember].attack(allies[0], tempText, content);
+                currentMember++;
+
+                if (currentMember >= enemies.Count)
+                {
+                    currentMember = 0;
+                    turn = true;
                 }
             }
         }
@@ -113,6 +119,7 @@ namespace ForeFather
         {
 
             comText.Draw(spriteBatch);
+            tempText.Draw(spriteBatch);
             if (turn == true)
                 spriteBatch.Draw(selectTex, selectRect, Color.White);
             
