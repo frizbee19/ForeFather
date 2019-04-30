@@ -71,7 +71,7 @@ namespace ForeFather
 
         }
 
-        public TextBox(string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content)
+        public TextBox(string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content) //basic text box, use this.
         {
 
         }
