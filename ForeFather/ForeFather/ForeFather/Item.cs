@@ -43,7 +43,7 @@ namespace ForeFather
             count++;
         }
         //all items will have a unique use method
-        public abstract Ally Use(Ally character);
+        public abstract void Use(Ally character);
 
         public abstract bool Equals(Item item);
 

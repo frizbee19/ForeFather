@@ -20,11 +20,9 @@ namespace ForeFather
         }
 
         override
-        public Ally Use(Ally c)
+        public void Use(Ally c)
         {
-            //make sure to set the character equal to the return
             c.getWeapon = this;
-            return c;
         }
 
         override
