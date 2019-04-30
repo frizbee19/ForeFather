@@ -51,7 +51,7 @@ namespace ForeFather
             sourceRect = sR;
             position = p;
             isWalkable = isWalk;
-            color = Color.Black;
+            color = c;
         }
 
         public Rectangle getPos()

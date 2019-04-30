@@ -105,16 +105,16 @@ namespace ForeFather
                         //to separate into smaller lines
                         List<string> tempLines = new List<string>();
                         string[] words = line.Split(' ');
-                        lines.Add("");
+                        tempLines.Add("");
                         for (int i = 0; i < words.Length; i++)
                         {
                             if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                             {
-                                tempLines[tempLines.Count - 1] += " " + words[i];
+                                tempLines[tempLines.Count - 1] +=  words[i] + " ";
                             }
                             else
                             {
-                                tempLines.Add(words[i]);
+                                tempLines.Add(words[i] + " ");
                             }
                         }
 
@@ -129,6 +129,11 @@ namespace ForeFather
             {
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
             }
+        }
+
+        public bool isDisplaying()
+        {
+            return displayBox;
         }
 
         //USE THIS IF USING A STRING INSTEAD OF A FILE
@@ -165,6 +170,17 @@ namespace ForeFather
             {
                 currentInd++;
             }
+            else if(currentInd == lines.Count - 2)
+            {
+                displayBox = false;
+                currentInd = 0;
+            }
+        }
+
+        public void exit()
+        {
+            displayBox = false;
+            currentInd = 0;
         }
 
         public void Draw(SpriteBatch spriteBatch)
