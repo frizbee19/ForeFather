@@ -20,11 +20,11 @@ namespace ForeFather
 
         public QuestItem(string n, string d, ContentManager c, string message) : base(n, d)
         {
-            display = new TextBox(message, false, c, n)
+            display = new TextBox(message, false, c, n);
         }
         //use a default character in this class, it honestly does not even matter. idk what to use this method for except for maybe displaying the text
         override
-        public Character Use(Character c)
+        public Ally Use(Ally c)
         {
             display.Display();
             return c;

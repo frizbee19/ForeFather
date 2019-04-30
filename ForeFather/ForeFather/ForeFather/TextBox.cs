@@ -107,16 +107,16 @@ namespace ForeFather
                         //to separate into smaller lines
                         List<string> tempLines = new List<string>();
                         string[] words = line.Split(' ');
-                        lines.Add("");
+                        tempLines.Add("");
                         for (int i = 0; i < words.Length; i++)
                         {
                             if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                             {
-                                tempLines[tempLines.Count - 1] += " " + words[i];
+                                tempLines[tempLines.Count - 1] += words[i] + " ";
                             }
                             else
                             {
-                                tempLines.Add(words[i]);
+                                tempLines.Add(words[i] + " ");
                             }
                         }
 
