@@ -15,7 +15,7 @@ namespace ForeFather
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    enum map {Town, Wild, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
+    enum map {Town, Wild1, Wild2, Wild3, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -57,6 +57,9 @@ namespace ForeFather
         Rectangle startRect = new Rectangle(420, 10, 0, 0);
 
         Rectangle blankRect;
+
+        Rectangle screen;
+        Color fade;
 
 
         public Game1()
@@ -101,16 +104,20 @@ namespace ForeFather
             insideBuilds = new Dictionary<string, Building>();
 
             maps = new List<Tile[,]>();
-            maps.Add(new Tile[16, 16]);
-            maps.Add(new Tile[16, 16]);
-            maps.Add(new Tile[16, 16]);
-            maps.Add(new Tile[16, 16]);
-            maps.Add(new Tile[16, 16]);
-            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]); //Town
+            maps.Add(new Tile[16, 16]); //ConsShop
+            maps.Add(new Tile[16, 16]); //EquiShop
+            maps.Add(new Tile[16, 16]); //Hospital
+            maps.Add(new Tile[16, 16]); //Inn
+            maps.Add(new Tile[16, 16]); //Bank
+            maps.Add(new Tile[16, 16]); //Wild1
+            maps.Add(new Tile[16, 16]); //Wild2
+            maps.Add(new Tile[16, 16]); //Wild3
 
-            
+            screen = new Rectangle(0, 0, 800, 800);
+            fade = new Color(0, 0, 0, 100);
 
-            currentMap = map.Town;//Later, change this to begin in the wilderness
+            currentMap = map.Wild2;//Later, change this to begin in the wilderness
             base.Initialize();
         }
 
@@ -141,6 +148,9 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\HospitalText.txt", 3); // bug with doors
             ReadFile(@"Content\\Assets\\InnText.txt", 4);
             ReadFile(@"Content\\Assets\\BankText.txt", 5);
+            ReadFile(@"Content\\Assets\\Wild1.txt", 6);
+            ReadFile(@"Content\\Assets\\Wild2.txt", 7);
+            ReadFile(@"Content\\Assets\\Wild3.txt", 8);
 
             helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
         }
@@ -315,7 +325,9 @@ namespace ForeFather
                             }
                             break;
                         }
-                    case map.Wild: break;
+                    case map.Wild1: break;
+                    case map.Wild2: break;
+                    case map.Wild3: break;
 
                     default:
                         {
@@ -345,12 +357,16 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    if(!helpMenu.isDisplaying() && timer<1)
-                         p1.update(buildings, currentMap); break;                
+                case map.Wild1:
+                case map.Wild2:
+                case map.Wild3:
+                    if (!helpMenu.isDisplaying() && timer < 1)
+                        currentMap = p1.update(buildings, currentMap); break;
+
 
                 default:
                     if (!helpMenu.isDisplaying() && timer<1)
-                        p1.update(insideBuilds, currentMap); break; ;
+                        currentMap=p1.update(insideBuilds, currentMap); break; ;
             }
 
 
@@ -480,7 +496,44 @@ namespace ForeFather
                     p1.Draw(spriteBatch);
                     break;
 
+                case map.Wild1:
+                    for (int i = 0; i < 16; i++)
+                    {
+                        for (int j = 0; j < 16; j++)
+                        {
+                            maps.ElementAt(6)[j, i].Draw(spriteBatch);
+                        }
+                    }
+                    p1.Draw(spriteBatch);
+                    spriteBatch.Draw(blank, screen, fade);
+                    break;
+
+                case map.Wild2:
+                    for (int i = 0; i < 16; i++)
+                    {
+                        for (int j = 0; j < 16; j++)
+                        {
+                            maps.ElementAt(7)[j, i].Draw(spriteBatch);
+                        }
+                    }
+                    p1.Draw(spriteBatch);
+                    spriteBatch.Draw(blank, screen, fade);
+                    break;
+
+                case map.Wild3:
+                    for (int i = 0; i < 16; i++)
+                    {
+                        for (int j = 0; j < 16; j++)
+                        {
+                            maps.ElementAt(8)[j, i].Draw(spriteBatch);
+                        }
+                    }
+                    p1.Draw(spriteBatch);
+                    spriteBatch.Draw(blank, screen, fade);
+                    break;
+
                 default: break;
+
             }
 
 
