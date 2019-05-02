@@ -30,14 +30,6 @@ namespace ForeFather
 
         }
 
-        public Building( int nX, int nY)
-        {
-            x = nX;
-            y = nY;
-            door = null;
-
-        }
-
         public Building(Texture2D s, Rectangle p) 
         {
             spriteSheet = s;
@@ -72,28 +64,14 @@ namespace ForeFather
             door = d;
         }
 
-        public void changeDoorSize(int howMuchWidth, int howMuchHeight)
+        public void changeDoorSize(int newWidth, int newHeight)
         {
-            door.setSize(howMuchWidth, howMuchHeight);
+            //door.
         }
 
         public bool hasDoor()
         {
             if (door != null)
-                return true;
-            return false;
-        }
-
-        public bool Intersects(Rectangle r)
-        {
-            if (r.Intersects(position) && (r.Y >= position.Y && r.Y+r.Height<=position.Y+position.Height) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
-                return true;
-            return false;
-        }
-
-        public bool Intersects(Player p)
-        {
-            if (p.getPos().X>=position.X && p.getPos().X+p.getPos().Width<=position.X+position.Width && p.getPos().Y>=position.Y && p.getPos().Y+p.getPos().Height<=position.Y+position.Height)
                 return true;
             return false;
         }
@@ -105,7 +83,6 @@ namespace ForeFather
             if (door != null)
                 door.Draw(spriteBatch, p);
         }
-
 
         public void Draw(SpriteBatch spriteBatch)
         {
