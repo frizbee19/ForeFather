@@ -5,45 +5,62 @@ using System.Text;
 
 namespace ForeFather
 {
-    enum ConsumeType
+    enum Type
     {
-        Health
+        CurHealth, MaxHealth, Luck, Offense, Defense, Mana
     }
     class Consumable : Item
     {
-        private ConsumeType itemType;
-        public ConsumeType Type
+        private Type itemType;
+        public Type Type
         {
             get { return itemType; }
         }
         private int magnitude;
 
-        public Consumable(string n, string d, ConsumeType type, int m) : base(n, d)
+        public Consumable(string n, string d, Type type, int m) : base(n, d)
         {
             itemType = type;
             magnitude = m;
         }
         /*
-        Change this later on to make it so that the Use method takes Player as a parameter and put a switch statement to check the type and increment the stats in the method.
-        Set player = method return in whatever class calls Use method.
+        make sure to update the character in whatever class you use this method in after you call it
         */
-        override
-        public int Use()
+        override //replace character with ally eventually idk
+        public void Use(Ally character)
         {
             if (Count > 0)
             {
                 Count--;
-                return magnitude;
-            }
-            else
-            {
-                return 0;
+                switch(itemType)
+                {
+                    case Type.CurHealth:
+                        character.getCurHp += magnitude;
+                        break;
+                    case Type.MaxHealth:
+                        character.getMaxHp += magnitude;
+                        break;
+                    case Type.Luck:
+                        character.getLuck += magnitude;
+                        break;
+                    case Type.Offense:
+                        character.getOffense += magnitude;
+                        break;
+                    case Type.Defense:
+                        character.getDefense += magnitude;
+                        break;
+                    case Type.Mana:
+                        character.getMana += magnitude;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
         
         public override bool Equals(Item item)
         {
-            return item.GetType() == this.GetType();
+            return item.Name == this.Name && item.GetType() == this.GetType();
         }
     }
 }
