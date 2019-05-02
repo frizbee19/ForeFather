@@ -17,7 +17,7 @@ namespace ForeFather
         public QuestItem(string n, string d, ContentManager c) : this(n, d, c, "Nothing happens...")
         {
         }
-
+        //ignore this
         public QuestItem(string n, string d, ContentManager c, string message) : base(n, d)
         {
             display = new TextBox(message, false, c, n);
@@ -26,7 +26,7 @@ namespace ForeFather
         override
         public void Use(Ally c)
         {
-            display.Display();
+
         }
 
         public override bool Equals(Item item)
