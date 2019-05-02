@@ -49,11 +49,11 @@ namespace ForeFather
            
         }
 
-        public void attack(Ally Target, TextBox temp, ContentManager content)
+        public void attack(Ally Target)
         {
             Target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
 
-            temp = new TextBox("haha " + 5 * (1 + ((offense / 100) - (defense / 100))), false, content);
+
         }
 
         public void useMagic()

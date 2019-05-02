@@ -23,6 +23,7 @@ namespace ForeFather
         Texture2D selectTex;
 
         private int choice = 0;
+        int stopwatch = 0;
         private List<Ally> allies;
         private List<Enemy> enemies;
         private bool turn;
@@ -64,19 +65,26 @@ namespace ForeFather
 
         public void update(KeyboardState kb, KeyboardState oldkb)
         {
-            
-            if (turn == true)
+            if (isPrinting == false)
             {
+                if (turn == true)
+                {
+                    if (currentMember >= allies.Count)
+                    {
+                        currentMember = 0;
+                        turn = false;
+                        selectRect = new Rectangle(0, 70, 25, 25);
+                    }
 
                     switch (select(4, kb, oldkb))
                     {
 
                         case 0:
-                            
+
                             currentMember++;
                             break;
                         case 1:
-                            
+
                             currentMember++;
                             break;
                         case 2:
@@ -91,27 +99,47 @@ namespace ForeFather
 
                     }
 
-                    if (currentMember >= allies.Count)
+
+
+                }
+                else if (turn == false)
+                {
+                    
+
+
+                    
+                    if (!isPrinting && currentMember < enemies.Count)
+                    {
+                        enemies[currentMember].attack(allies[0]);
+                        comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "haha " + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                        isPrinting = true;
+                        currentMember++;
+                    }
+
+                    //if (!isPrinting)
+                       
+                    
+
+                    if (currentMember >= enemies.Count && !isPrinting)
                     {
                         currentMember = 0;
-                        turn = false;
-                        selectRect = new Rectangle(0, 70, 25, 25);
+                        turn = true;
+                        comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, text, false, content);
                     }
-                
-            }
-            else if (turn == false)
-            {
-                    comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "Enemy Turn", false, content);
 
 
-                enemies[currentMember].attack(allies[0], tempText, content);
-                currentMember++;
-
-                if (currentMember >= enemies.Count)
-                {
-                    currentMember = 0;
-                    turn = true;
                 }
+            }
+
+            if (isPrinting == true)
+            {
+                stopwatch++;
+                if (stopwatch % 180 == 0)
+                {
+                    isPrinting = false;
+                    stopwatch = 0;
+                }
+                
             }
         }
 
@@ -119,7 +147,6 @@ namespace ForeFather
         {
 
             comText.Draw(spriteBatch);
-            tempText.Draw(spriteBatch);
             if (turn == true)
                 spriteBatch.Draw(selectTex, selectRect, Color.White);
             
@@ -152,14 +179,6 @@ namespace ForeFather
             }
             else
                 return numChoices + 5;
-        }
-
-        private void printInfo()
-        {
-            isPrinting = true;
-
-
-
         }
 
         //TODO: makechoice function
