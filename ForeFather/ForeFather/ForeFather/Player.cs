@@ -59,13 +59,20 @@ namespace ForeFather
             rectangle.Y = newY;
         }
 
-        public map update(Dictionary<string, Building> buildings, map current)
+        public map update(Dictionary<string, Building> buildings, map current, Tile[,] tiles)
         {
+            int currentGridX = rectangle.X / 50;
+            if (rectangle.X >= 800)
+                currentGridX = 0;
+            int currentGridY = rectangle.Y / 50;
+            if (rectangle.Y >= 800)
+                currentGridY = 0;
+
 
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
             {
                 rectangle.Y -= MS;
-                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
+                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
                     rectangle.Y += MS;
 
                 lastKey = Keys.Up;
@@ -87,7 +94,7 @@ namespace ForeFather
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
             {
                 rectangle.Y += MS;
-                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
+                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
                     rectangle.Y -= MS;
 
                 lastKey = Keys.Down;
@@ -115,7 +122,7 @@ namespace ForeFather
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0)
             {
                 rectangle.X -= MS;
-                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
+                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
                     rectangle.X += MS;
 
                 lastKey = Keys.Left;
@@ -142,7 +149,7 @@ namespace ForeFather
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800)
             {
                 rectangle.X += MS;
-                if (Intersects(buildings, current).Equals("0"))//returns zero if it intersects
+                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current!=map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
                     rectangle.X -= MS;
                 lastKey = Keys.Right;
             }
@@ -271,7 +278,7 @@ namespace ForeFather
                 }
                 if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle)))
                     return kvp.Key;
-                if (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (kvp.Value.Intersects(this) && kvp.Value.getDoor().Intersects(rectangle, true)))//adds true when intersecting door bc door can be halfway into player
+                if (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (kvp.Value.Intersects(this) && kvp.Value.getDoor().Intersects(rectangle, true, true)))//adds true when intersecting door bc door can be halfway into player and for leaving place
                 {
                     switch (kvp.Key)
                     {
@@ -286,7 +293,7 @@ namespace ForeFather
                         default: return "0";
                     }
                 }
-                else if((currentMap == map.Town || currentMap == map.Wild1 || currentMap == map.Wild2 || currentMap == map.Wild3) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && !kvp.Value.Intersects(rectangle) && !kvp.Value.getDoor().Intersects(rectangle) && what!="!"))
+                else if((currentMap == map.Town || currentMap == map.Wild1 || currentMap == map.Wild2 || currentMap == map.Wild3) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (!kvp.Value.Intersects(rectangle)) && (!kvp.Value.getDoor().Intersects(rectangle, true)) && what!="!"))
                 {
                     return "0";
                 }

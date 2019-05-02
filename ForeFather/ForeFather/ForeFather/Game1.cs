@@ -171,6 +171,7 @@ namespace ForeFather
                         {
                             switch (charInput[i])
                             {
+                                case "m": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
                                 case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, new Color(0, 0, 0, 180)); break;
                                 case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
@@ -351,24 +352,38 @@ namespace ForeFather
                 }         
             }
 
-            switch(currentMap)
+            int mapNum = 0;
+            switch (currentMap)
+            {
+                case map.Town: mapNum = 0; break;
+                case map.ConShop: mapNum = 1; break;
+                case map.EquiShop: mapNum = 2; break;
+                case map.Hospital: mapNum = 3; break;
+                case map.Inn: mapNum = 4; break;
+                case map.Bank: mapNum = 5; break;
+                case map.Wild1: mapNum = 6; break;
+                case map.Wild2: mapNum = 7; break;
+                case map.Wild3: mapNum = 8; break;
+            }
+            switch (currentMap)
             {
                 case map.Combat:
                     combat.update(kb, oldkb); break;
 
-                case map.Town:
+                case map.Town: 
                 case map.Wild1:
                 case map.Wild2:
                 case map.Wild3:
                     if (!helpMenu.isDisplaying() && timer < 1)
-                        currentMap = p1.update(buildings, currentMap); break;
+                        currentMap = p1.update(buildings, currentMap, maps[mapNum]); break;
 
 
                 default:
                     if (!helpMenu.isDisplaying() && timer<1)
-                        currentMap=p1.update(insideBuilds, currentMap); break; ;
+                        currentMap=p1.update(insideBuilds, currentMap, maps[mapNum]); break; ;
             }
 
+            
 
             if (kb.IsKeyDown(Keys.H) && !oldkb.IsKeyDown(Keys.H))
             {
