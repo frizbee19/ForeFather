@@ -30,6 +30,7 @@ namespace ForeFather
         private int currentInd;
         private ContentManager Content;
         private string title;
+        bool displayBox;
         public int currentIndex
         {
             get { return currentInd; }
@@ -46,6 +47,7 @@ namespace ForeFather
             font = Content.Load<SpriteFont>("dialFont");
             nameFont = Content.Load<SpriteFont>("nameFont");
             texture = Content.Load<Texture2D>("black or something");
+            displayBox = false;
             if (fromAFile)
             {
                 ReadFile(@path);
@@ -71,7 +73,7 @@ namespace ForeFather
 
         }
 
-        public TextBox(string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content) //basic text box, use this.
+        public TextBox(string p, bool fromAFile, ContentManager Content) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content)
         {
 
         }
@@ -111,7 +113,6 @@ namespace ForeFather
                             if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                             {
                                 tempLines[tempLines.Count - 1] += words[i] + " ";
-                                tempLines[tempLines.Count - 1] +=  words[i] + " ";
                             }
                             else
                             {
@@ -131,10 +132,10 @@ namespace ForeFather
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
             }
         }
-
-        public bool isDisplaying()
+        //use this to display the textbox
+        public void Display()
         {
-            return displayBox;
+            displayBox = true;
         }
 
         //USE THIS IF USING A STRING INSTEAD OF A FILE
@@ -171,27 +172,24 @@ namespace ForeFather
             {
                 currentInd++;
             }
-            else if(currentInd == lines.Count - 2)
+            if(currentInd == lines.Count - 2)
             {
                 displayBox = false;
                 currentInd = 0;
             }
         }
 
-        public void exit()
-        {
-            displayBox = false;
-            currentInd = 0;
-        }
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, box, Color.White);
-            spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
-            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
-            if (lines.Count > 1)
+            if (displayBox)
             {
-                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+                spriteBatch.Draw(texture, box, Color.White);
+                spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
+                spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
+                if (lines.Count > 1)
+                {
+                    spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+                }
             }
         }
 
