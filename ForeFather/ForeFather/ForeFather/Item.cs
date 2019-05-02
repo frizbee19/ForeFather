@@ -16,7 +16,6 @@ namespace ForeFather
     {
         private string name;
         private int count;
-
         public int Count
         {
             get { return count; } set { count = value; }
@@ -43,7 +42,7 @@ namespace ForeFather
             count++;
         }
         //all items will have a unique use method
-        public abstract void Use(Ally character);
+        public abstract int Use();
 
         public abstract bool Equals(Item item);
 

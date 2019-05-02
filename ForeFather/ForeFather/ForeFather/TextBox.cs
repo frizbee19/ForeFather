@@ -30,8 +30,6 @@ namespace ForeFather
         private int currentInd;
         private ContentManager Content;
         private string title;
-
-
         public int currentIndex
         {
             get { return currentInd; }
@@ -112,7 +110,6 @@ namespace ForeFather
                         {
                             if (tempLines[tempLines.Count - 1].Length + words[i].Length < lineLength)
                             {
-                                tempLines[tempLines.Count - 1] += words[i] + " ";
                                 tempLines[tempLines.Count - 1] +=  words[i] + " ";
                             }
                             else

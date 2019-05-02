@@ -24,9 +24,10 @@ namespace ForeFather
         }
         //use a default character in this class, it honestly does not even matter. idk what to use this method for except for maybe displaying the text
         override
-        public void Use(Ally c)
+        public Ally Use(Ally c)
         {
             display.Display();
+            return c;
         }
 
         public override bool Equals(Item item)

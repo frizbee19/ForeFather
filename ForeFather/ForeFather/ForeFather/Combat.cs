@@ -26,6 +26,7 @@ namespace ForeFather
         private List<Enemy> enemies;
         private bool turn;
         int currentMember;
+        private bool isPrinting;
         
         Random rand = new Random();
         string text;
@@ -50,6 +51,7 @@ namespace ForeFather
             comText = new TextBox(new Rectangle(10,10, 780, 250), 100,text, false, content);
             selectRect = new Rectangle(0, 70, 25, 25);
             currentMember = 0;
+            isPrinting = false;
         }
 
         public void loadContent(ContentManager content, SpriteFont spriteFont, SpriteBatch spriteBatch)
@@ -64,34 +66,38 @@ namespace ForeFather
             
             if (turn == true)
             {
-                
-
-                switch (select(4, kb, oldkb))
+                if (isPrinting == false)
                 {
-                    
-                    case 0:
-                        currentMember++;
-                        break;
-                    case 1:
-                        currentMember++;
-                        break;
-                    case 2:
-                        currentMember++;
-                        break;
-                    case 3:
-                        currentMember++;
-                        break;
-                    default:
-                        break;
+
+                    switch (select(4, kb, oldkb))
+                    {
+
+                        case 0:
+                            
+                            currentMember++;
+                            break;
+                        case 1:
+                            
+                            currentMember++;
+                            break;
+                        case 2:
+                            currentMember++;
+                            break;
+                        case 3:
+                            currentMember++;
+                            break;
+                        default:
+                            break;
 
 
-                }
+                    }
 
-                if (currentMember >= allies.Count)
-                {
-                    currentMember = 0;
-                    turn = false;
-                    selectRect = new Rectangle(0, 70, 25, 25);
+                    if (currentMember >= allies.Count)
+                    {
+                        currentMember = 0;
+                        turn = false;
+                        selectRect = new Rectangle(0, 70, 25, 25);
+                    }
                 }
             }
             else if (turn == false)
@@ -139,6 +145,14 @@ namespace ForeFather
             }
             else
                 return numChoices + 5;
+        }
+
+        private void printInfo()
+        {
+            isPrinting = true;
+
+
+
         }
 
         //TODO: makechoice function
