@@ -1,2 +1,3 @@
-Press H to pull this screen up!
-Press Space when in a doorway to use it(It will be highlighted)
+Press H to open this screen!
+Press Down-Arrow to scroll down!
+Press Space in a doorway to use it!

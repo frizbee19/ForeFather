@@ -46,9 +46,16 @@ namespace ForeFather
             return false;
         }
 
-        public bool Intersects(Rectangle r, bool outOfBox)
+        public bool Intersects(Rectangle r, bool outOfBox, bool specialDoorLeave)
         {
             if (r.Intersects(position))
+                return true;
+            return false;
+        }
+
+        public bool Intersects(Rectangle r, bool insideBuild)
+        {
+            if (r.Intersects(position) && r.Y+r.Height<position.Y+position.Height)
                 return true;
             return false;
         }
