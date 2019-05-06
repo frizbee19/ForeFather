@@ -15,21 +15,26 @@ namespace ForeFather
     class TextBox
     {
         private Rectangle box;
+        public Rectangle Box { get; }
         //for the texture, just put like a black box or something. its for the background of the textbox
         private Texture2D texture;
         private const int DEFAULT_X = 25;
         private const int DEFAULT_Y = 500;
         private const int DEFAULT_WIDTH = 750;
         private const int DEFAULT_HEIGHT = 250;
-        private List<string> lines;
+        public List<string> lines;
         private const int DEFAULT_LINELENGTH = 40;
         private int lineLength;
         private SpriteFont font;
+        public SpriteFont Font { get; }
         private SpriteFont nameFont;
+        public SpriteFont NameFont { get; }
         private string path;
         private int currentInd;
-        private ContentManager Content;
+        private ContentManager content;
+        public ContentManager Content { get; }
         private string title;
+        public string Title { get; set; }
         private bool displayBox;
         public int currentIndex
         {
@@ -44,6 +49,7 @@ namespace ForeFather
             path = p;
             lines = new List<string>();
             currentInd = 0;
+            content = Content;
             font = Content.Load<SpriteFont>("dialFont");
             nameFont = Content.Load<SpriteFont>("nameFont");
             texture = Content.Load<Texture2D>("black or something");
