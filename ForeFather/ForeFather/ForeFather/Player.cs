@@ -69,11 +69,26 @@ namespace ForeFather
                 currentGridY = 0;
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y>0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y > 0)
             {
                 rectangle.Y -= MS;
-                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
+                if (currentGridX < 15)
+                {
+                    if (tiles[currentGridX + 1, currentGridY].Intersects(this) || tiles[currentGridX, currentGridY].Intersects(this))
+                    {
+                        rectangle.Y += MS;
+                    }
+                    else if(currentGridY<15 && tiles[currentGridX, currentGridY + 1].Intersects(this))
+                        {
+                            rectangle.Y += MS;
+                        }
+                }
+                else if (currentGridY < 15)
+                {
                     rectangle.Y += MS;
+                }
+                else if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
+                rectangle.Y += MS;
 
                 lastKey = Keys.Up;
             }
@@ -94,7 +109,21 @@ namespace ForeFather
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
             {
                 rectangle.Y += MS;
-                if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
+                if (currentGridX < 15)
+                {
+                    if (tiles[currentGridX + 1, currentGridY].Intersects(this) || tiles[currentGridX, currentGridY].Intersects(this))
+                    {
+                        rectangle.Y -= MS;
+                    }
+                }
+                else if (currentGridY < 15)
+                {
+                    if (tiles[currentGridX, currentGridY + 1].Intersects(this) || tiles[currentGridX, currentGridY].Intersects(this))
+                    {
+                        rectangle.Y -= MS;
+                    }
+                }
+                else if (tiles[currentGridX, currentGridY].Intersects(this) || Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
                     rectangle.Y -= MS;
 
                 lastKey = Keys.Down;
