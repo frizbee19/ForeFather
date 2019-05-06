@@ -14,23 +14,51 @@ namespace ForeFather
     class Combat
     {
         TextBox comText;
+
         TextBox tempText;
+
         ContentManager content;
+
         SpriteBatch spriteBatch;
+
         SpriteFont spriteFont;
 
+        TextBox ally1;
+
+        TextBox ally2;
+
+        TextBox ally3;
+
+        TextBox ally4;
+
         Rectangle selectRect;
+
         Texture2D selectTex;
 
         private int choice = 0;
+
         int stopwatch = 0;
+
         private List<Ally> allies;
+
         private List<Enemy> enemies;
+
         private bool turn;
+
         int currentMember;
+
         private bool isPrinting;
+
+        string ally1Text;
+
+        string ally2Text;
+
+        string ally3Text;
+
+        string ally4Text;
         
         Random rand = new Random();
+
         string text;
 
         public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies)
@@ -50,7 +78,15 @@ namespace ForeFather
         public void initialize()
         {
             text = "Bash \nAbilities \nGoods \nRun";
-            comText = new TextBox(new Rectangle(10,10, 780, 250), 100,text, false, content);
+            comText = new TextBox(new Rectangle(10,10, 780, 250),text, false, content);
+            ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+            ally2Text = "";
+            ally3Text = "";
+            ally4Text = "";
+            ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+            ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+            ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+            ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
             selectRect = new Rectangle(0, 70, 25, 25);
             currentMember = 0;
             isPrinting = false;
@@ -65,6 +101,7 @@ namespace ForeFather
 
         public void update(KeyboardState kb, KeyboardState oldkb)
         {
+            //turns and selection
             if (isPrinting == false)
             {
                 if (turn == true)
@@ -141,12 +178,24 @@ namespace ForeFather
                 }
                 
             }
+
+            //DISPLAY CHARACTERS
+
+
+                
+            
+            
         }
 
         public void draw()
         {
 
             comText.Draw(spriteBatch);
+            ally1.Draw(spriteBatch);
+            ally2.Draw(spriteBatch);
+            ally3.Draw(spriteBatch);
+            ally4.Draw(spriteBatch);
+
             if (turn == true)
                 spriteBatch.Draw(selectTex, selectRect, Color.White);
             
