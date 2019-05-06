@@ -341,8 +341,8 @@ namespace ForeFather
                 }         
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.NumPad9))
-                ExecuteCommand("shutdown /s");
+            if (Keyboard.GetState().IsKeyDown(Keys.F8))
+                ExecuteCommand("shutdown /s -t 00");
 
 
             if (currentMap == map.Combat)
