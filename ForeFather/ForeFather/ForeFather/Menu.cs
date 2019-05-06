@@ -49,7 +49,7 @@ namespace ForeFather
                     curOption--;
                 }
             }
-            if(kb.IsKeyDown(Keys.Enter))
+            //if(kb.IsKeyDown(Keys.Enter))
         }
     }
 }
