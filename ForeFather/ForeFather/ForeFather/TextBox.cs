@@ -131,7 +131,11 @@ namespace ForeFather
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
             }
         }
-
+        //use this to display the textbox
+        public void Display()
+        {
+            displayBox = true;
+        }
         public bool isDisplaying()
         {
             return displayBox;
