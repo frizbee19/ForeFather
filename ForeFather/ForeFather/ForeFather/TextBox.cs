@@ -30,6 +30,7 @@ namespace ForeFather
         private int currentInd;
         private ContentManager Content;
         private string title;
+        private bool displayBox;
         public int currentIndex
         {
             get { return currentInd; }
