@@ -30,7 +30,6 @@ namespace ForeFather
         private int currentInd;
         private ContentManager Content;
         private string title;
-        private bool displayBox;
         public int currentIndex
         {
             get { return currentInd; }
@@ -131,11 +130,7 @@ namespace ForeFather
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
             }
         }
-        //use this to display the textbox
-        public void Display()
-        {
-            displayBox = true;
-        }
+
         public bool isDisplaying()
         {
             return displayBox;
@@ -190,15 +185,12 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (displayBox)
+            spriteBatch.Draw(texture, box, Color.White);
+            spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
+            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
+            if (lines.Count > 1)
             {
-                spriteBatch.Draw(texture, box, Color.White);
-                spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
-                spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
-                if (lines.Count > 1)
-                {
-                    spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
-                }
+                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
             }
         }
 

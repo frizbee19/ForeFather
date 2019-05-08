@@ -56,8 +56,7 @@ namespace ForeFather
 
         public bool Intersects(Player p)
         {
-            int barrier = 5;
-            if (!isWalkable && ((p.getPos().X>position.X && (p.getPos().Y+p.getPos().Height-barrier>position.Y))))
+            if (!isWalkable && p.Intersects(position))
                 return true;
             return false;
         }
