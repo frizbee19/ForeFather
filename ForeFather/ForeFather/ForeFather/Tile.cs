@@ -51,14 +51,7 @@ namespace ForeFather
             sourceRect = sR;
             position = p;
             isWalkable = isWalk;
-            color = c;
-        }
-
-        public bool Intersects(Player p)
-        {
-            if (!isWalkable && p.Intersects(position))
-                return true;
-            return false;
+            color = Color.Black;
         }
 
         public Rectangle getPos()

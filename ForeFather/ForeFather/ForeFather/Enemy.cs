@@ -22,8 +22,6 @@ namespace ForeFather
         private int curHP;
         private int level;
 
-        private Random rand;
-
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
         public int getDefense { get; set; }
@@ -46,7 +44,7 @@ namespace ForeFather
 
         public void think()
         {
-            
+
         }
 
         public void attack(Ally Target)
@@ -64,9 +62,9 @@ namespace ForeFather
 
         }
 
-        public void faint(List<Enemy> enemyList)
+        public void faint()
         {
-            enemyList.Remove(this);
+
         }
 
     }

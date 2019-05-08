@@ -33,29 +33,9 @@ namespace ForeFather
             return position;
         }
 
-        public void setSize(int howMuchWidth, int howMuchHeight)
-        {
-            position.Width += howMuchWidth;
-            position.Height += howMuchHeight;
-        }
-
         public bool Intersects(Rectangle r)
         {
             if (r.Intersects(position) && (r.Y >= position.Y) && (r.X >= position.X && r.X + r.Width <= position.X + position.Width))
-                return true;
-            return false;
-        }
-
-        public bool Intersects(Rectangle r, bool outOfBox, bool specialDoorLeave)
-        {
-            if (r.Intersects(position))
-                return true;
-            return false;
-        }
-
-        public bool Intersects(Rectangle r, bool insideBuild)
-        {
-            if (r.Intersects(position) && r.Y+r.Height<position.Y+position.Height)
                 return true;
             return false;
         }

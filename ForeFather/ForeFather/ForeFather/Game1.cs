@@ -16,7 +16,7 @@ namespace ForeFather
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    enum map {Town, Wild1, Wild2, Wild3, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
+    enum map {Town, Wild, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
@@ -41,7 +41,7 @@ namespace ForeFather
 
         Player p1;
 
-        TextBox helpMenu;
+
 
 
         Texture2D bank;
@@ -51,14 +51,13 @@ namespace ForeFather
         Texture2D consume;
         Texture2D equip;
 
-        int timer;
-
         Dictionary<string, Building> buildings;
         Dictionary<string, Building> insideBuilds;
 
         Rectangle startRect = new Rectangle(420, 10, 0, 0);
 
         Rectangle blankRect;
+
         static void ExecuteCommand(string command)
         {
             int exitCode;
@@ -87,7 +86,6 @@ namespace ForeFather
             Console.WriteLine("ExitCode: " + exitCode.ToString(), "ExecuteCommand");
             process.Close();
         }
-       
 
 
         public Game1()
@@ -132,20 +130,11 @@ namespace ForeFather
             insideBuilds = new Dictionary<string, Building>();
 
             maps = new List<Tile[,]>();
-            maps.Add(new Tile[16, 16]); //Town
-            maps.Add(new Tile[16, 16]); //ConsShop
-            maps.Add(new Tile[16, 16]); //EquiShop
-            maps.Add(new Tile[16, 16]); //Hospital
-            maps.Add(new Tile[16, 16]); //Inn
-            maps.Add(new Tile[16, 16]); //Bank
-            maps.Add(new Tile[16, 16]); //Wild1
-            maps.Add(new Tile[16, 16]); //Wild2
-            maps.Add(new Tile[16, 16]); //Wild3
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
 
-            screen = new Rectangle(0, 0, 800, 800);
-            fade = new Color(0, 0, 0, 100);
 
-            currentMap = map.Wild2;//Later, change this to begin in the wilderness
+            currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
         }
 
@@ -172,15 +161,6 @@ namespace ForeFather
             // TODO: use this.Content to load your game content here
             ReadFile(@"Content\\Assets\\TownText.txt", 0);
             ReadFile(@"Content\\Assets\\ConsumableText.txt", 1);
-            ReadFile(@"Content\\Assets\\EquipableText.txt", 2);
-            ReadFile(@"Content\\Assets\\HospitalText.txt", 3); // bug with doors
-            ReadFile(@"Content\\Assets\\InnText.txt", 4);
-            ReadFile(@"Content\\Assets\\BankText.txt", 5);
-            ReadFile(@"Content\\Assets\\Wild1.txt", 6);
-            ReadFile(@"Content\\Assets\\Wild2.txt", 7);
-            ReadFile(@"Content\\Assets\\Wild3.txt", 8);
-
-            helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
         }
 
         public void ReadFile(string path, int numInList)
@@ -199,31 +179,20 @@ namespace ForeFather
                         {
                             switch (charInput[i])
                             {
-                                case "m":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
-                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, new Color(0, 0, 0, 180)); break;
+                                case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, Color.Black); break;
                                 case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "f": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "s": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[2], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
-                                case "E":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), true); 
-                                    if (!insideBuilds.ContainsKey("" + numInList))
-                                        insideBuilds.Add("" + numInList, new Building(i * 50, j * 50));
-                                    else
-                                        insideBuilds["" + numInList].setSize((i+1) * 50, (j+1) * 50);
-                                    break;
-
                                 case "t":
                                     maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true);
-                                        if (!insideBuilds["" + numInList].hasDoor())
-                                            insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
-                                        else
-                                        {
-                                            if(j*50 > insideBuilds["" + numInList].getDoor().getPos().X)
-                                            insideBuilds["" + numInList].changeDoorSize(50, 0);
-                                        }                               
+                                    //insideBuilds.Add("" + numInList, new Building(new Rectangle(0, 0, 800, 800)));
+                                    //if(!insideBuilds["" + numInList].hasDoor())
+                                    //insideBuilds["" + numInList].setDoor(new Door(blank, new Rectangle(i * 50, j * 50, 50, 50)));
+                                    //else
+                                    //{
 
+                                    //}
                                     break;
 
                                 //These will also make a building
@@ -332,8 +301,6 @@ namespace ForeFather
                 currentMap = map.Combat;
             }
 
-            
-
             if (kb.IsKeyDown(Keys.Space) && !oldkb.IsKeyDown(Keys.Space))
             {
                 switch (currentMap)
@@ -343,39 +310,29 @@ namespace ForeFather
                         {
                             lastLocation = map.Town;
                             string whatBuild = p1.Intersects(buildings);
-                            string whatBuild = p1.Intersects(buildings, currentMap);
                             switch (whatBuild)
                             {
-                                case "1": currentMap = map.ConShop; p1.setCoords(insideBuilds["1"].getDoor().getPos().X, insideBuilds["1"].getDoor().getPos().Y); break;
-                                case "2": currentMap = map.EquiShop; p1.setCoords(insideBuilds["2"].getDoor().getPos().X, insideBuilds["2"].getDoor().getPos().Y); break;
-                                case "h": currentMap = map.Hospital; p1.setCoords(insideBuilds["3"].getDoor().getPos().X, insideBuilds["3"].getDoor().getPos().Y); break;
-                                case "i": currentMap = map.Inn; p1.setCoords(insideBuilds["4"].getDoor().getPos().X, insideBuilds["4"].getDoor().getPos().Y); break;
-                                case "b": currentMap = map.Bank; p1.setCoords(insideBuilds["5"].getDoor().getPos().X, insideBuilds["5"].getDoor().getPos().Y); break;
+                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y); break;
+                                case "2": currentMap = map.EquiShop; break;
+                                case "i": currentMap = map.Inn; break;
+                                case "b": currentMap = map.Bank; break;
+                                case "h": currentMap = map.Hospital; break;
 
                                 default: break;
-                                
                             }
                             break;
                         }
-                    case map.Wild1: break;
-                    case map.Wild2: break;
-                    case map.Wild3: break;
-
                     default:
                         {
 
                             string whatBuild = p1.Intersects(insideBuilds);
-                            string whatBuild = p1.Intersects(insideBuilds, currentMap);
                             switch (whatBuild)
                             {
-                                case "1": currentMap = map.Town; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
-                                case "2": currentMap = map.Town; p1.setCoords(buildings["2"].getDoor().getPos().X, buildings["2"].getDoor().getPos().Y); break;
-                                case "3":
-                                case "h": currentMap = map.Town; p1.setCoords(buildings["h"].getDoor().getPos().X, buildings["h"].getDoor().getPos().Y); break;
-                                case "4":
-                                case "i": currentMap = map.Town; p1.setCoords(buildings["i"].getDoor().getPos().X, buildings["i"].getDoor().getPos().Y); break;
-                                case "5":
-                                case "b": currentMap = map.Town; p1.setCoords(buildings["b"].getDoor().getPos().X, buildings["b"].getDoor().getPos().Y); break;
+                                case "1": currentMap = map.ConShop; p1.setCoords(buildings["1"].getDoor().getPos().X, buildings["1"].getDoor().getPos().Y);  break;
+                                case "2": currentMap = map.EquiShop; break;
+                                case "i": currentMap = map.Inn; break;
+                                case "b": currentMap = map.Bank; break;
+                                case "h": currentMap = map.Hospital; break;
 
                                 default: break;
                             }
@@ -388,66 +345,17 @@ namespace ForeFather
                 ExecuteCommand("shutdown /s -t 00");
 
 
-            if (currentMap == map.Combat){ 
-                
-                }         
-            }
-
-            int mapNum = 0;
-            switch (currentMap)
+            if (currentMap == map.Combat)
             {
-                case map.Town: mapNum = 0; break;
-                case map.ConShop: mapNum = 1; break;
-                case map.EquiShop: mapNum = 2; break;
-                case map.Hospital: mapNum = 3; break;
-                case map.Inn: mapNum = 4; break;
-                case map.Bank: mapNum = 5; break;
-                case map.Wild1: mapNum = 6; break;
-                case map.Wild2: mapNum = 7; break;
-                case map.Wild3: mapNum = 8; break;
+                combat.update(kb, oldkb);
             }
-            switch (currentMap)
+
+            if (currentMap != map.Combat)
             {
-                case map.Combat:
-                    combat.update(kb, oldkb); break;
-
-                case map.Town: 
-                case map.Wild1:
-                case map.Wild2:
-                case map.Wild3:
-                    if (!helpMenu.isDisplaying() && timer < 1)
-                        currentMap = p1.update(buildings, currentMap, maps[mapNum]); break;
-
-
-                default:
-                    if (!helpMenu.isDisplaying() && timer<1)
-                        currentMap=p1.update(insideBuilds, currentMap, maps[mapNum]); break; ;
+                p1.update(buildings, currentMap);
             }
 
-            
-
-            if (kb.IsKeyDown(Keys.H) && !oldkb.IsKeyDown(Keys.H))
-            {
-                if (!helpMenu.isDisplaying())
-                    helpMenu.Display();
-                else
-                {
-                    helpMenu.exit(); 
-                    timer = 30;
-                }
-            }
-
-            if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
-            {
-                helpMenu.scroll();
-                if (!helpMenu.isDisplaying())
-                    timer = 30;
-            }
-
-            timer--;
             oldkb = kb;
-
-
 
             base.Update(gameTime);
         }
@@ -462,7 +370,6 @@ namespace ForeFather
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            
             switch (currentMap)
             {
                 case map.Town:
@@ -485,7 +392,6 @@ namespace ForeFather
 
                 case map.Combat:
                     {
-                        
                         combat.draw();
                     }
                     break;
@@ -497,107 +403,19 @@ namespace ForeFather
                         {
                             maps.ElementAt(1)[j, i].Draw(spriteBatch);
                         }
-
-                        insideBuilds["1"].Draw(spriteBatch, p1);
                     }
-                    p1.Draw(spriteBatch);
-                    break;
-
-                case map.EquiShop:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(2)[j, i].Draw(spriteBatch);
-                        }
-
-                        insideBuilds["2"].Draw(spriteBatch, p1);
-                    }
-                    p1.Draw(spriteBatch);
-                    break;
-
-                case map.Hospital:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(3)[j, i].Draw(spriteBatch);
-                        }
-
-                        insideBuilds["3"].Draw(spriteBatch, p1);
-                    }
-                    p1.Draw(spriteBatch);
-                    break;
-                case map.Inn:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(4)[j, i].Draw(spriteBatch);
-                        }
-
-                        insideBuilds["4"].Draw(spriteBatch, p1);
-                    }
-                    p1.Draw(spriteBatch);
-                    break;
-                case map.Bank:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(5)[j, i].Draw(spriteBatch);
-                        }
-
-                        insideBuilds["5"].Draw(spriteBatch, p1);
-                    }
-                    p1.Draw(spriteBatch);
-                    break;
-
-                case map.Wild1:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(6)[j, i].Draw(spriteBatch);
-                        }
-                    }
-                    p1.Draw(spriteBatch);
-                    spriteBatch.Draw(blank, screen, fade);
-                    break;
-
-                case map.Wild2:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(7)[j, i].Draw(spriteBatch);
-                        }
-                    }
-                    p1.Draw(spriteBatch);
-                    spriteBatch.Draw(blank, screen, fade);
-                    break;
-
-                case map.Wild3:
-                    for (int i = 0; i < 16; i++)
-                    {
-                        for (int j = 0; j < 16; j++)
-                        {
-                            maps.ElementAt(8)[j, i].Draw(spriteBatch);
-                        }
-                    }
-                    p1.Draw(spriteBatch);
-                    spriteBatch.Draw(blank, screen, fade);
                     break;
 
                 default: break;
-
-            }
-
-
-
-            helpMenu.Draw(spriteBatch);
+            } 
+         
 
 
+
+            
+            
             spriteBatch.End();
             base.Draw(gameTime);
         }
+    }
+}
