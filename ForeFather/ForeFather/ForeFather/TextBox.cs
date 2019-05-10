@@ -28,7 +28,6 @@ namespace ForeFather
         private SpriteFont nameFont;
         private string path;
         private int currentInd;
-        bool displayBox;
         private ContentManager Content;
         private string title;
         private bool displayBox;
@@ -170,10 +169,6 @@ namespace ForeFather
             //}
         }
 
-        public void Display()
-        {
-            displayBox = true;
-        }
 
         public void scroll()
         {
@@ -194,10 +189,6 @@ namespace ForeFather
             currentInd = 0;
         }
 
-        public void Display()
-        {
-            displayBox = true;
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
