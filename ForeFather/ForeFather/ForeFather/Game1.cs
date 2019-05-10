@@ -89,6 +89,7 @@ namespace ForeFather
             testEnemy = new Enemy("enemy1", 10, 10, 10, 10, 10);
             
 
+
             allies = new List<Ally>() { testAlly };
             enemies = new List<Enemy>() { testEnemy };
             combat = new Combat(this.Content, allies, enemies);

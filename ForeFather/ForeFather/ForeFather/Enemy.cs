@@ -47,6 +47,7 @@ namespace ForeFather
 
         public void attack(Ally Target)
         {
+
             Target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
 
 
