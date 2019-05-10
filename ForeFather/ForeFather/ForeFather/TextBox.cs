@@ -28,6 +28,7 @@ namespace ForeFather
         private SpriteFont nameFont;
         private string path;
         private int currentInd;
+        bool displayBox;
         private ContentManager Content;
         private string title;
         public int currentIndex
@@ -164,6 +165,11 @@ namespace ForeFather
             //}
         }
 
+        public void Display()
+        {
+            displayBox = true;
+        }
+
         public void scroll()
         {
             if (currentInd < lines.Count - 2)
@@ -185,12 +191,15 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, box, Color.White);
-            spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
-            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
-            if (lines.Count > 1)
+            if (displayBox)
             {
-                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+                spriteBatch.Draw(texture, box, Color.White);
+                spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
+                spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
+                if (lines.Count > 1)
+                {
+                    spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+                }
             }
         }
 
