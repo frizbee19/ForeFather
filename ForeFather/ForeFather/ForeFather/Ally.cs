@@ -14,45 +14,80 @@ namespace ForeFather
     class Ally
     {
         private int maxhp;
+
         private int offense;
+
         private int defense;
+
         private int luck;
+
         private int mana;
+
         private string name;
+
         private int curHP;
+
         private int XP;
+
         private int level;
+
         private int maxMana;
 
         private Armor armor;
+
         private Crystal crystal;
+
         private Weapon weapon;
 
+
+        public string getName { get { return name; } set { name = value; } }
+
         public int getMaxHp { get; set; }
+
         public int getOffense { get; set; }
+
         public int getDefense { get; set; }
+
         public int getLuck { get; set; }
+
         public int getMana { get; set; }
+
         public int getCurHp { get { return curHP; } set { curHP = value; } }
+
         public int getXP { get; set; }
+
         public int getLevel { get; set; }
+
         public int getMaxMana { get; set; }
+
         public Armor getArmor { get; set; }
+
         public Weapon getWeapon { get; set; }
+
         public Crystal getCrystal { get; set; }
+
         public int TotalDmg;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana)
         {
             this.maxhp = hp;
+
             this.offense = off;
+
             this.defense = def;
+
             this.luck = luck;
+
             this.maxMana = mana;
+
             this.mana = maxMana;
+
             this.name = name;
+
             this.curHP = maxhp;
+
             this.XP = 0;
+
             this.level = 0;
         }
 
