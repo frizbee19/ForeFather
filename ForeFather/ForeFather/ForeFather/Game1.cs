@@ -41,6 +41,7 @@ namespace ForeFather
 
         TextBox helpMenu;
 
+        Menu testMenu;
 
         Texture2D bank;
         Texture2D hospital;
@@ -108,7 +109,13 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]);
             maps.Add(new Tile[16, 16]);
 
-            
+            MenuNode testNode = new MenuNode(null, Content, "test");
+            MenuNode nodeA = new MenuNode(testNode, Content, "A");
+            nodeA.AddNode(new TextBox("this is option A", false, Content, "String A"));
+            testNode.AddNode(nodeA);
+            testNode.AddNode(new TextBox("this is option B", false, Content, "B"));
+            testMenu = new Menu(testNode);
+
 
             currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
@@ -365,6 +372,17 @@ namespace ForeFather
                 }
             }
 
+            if(kb.IsKeyDown(Keys.F5) && !oldkb.IsKeyDown(Keys.F5))
+            {
+                testMenu.Start();
+                Console.WriteLine(testMenu.Display);
+            }
+
+            if(testMenu.Display)
+            {
+                testMenu.Update(kb, oldkb);
+            }
+
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
             {
                 helpMenu.scroll();
@@ -488,6 +506,7 @@ namespace ForeFather
 
             helpMenu.Draw(spriteBatch);
 
+            testMenu.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);

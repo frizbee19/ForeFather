@@ -18,11 +18,13 @@ namespace ForeFather
         //private List<Ally> allies;
         //private int curOption;
         private List<TextBox> options;
+        public List<TextBox> Options { get; set; }
         private MenuNode previous;
         public MenuNode Previous { get; set; }
         private int curOption;
+        public int CurOption { get; set; }
 
-        public MenuNode(string p, ContentManager content, string name) : base(new Rectangle(30, 30, 400, 400), p, false, content, name)
+        public MenuNode(ContentManager content, string name) : base(new Rectangle(30, 30, 400, 400), "", false, content, name)
         {
             //allies = new List<Ally>();
             options = new List<TextBox>();
@@ -31,7 +33,7 @@ namespace ForeFather
             //curOption = 0;
         }
 
-        public MenuNode(MenuNode prev, string p, ContentManager content, string name) : base(new Rectangle(30, 30, 400, 400), p, false, content, name)
+        public MenuNode(MenuNode prev, ContentManager content, string name) : base(new Rectangle(30, 30, 400, 400), "", false, content, name)
         {
             //allies = new List<Ally>();
             options = new List<TextBox>();
@@ -40,7 +42,7 @@ namespace ForeFather
             //curOption = 0;
         }
 
-        public void AddNode(MenuNode node)
+        public void AddNode(TextBox node)
         {
             options.Add(node);
         }
