@@ -24,6 +24,7 @@ namespace ForeFather
         private int level;
         private int maxMana;
 
+        public string getName { get { return name; } set { name = value; } }
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
         public int getDefense { get; set; }
