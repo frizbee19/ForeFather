@@ -181,7 +181,7 @@ namespace ForeFather
                             switch (charInput[i])
                             {
                                 case "m":
-                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[1], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
+                                    maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false); break;
                                 case "-": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[3], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
                                 case "?": maps.ElementAt(numInList)[j, i] = new Tile(blank, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), false, new Color(0, 0, 0, 180)); break;
                                 case "g": maps.ElementAt(numInList)[j, i] = new Tile(tilesSheet, tileSource[0], new Rectangle(50 * i, 50 * j, 50, 50), true); break;
@@ -312,10 +312,14 @@ namespace ForeFather
             {
                 currentMap = map.Combat;
             }
+            else if (kb.IsKeyDown(Keys.F1) && !oldkb.IsKeyDown(Keys.F1))
+            {
+                Initialize();
+            }
 
-            
 
-            if (kb.IsKeyDown(Keys.Space) && !oldkb.IsKeyDown(Keys.Space))
+
+                if (kb.IsKeyDown(Keys.Space) && !oldkb.IsKeyDown(Keys.Space))
             {
                 switch (currentMap)
                 {

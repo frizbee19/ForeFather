@@ -1,3 +1,4 @@
 Press H to open this screen!
 Press Down-Arrow to scroll down!
 Press Space in a doorway to use it!
+Press F8 for a Combat Debug!
