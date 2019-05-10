@@ -24,6 +24,7 @@ namespace ForeFather
 
         private Random rand;
 
+        public string getName { get { return name; } set { name = value; } }
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
         public int getDefense { get; set; }
@@ -42,11 +43,6 @@ namespace ForeFather
             this.mana = mana;
             this.name = name;
             this.curHP = maxhp;
-        }
-
-        public void think()
-        {
-           
         }
 
         public void attack(Ally Target)
