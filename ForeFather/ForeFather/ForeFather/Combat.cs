@@ -14,21 +14,51 @@ namespace ForeFather
     class Combat
     {
         TextBox comText;
+
+        TextBox tempText;
+
         ContentManager content;
+
         SpriteBatch spriteBatch;
+
         SpriteFont spriteFont;
 
+        TextBox ally1;
+
+        TextBox ally2;
+
+        TextBox ally3;
+
+        TextBox ally4;
+
         Rectangle selectRect;
+
         Texture2D selectTex;
 
         private int choice = 0;
+
+        int stopwatch = 0;
+
         private List<Ally> allies;
+
         private List<Enemy> enemies;
+
         private bool turn;
+
         int currentMember;
+
         private bool isPrinting;
+
+        string ally1Text;
+
+        string ally2Text;
+
+        string ally3Text;
+
+        string ally4Text;
         
         Random rand = new Random();
+
         string text;
 
         public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies)
@@ -48,7 +78,15 @@ namespace ForeFather
         public void initialize()
         {
             text = "Bash \nAbilities \nGoods \nRun";
-            comText = new TextBox(new Rectangle(10,10, 780, 250), 100,text, false, content);
+            comText = new TextBox(new Rectangle(10,10, 780, 250),text, false, content);
+            ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+            ally2Text = "";
+            ally3Text = "";
+            ally4Text = "";
+            ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+            ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+            ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+            ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
             selectRect = new Rectangle(0, 70, 25, 25);
             currentMember = 0;
             isPrinting = false;
@@ -63,21 +101,38 @@ namespace ForeFather
 
         public void update(KeyboardState kb, KeyboardState oldkb)
         {
-            
-            if (turn == true)
+            //turns and selection
+            if (isPrinting == false)
             {
-                if (isPrinting == false)
+                if (turn == true) //ALLY TURN
                 {
+                    ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+
+                    ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+
+                    ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+
+                    ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+
+                    ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
+
+
+                    if (currentMember >= allies.Count) //hand turn back to enemy 
+                    {
+                        currentMember = 0;
+                        turn = false;
+                        selectRect = new Rectangle(0, 70, 25, 25);
+                    }
 
                     switch (select(4, kb, oldkb))
                     {
 
                         case 0:
-                            
-                            currentMember++;
+
+                            currentMember++; // increments to next members turn
                             break;
                         case 1:
-                            
+
                             currentMember++;
                             break;
                         case 2:
@@ -92,27 +147,68 @@ namespace ForeFather
 
                     }
 
-                    if (currentMember >= allies.Count)
+
+
+                }
+                else if (turn == false) //ENEMY TURN
+                {
+                    
+
+
+                    
+                    if (!isPrinting && currentMember < enemies.Count) //enemy turn
+                    {
+                        if ()
+                        {
+                            enemies[currentMember].attack(allies[0]);
+                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, enemies[currentMember].get + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                        }
+                        isPrinting = true;
+                        currentMember++;
+                    }
+
+                       
+                    
+
+                    if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
                     {
                         currentMember = 0;
-                        turn = false;
-                        selectRect = new Rectangle(0, 70, 25, 25);
+                        turn = true;
+                        comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, text, false, content);
                     }
+
+
                 }
             }
-            else if (turn == false)
+
+            if (isPrinting == true)
             {
-                for (int i = 0; i < enemies.Count; i++) //loops through each enemy
+                stopwatch++;
+                if (stopwatch % 180 == 0)
                 {
-                    comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "Enemy Turn", false, content);
+                    isPrinting = false;
+                    stopwatch = 0;
                 }
+                
             }
+
+            //DISPLAY CHARACTERS
+
+
+                
+            
+            
         }
 
         public void draw()
         {
 
             comText.Draw(spriteBatch);
+            ally1.Draw(spriteBatch);
+            ally2.Draw(spriteBatch);
+            ally3.Draw(spriteBatch);
+            ally4.Draw(spriteBatch);
+
             if (turn == true)
                 spriteBatch.Draw(selectTex, selectRect, Color.White);
             
@@ -145,14 +241,6 @@ namespace ForeFather
             }
             else
                 return numChoices + 5;
-        }
-
-        private void printInfo()
-        {
-            isPrinting = true;
-
-
-
         }
 
         //TODO: makechoice function

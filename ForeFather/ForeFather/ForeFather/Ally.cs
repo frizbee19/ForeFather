@@ -33,7 +33,7 @@ namespace ForeFather
         public int getDefense { get; set; }
         public int getLuck { get; set; }
         public int getMana { get; set; }
-        public int getCurHp { get; set; }
+        public int getCurHp { get { return curHP; } set { curHP = value; } }
         public int getXP { get; set; }
         public int getLevel { get; set; }
         public int getMaxMana { get; set; }
@@ -58,7 +58,7 @@ namespace ForeFather
 
         public void attack(Enemy target) //basic attack
         {
-
+            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
         }
         public void useMagic() //takes a ability object as parameter
         {
@@ -76,7 +76,6 @@ namespace ForeFather
         {
 
         }
-
 
     }
 }

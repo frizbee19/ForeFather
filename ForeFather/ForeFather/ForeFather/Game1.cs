@@ -83,7 +83,14 @@ namespace ForeFather
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
-          
+
+
+            testAlly = new Ally("player1", 10, 10, 10, 10, 10);
+
+            testEnemy = new Enemy("enemy1", 10, 10, 10, 10, 10);
+            
+
+
             allies = new List<Ally>() { testAlly };
             enemies = new List<Enemy>() { testEnemy };
             combat = new Combat(this.Content, allies, enemies);
