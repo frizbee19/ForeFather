@@ -104,9 +104,20 @@ namespace ForeFather
             //turns and selection
             if (isPrinting == false)
             {
-                if (turn == true)
+                if (turn == true) //ALLY TURN
                 {
-                    if (currentMember >= allies.Count)
+                    ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+
+                    ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+
+                    ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+
+                    ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+
+                    ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
+
+
+                    if (currentMember >= allies.Count) //hand turn back to enemy 
                     {
                         currentMember = 0;
                         turn = false;
@@ -118,7 +129,7 @@ namespace ForeFather
 
                         case 0:
 
-                            currentMember++;
+                            currentMember++; // increments to next members turn
                             break;
                         case 1:
 
@@ -139,25 +150,27 @@ namespace ForeFather
 
 
                 }
-                else if (turn == false)
+                else if (turn == false) //ENEMY TURN
                 {
                     
 
 
                     
-                    if (!isPrinting && currentMember < enemies.Count)
+                    if (!isPrinting && currentMember < enemies.Count) //enemy turn
                     {
-                        enemies[currentMember].attack(allies[0]);
-                        comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, "haha " + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                        if ()
+                        {
+                            enemies[currentMember].attack(allies[0]);
+                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, enemies[currentMember].get + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                        }
                         isPrinting = true;
                         currentMember++;
                     }
 
-                    //if (!isPrinting)
                        
                     
 
-                    if (currentMember >= enemies.Count && !isPrinting)
+                    if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
                     {
                         currentMember = 0;
                         turn = true;
