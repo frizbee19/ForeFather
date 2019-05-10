@@ -51,7 +51,23 @@ namespace ForeFather
 
         public void attack(Ally Target)
         {
-
+            Random ran = new Random();
+            int hit = ran.Next(0, 3);
+            switch(hit)
+            {
+                case 0:
+                    Target.getCurHp = -5;
+                    break;
+                case 1:
+                    Target.getCurHp = -3;
+                    break;
+                case 2:
+                    Target.getCurHp = -1;
+                    break;
+                case 3:
+                    Target.getCurHp = -10;
+                    break;
+            }
         }
 
         public void useMagic()

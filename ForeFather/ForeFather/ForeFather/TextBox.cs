@@ -188,10 +188,6 @@ namespace ForeFather
             currentInd = 0;
         }
 
-        public void Display()
-        {
-            displayBox = true;
-        }
 
         public void Draw(SpriteBatch spriteBatch)
         {
