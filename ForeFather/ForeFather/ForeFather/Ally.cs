@@ -24,6 +24,10 @@ namespace ForeFather
         private int level;
         private int maxMana;
 
+        private Armor armor;
+        private Crystal crystal;
+        private Weapon weapon;
+
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
         public int getDefense { get; set; }
@@ -33,6 +37,9 @@ namespace ForeFather
         public int getXP { get; set; }
         public int getLevel { get; set; }
         public int getMaxMana { get; set; }
+        public Armor getArmor { get; set; }
+        public Weapon getWeapon { get; set; }
+        public Crystal getCrystal { get; set; }
         public int TotalDmg;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana)

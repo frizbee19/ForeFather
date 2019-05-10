@@ -31,6 +31,7 @@ namespace ForeFather
         bool displayBox;
         private ContentManager Content;
         private string title;
+        private bool displayBox;
         public int currentIndex
         {
             get { return currentInd; }
@@ -131,7 +132,11 @@ namespace ForeFather
                 Console.WriteLine("lmao an error, you suck: " + e.Message);
             }
         }
-
+        //use this to display the textbox
+        public void Display()
+        {
+            displayBox = true;
+        }
         public bool isDisplaying()
         {
             return displayBox;
@@ -189,9 +194,13 @@ namespace ForeFather
             currentInd = 0;
         }
 
+        public void Display()
+        {
+            displayBox = true;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
-
                 spriteBatch.Draw(texture, box, Color.White);
                 spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
                 spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);

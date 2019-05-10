@@ -41,6 +41,7 @@ namespace ForeFather
 
         TextBox helpMenu;
 
+        TextBox intro;
 
         Texture2D bank;
         Texture2D hospital;
@@ -157,6 +158,8 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\Wild3.txt", 8);
 
             helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
+            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "beginning");
+            intro.Display();
         }
 
         public void ReadFile(string path, int numInList)
@@ -404,14 +407,25 @@ namespace ForeFather
                     timer = 30;
                 }
             }
-
+            
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
             {
                 helpMenu.scroll();
                 if (!helpMenu.isDisplaying())
                     timer = 30;
             }
-
+            int count = 0;
+            
+            if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down)  )
+            {
+                count++;
+                
+                intro.scroll();
+            }
+            if(count > 5)
+            {
+                intro.exit();
+            }
             timer--;
             oldkb = kb;
 
@@ -564,7 +578,7 @@ namespace ForeFather
 
             if(helpMenu.isDisplaying())
             helpMenu.Draw(spriteBatch);
-
+            intro.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
