@@ -161,7 +161,7 @@ namespace ForeFather
                         if ()
                         {
                             enemies[currentMember].attack(allies[0]);
-                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, enemies[currentMember].get + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, enemies[currentMember].get( + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content));
                         }
                         isPrinting = true;
                         currentMember++;
