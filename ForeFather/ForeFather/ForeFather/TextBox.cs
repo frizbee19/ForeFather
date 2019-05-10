@@ -191,8 +191,7 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (displayBox)
-            {
+
                 spriteBatch.Draw(texture, box, Color.White);
                 spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
                 spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
@@ -200,7 +199,7 @@ namespace ForeFather
                 {
                     spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
                 }
-            }
+            
         }
 
     }

@@ -562,7 +562,7 @@ namespace ForeFather
             }
 
 
-
+            if(helpMenu.isDisplaying())
             helpMenu.Draw(spriteBatch);
 
 
