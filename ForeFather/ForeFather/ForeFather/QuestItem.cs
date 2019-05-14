@@ -23,17 +23,18 @@ namespace ForeFather
             display = new TextBox(message, false, c, n);
         }
         //use a default character in this class, it honestly does not even matter. idk what to use this method for except for maybe displaying the text
-        override
+        //override
 
-        public void Use(Ally c)
-        {
-            display.Display();
-        }
+        //public void Use(Ally c)
+        //{
+        //    display.Display();
+        //}
 
-        public override bool Equals(Item item)
-        {
-            return item.Name == this.Name;
-        }
+        //public override bool Equals(Item item)
+        //{
+        //    return item.Name == this.Name;
+        //}
 
     }
 }
+
