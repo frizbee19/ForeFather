@@ -15,14 +15,16 @@ namespace ForeFather
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    enum map {Town, Wild1, Wild2, Wild3, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
+
+    public enum map {Town, Wild1, Wild2, Wild3, ConShop, EquiShop, Bank, Hospital, Inn, Mountain, Combat};
+
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         List<Tile[,]> maps;
 
-        map currentMap;
+        public static map currentMap;
 
         Rectangle[] tileSource;
         Texture2D spritesheet;
@@ -32,7 +34,15 @@ namespace ForeFather
         Combat combat;
         KeyboardState kb;
         KeyboardState oldkb;
-        Ally testAlly;
+
+        Ally Ally1;
+
+        Ally Ally2;
+
+        Ally Ally3;
+        
+        Ally Ally4;
+
         Enemy testEnemy;
         List<Ally> allies;
         List<Enemy> enemies;
@@ -86,15 +96,20 @@ namespace ForeFather
             IsMouseVisible = true;
             p1 = new Player(Content, startRect, 1, 1);
 
-            testAlly = new Ally("player1", 10, 10, 10, 10, 10);
+            Ally1 = new Ally("Arlo", 10, 10, 10, 10, 10);
 
-            testEnemy = new Enemy("enemy1", 10, 10, 10, 10, 10);
+            Ally2 = new Ally("Hunter", 10, 10, 10, 10, 10);
+            Ally3 = new Ally("Jac-E", 10, 10, 10, 10, 10);
+            Ally4 = new Ally("Noire", 10, 10, 10, 10, 10);
+
+            testEnemy = new Enemy("enemy1", 40, 10, 10, 10, 10);
             
 
 
-            allies = new List<Ally>() { testAlly };
+            allies = new List<Ally>() { Ally1, Ally2, Ally3, Ally4 };
+
             enemies = new List<Enemy>() { testEnemy };
-            combat = new Combat(this.Content, allies, enemies);
+            combat = new Combat(this.Content, allies, enemies, this);
 
             tileSource[0] = new Rectangle(0, 0, 50, 50); // grass
             tileSource[1] = new Rectangle(50, 0, 50, 50); // flowers
@@ -123,7 +138,7 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]); //Wild3
 
             screen = new Rectangle(0, 0, 800, 800);
-            fade = new Color(0, 0, 0, 100);
+            fade = new Color(0, 0, 0, 125);
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
             maps.Add(new Tile[16, 16]);
