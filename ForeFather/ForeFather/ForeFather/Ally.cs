@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -58,20 +59,24 @@ namespace ForeFather
 
         public void attack(Enemy target) //basic attack
         {
-
+            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
         }
+
         public void useMagic() //takes a ability object as parameter
         {
 
         }
+
         public void useGoods() //takes a inventory item as parameter
         {
 
         }
+
         public void runAway()
         {
 
         }
+
         public void faint()
         {
 

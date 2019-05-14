@@ -57,6 +57,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ability.cs" />
     <Compile Include="Ally.cs" />
     <Compile Include="Armor.cs" />
     <Compile Include="Building.cs" />

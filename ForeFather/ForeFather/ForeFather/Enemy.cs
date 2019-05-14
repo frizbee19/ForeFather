@@ -49,9 +49,9 @@ namespace ForeFather
             
         }
 
-        public void attack(Ally Target)
+        public void attack(Ally target)
         {
-
+            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
         }
 
         public void useMagic()
