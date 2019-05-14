@@ -215,19 +215,21 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            if (displayBox)
+            {
                 spriteBatch.Draw(texture, box, Color.White);
                 spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
                 spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 35), Color.White);
-                if(numLines > lines.Count)
+                if (numLines > lines.Count)
                 {
                     numLines = lines.Count;
                 }
 
-                for(int i = 1; i < numLines; i++)
-                { 
+                for (int i = 1; i < numLines; i++)
+                {
                     spriteBatch.DrawString(font, lines[currentInd + i], new Vector2(box.X + 20, box.Y + 35 + (40 * i)), Color.White);
                 }
-            
+            }
         }
 
     }
