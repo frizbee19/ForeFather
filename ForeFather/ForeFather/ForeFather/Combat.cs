@@ -45,6 +45,8 @@ namespace ForeFather
 
         private bool turn;
 
+        Game1 game;
+
         int currentMember;
 
         private bool isPrinting;
@@ -56,16 +58,19 @@ namespace ForeFather
         string ally3Text;
 
         string ally4Text;
+
+        string currentTurn = "";
         
         Random rand = new Random();
 
         string text;
 
-        public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies)
+        public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies, Game1 game)
         {
             this.allies = allies;
             this.enemies = enemies;
             this.content = content;
+            this.game = game;
 
             //if (rand.Next(1) == 0) //coinflip for first turn
             //    turn = false;
@@ -78,7 +83,7 @@ namespace ForeFather
         public void initialize()
         {
             text = "Bash \nAbilities \nGoods \nRun";
-            comText = new TextBox(new Rectangle(10,10, 780, 250),text, false, content);
+            comText = new TextBox(new Rectangle(10,10, 780, 250),text, false, content, currentTurn);
             ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
             ally2Text = "";
             ally3Text = "";
@@ -102,104 +107,131 @@ namespace ForeFather
         public void update(KeyboardState kb, KeyboardState oldkb)
         {
             //turns and selection
-            if (isPrinting == false)
-            {
-                if (turn == true) //ALLY TURN
+                if (isPrinting == false)
                 {
-                    ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
-
-                    ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
-
-                    ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
-
-                    ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
-
-                    ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
 
 
-                    if (currentMember >= allies.Count) //hand turn back to enemy 
+                    if (turn == true) //ALLY TURN
                     {
-                        currentMember = 0;
-                        turn = false;
-                        selectRect = new Rectangle(0, 70, 25, 25);
+
+                        //Text display gibberish
+
+                        if (currentMember == 0)
+                            currentTurn = "Arlo";
+                        if (currentMember == 1)
+                            currentTurn = "Hunter";
+                        if (currentMember == 2)
+                            currentTurn = "Jac-E";
+                        if (currentMember == 3)
+                            currentTurn = "Noire";
+
+                        text = "Bash \nAbilities \nGoods \nRun";
+
+                        ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+                        if (allies.Count >= 2)
+                            ally2Text = "HP: " + allies[1].getCurHp + "\nMP: " + allies[1].getMana;
+                        if (allies.Count >= 3)
+                            ally3Text = "HP: " + allies[2].getCurHp + "\nMP: " + allies[2].getMana;
+                        if (allies.Count >= 4)
+                            ally4Text = "HP: " + allies[3].getCurHp + "\nMP: " + allies[3].getMana;
+
+
+                        ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+
+                        ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+
+                        ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+
+                        ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
+
+
+
+                        //hand turn back to enemy 
+                        if (currentMember >= allies.Count)
+                        {
+                            currentMember = 0;
+                            turn = false;
+                            selectRect = new Rectangle(0, 70, 25, 25);
+                        }
+
+                        switch (select(4, kb, oldkb))
+                        {
+
+                            case 0:
+
+                                allies[currentMember].attack(enemies[0]);
+                                text = allies[currentMember].getName + " bashed " + enemies[0].getName + " for " + 5 * (1 + ((allies[currentMember].getOffense / 100) - (enemies[0].getDefense / 100)));
+                                isPrinting = true;
+                                currentMember++; // increments to next members turn
+                                break;
+                            case 1:
+
+                                currentMember++;
+                                break;
+                            case 2:
+                                currentMember++;
+                                break;
+                            case 3:
+                                currentMember++;
+                                break;
+                            default:
+                                break;
+
+
+                        }
+
+
+
                     }
-
-                    switch (select(4, kb, oldkb))
+                    else if (turn == false) //ENEMY TURN
                     {
 
-                        case 0:
-
-                            currentMember++; // increments to next members turn
-                            break;
-                        case 1:
-
-                            currentMember++;
-                            break;
-                        case 2:
-                            currentMember++;
-                            break;
-                        case 3:
-                            currentMember++;
-                            break;
-                        default:
-                            break;
+                        currentTurn = "Enemy";
 
 
-                    }
-
-
-
-                }
-                else if (turn == false) //ENEMY TURN
-                {
-                    
-
-
-                    
-                    if (!isPrinting && currentMember < enemies.Count) //enemy turn
-                    {
-                        //if ()
-                        //{
+                        if (!isPrinting && currentMember < enemies.Count) //enemy turn
+                        {
                             enemies[currentMember].attack(allies[0]);
-                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, enemies[currentMember].getName + " bashed " + allies[0].getName + " for "
-                                                                + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100))), false, content);
+                            text = enemies[currentMember].getName + " bashed " + allies[0].getName + " for " + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100)));
+                            isPrinting = true;
+                            currentMember++;
+                        }
 
-                        //}
-                        isPrinting = true;
-                        currentMember++;
+
+
+
+                        if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
+                        {
+                            currentMember = 0;
+                            turn = true;
+                            comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, text, false, content);
+                        }
+
+
                     }
 
-                       
-                    
-
-                    if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
-                    {
-                        currentMember = 0;
-                        turn = true;
-                        comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, text, false, content);
-                    }
-
-
-                }
-            }
-
-            if (isPrinting == true)
-            {
-                stopwatch++;
-                if (stopwatch % 180 == 0)
+                if (enemies[0].getCurHp <= 0)
                 {
-                    isPrinting = false;
-                    stopwatch = 0;
+                    Game1.currentMap = map.Town;
                 }
-                
-            }
+                }
+
+                if (isPrinting == true)
+                {
+                    stopwatch++;
+                    if (stopwatch % 180 == 0)
+                    {
+                        isPrinting = false;
+                        stopwatch = 0;
+                    }
+
+                }
 
             //DISPLAY CHARACTERS
 
 
-                
-            
-            
+
+            comText = new TextBox(new Rectangle(10, 10, 780, 250), text, false, content, currentTurn);
         }
 
         public void draw()
