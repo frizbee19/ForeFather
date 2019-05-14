@@ -14,6 +14,11 @@ namespace ForeFather
 {
     class NPC
     {
+        //Bank is for gambling
+        //Consume is for buying potions and food
+        //Equip is buying weapons, armor, crystals
+        //Hospital is healing for a fraction of your money, 10%
+        //Inn is for restoring your mana for a fraction of your money, 20%
         public Rectangle Location
         {
             get { return location; }
