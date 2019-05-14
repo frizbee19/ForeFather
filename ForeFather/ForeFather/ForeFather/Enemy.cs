@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    public class Enemy
+    class Enemy
     {
         private int maxhp;
         private int offense;
