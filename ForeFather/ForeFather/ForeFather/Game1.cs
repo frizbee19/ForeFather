@@ -193,7 +193,7 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\Wild3.txt", 8);
 
             helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
-            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "beginning");
+            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "Introduction");
             intro.Display();
         }
 
