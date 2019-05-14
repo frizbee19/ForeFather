@@ -24,12 +24,13 @@ namespace ForeFather
 
         private Random rand;
 
+        public string getName { get { return name; } set { name = value; } }
         public int getMaxHp { get; set; }
         public int getOffense { get; set; }
         public int getDefense { get; set; }
         public int getLuck { get; set; }
         public int getMana { get; set; }
-        public int getCurHp { get; set; }
+        public int getCurHp { get { return curHP; } set { curHP = value; } }
         public int getLevel { get; set; }
         public int totalDmg;
 
@@ -43,15 +44,10 @@ namespace ForeFather
             this.name = name;
             this.curHP = maxhp;
         }
-
-        public void think()
+        public void attack(Ally Target)
         {
-            
-        }
 
-        public void attack(Ally target)
-        {
-            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
+            Target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
         }
 
         public void useMagic()
