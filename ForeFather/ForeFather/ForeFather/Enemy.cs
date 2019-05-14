@@ -30,7 +30,7 @@ namespace ForeFather
         public int getDefense { get; set; }
         public int getLuck { get; set; }
         public int getMana { get; set; }
-        public int getCurHp { get; set; }
+        public int getCurHp { get { return curHP; } set { curHP = value; } }
         public int getLevel { get; set; }
         public int totalDmg;
 
