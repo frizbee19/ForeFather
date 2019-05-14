@@ -45,6 +45,8 @@ namespace ForeFather
 
         private bool turn;
 
+        private bool abilitySelect;
+
         Game1 game;
 
         int currentMember;
@@ -166,7 +168,8 @@ namespace ForeFather
                                 break;
                             case 1:
 
-                                currentMember++;
+                            abilitySelect = true;
+                           
                                 break;
                             case 2:
                                 currentMember++;
@@ -276,6 +279,7 @@ namespace ForeFather
             else
                 return numChoices + 5;
         }
+
 
         //TODO: makechoice function
     }
