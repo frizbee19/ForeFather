@@ -42,6 +42,7 @@ namespace ForeFather
         TextBox helpMenu;
 
         Menu testMenu;
+        TextBox testBox;
 
         Texture2D bank;
         Texture2D hospital;
@@ -115,6 +116,7 @@ namespace ForeFather
             testNode.AddNode(nodeA);
             testNode.AddNode(new TextBox("this is option B", false, Content, "B"));
             testMenu = new Menu(testNode);
+            testBox = new TextBox("haha this is a test hopefully this works if it doesnt im kms so im praying that this works its to test out having multiple lines", false, Content, 5, "test");
 
 
             currentMap = map.Town;//Later, change this to begin in the wilderness
@@ -378,7 +380,12 @@ namespace ForeFather
                 Console.WriteLine(testMenu.Display);
             }
 
-            if(testMenu.Display)
+            if (kb.IsKeyDown(Keys.F4) && !oldkb.IsKeyDown(Keys.F4))
+            {
+                testBox.Display();
+            }
+
+            if (testMenu.Display)
             {
                 testMenu.Update(kb, oldkb);
             }
@@ -507,6 +514,7 @@ namespace ForeFather
             helpMenu.Draw(spriteBatch);
 
             testMenu.Draw(spriteBatch);
+            testBox.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
