@@ -121,7 +121,7 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]); //Wild3
 
             screen = new Rectangle(0, 0, 800, 800);
-            fade = new Color(0, 0, 0, 100);
+            fade = new Color(0, 0, 0, 125);
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
             base.Initialize();
