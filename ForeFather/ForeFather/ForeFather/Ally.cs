@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Ally
+    public class Ally
     {
         private int maxhp;
 
@@ -34,11 +34,11 @@ namespace ForeFather
 
         private int maxMana;
 
-        private Armor armor;
+        //private Armor armor;
 
-        private Crystal crystal;
+        //private Crystal crystal;
 
-        private Weapon weapon;
+        //private Weapon weapon;
 
 
         public string getName { get { return name; } set { name = value; } }
@@ -61,11 +61,11 @@ namespace ForeFather
 
         public int getMaxMana { get; set; }
 
-        public Armor getArmor { get; set; }
+        //public Armor getArmor { get; set; }
 
-        public Weapon getWeapon { get; set; }
+       //public Weapon getWeapon { get; set; }
 
-        public Crystal getCrystal { get; set; }
+        //public Crystal getCrystal { get; set; }
 
         public int TotalDmg;
 
@@ -106,6 +106,18 @@ namespace ForeFather
         {
 
         }
+
+
+        public void addHealth(int howMuch)
+        {
+            curHP += howMuch;
+        }
+
+        public void addMana(int howMuch)
+        {
+            mana += howMuch;
+        }
+
 
         public void runAway()
         {

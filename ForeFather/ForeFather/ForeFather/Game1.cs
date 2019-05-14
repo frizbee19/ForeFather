@@ -50,8 +50,10 @@ namespace ForeFather
         Player p1;
 
         TextBox helpMenu;
-
+        
         TextBox intro;
+        Menu testMenu;
+        TextBox testBox;
 
         Texture2D bank;
         Texture2D hospital;
@@ -139,6 +141,23 @@ namespace ForeFather
             fade = new Color(0, 0, 0, 125);
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+
+            MenuNode testNode = new MenuNode(null, Content, "test");
+            MenuNode nodeA = new MenuNode(testNode, Content, "A");
+            nodeA.AddNode(new TextBox("this is option A", false, Content, "String A"));
+            testNode.AddNode(nodeA);
+            testNode.AddNode(new TextBox("this is option B", false, Content, "B"));
+            testMenu = new Menu(testNode);
+            testBox = new TextBox("haha this is a test hopefully this works if it doesnt im kms so im praying that this works its to test out having multiple lines", false, Content, 5, "test");
+
+
+            currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
         }
 
@@ -174,7 +193,7 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\Wild3.txt", 8);
 
             helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
-            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "beginning");
+            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "Introduction");
             intro.Display();
         }
 
@@ -423,6 +442,22 @@ namespace ForeFather
                     timer = 30;
                 }
             }
+
+            if(kb.IsKeyDown(Keys.F5) && !oldkb.IsKeyDown(Keys.F5))
+            {
+                testMenu.Start();
+                Console.WriteLine(testMenu.Display);
+            }
+
+            if (kb.IsKeyDown(Keys.F4) && !oldkb.IsKeyDown(Keys.F4))
+            {
+                testBox.Display();
+            }
+
+            if (testMenu.Display)
+            {
+                testMenu.Update(kb, oldkb);
+            }
             
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
             {
@@ -597,6 +632,8 @@ namespace ForeFather
             if(intro.isDisplaying())
             intro.Draw(spriteBatch);
 
+            testMenu.Draw(spriteBatch);
+            testBox.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }
