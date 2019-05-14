@@ -40,8 +40,10 @@ namespace ForeFather
         Player p1;
 
         TextBox helpMenu;
-
+        
         TextBox intro;
+        Menu testMenu;
+        TextBox testBox;
 
         Texture2D bank;
         Texture2D hospital;
@@ -124,6 +126,23 @@ namespace ForeFather
             fade = new Color(0, 0, 0, 100);
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+            maps.Add(new Tile[16, 16]);
+
+            MenuNode testNode = new MenuNode(null, Content, "test");
+            MenuNode nodeA = new MenuNode(testNode, Content, "A");
+            nodeA.AddNode(new TextBox("this is option A", false, Content, "String A"));
+            testNode.AddNode(nodeA);
+            testNode.AddNode(new TextBox("this is option B", false, Content, "B"));
+            testMenu = new Menu(testNode);
+            testBox = new TextBox("haha this is a test hopefully this works if it doesnt im kms so im praying that this works its to test out having multiple lines", false, Content, 5, "test");
+
+
+            currentMap = map.Town;//Later, change this to begin in the wilderness
             base.Initialize();
         }
 
@@ -408,6 +427,22 @@ namespace ForeFather
                     timer = 30;
                 }
             }
+
+            if(kb.IsKeyDown(Keys.F5) && !oldkb.IsKeyDown(Keys.F5))
+            {
+                testMenu.Start();
+                Console.WriteLine(testMenu.Display);
+            }
+
+            if (kb.IsKeyDown(Keys.F4) && !oldkb.IsKeyDown(Keys.F4))
+            {
+                testBox.Display();
+            }
+
+            if (testMenu.Display)
+            {
+                testMenu.Update(kb, oldkb);
+            }
             
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
             {
@@ -582,6 +617,8 @@ namespace ForeFather
             if(intro.isDisplaying())
             intro.Draw(spriteBatch);
 
+            testMenu.Draw(spriteBatch);
+            testBox.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);
         }

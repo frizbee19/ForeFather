@@ -15,22 +15,29 @@ namespace ForeFather
     class TextBox
     {
         private Rectangle box;
+        public Rectangle Box { get; }
         //for the texture, just put like a black box or something. its for the background of the textbox
         private Texture2D texture;
         private const int DEFAULT_X = 25;
         private const int DEFAULT_Y = 500;
         private const int DEFAULT_WIDTH = 750;
         private const int DEFAULT_HEIGHT = 250;
-        private List<string> lines;
+        public List<string> lines;
         private const int DEFAULT_LINELENGTH = 40;
         private int lineLength;
         private SpriteFont font;
+        public SpriteFont Font { get; }
         private SpriteFont nameFont;
+        public SpriteFont NameFont { get; }
         private string path;
         private int currentInd;
-        private ContentManager Content;
+        private ContentManager content;
+        public ContentManager Content { get; }
         private string title;
+        public string Title { get; set; }
         private bool displayBox;
+        private int numLines;
+
         public int currentIndex
         {
             get { return currentInd; }
@@ -44,9 +51,11 @@ namespace ForeFather
             path = p;
             lines = new List<string>();
             currentInd = 0;
+            content = Content;
             font = Content.Load<SpriteFont>("dialFont");
             nameFont = Content.Load<SpriteFont>("nameFont");
             texture = Content.Load<Texture2D>("black or something");
+            numLines = 2;
             if (fromAFile)
             {
                 ReadFile(@path);
@@ -92,6 +101,20 @@ namespace ForeFather
 
         }
 
+        public TextBox(int length, string p, bool fromAFile, ContentManager Content, int n, string name) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), length, p, fromAFile, Content, name)
+        {
+            numLines = n;
+        }
+
+        public TextBox(Rectangle rect, string p, bool fromAFile, ContentManager Content, int n, string name) : this(rect, DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        {
+            numLines = n;
+        }
+
+        public TextBox(string p, bool fromAFile, ContentManager Content, int n, string name) : this(new Rectangle(DEFAULT_X, DEFAULT_Y, DEFAULT_WIDTH, DEFAULT_HEIGHT), DEFAULT_LINELENGTH, p, fromAFile, Content, name)
+        {
+            numLines = n;
+        }
 
         public void ReadFile(string path)
         {
@@ -172,11 +195,11 @@ namespace ForeFather
 
         public void scroll()
         {
-            if (currentInd < lines.Count - 2)
+            if (currentInd < lines.Count - numLines)
             {
                 currentInd++;
             }
-            else if(currentInd == lines.Count - 2)
+            else if(currentInd == lines.Count - numLines)
             {
                 displayBox = false;
                 currentInd = 0;
@@ -194,10 +217,15 @@ namespace ForeFather
         {
                 spriteBatch.Draw(texture, box, Color.White);
                 spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
-                spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
-                if (lines.Count > 1)
+                spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 35), Color.White);
+                if(numLines > lines.Count)
                 {
-                    spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+                    numLines = lines.Count;
+                }
+
+                for(int i = 1; i < numLines; i++)
+                { 
+                    spriteBatch.DrawString(font, lines[currentInd + i], new Vector2(box.X + 20, box.Y + 35 + (40 * i)), Color.White);
                 }
             
         }
