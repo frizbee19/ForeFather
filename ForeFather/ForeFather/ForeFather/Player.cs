@@ -15,8 +15,8 @@ namespace ForeFather
     class Player
     {
         private Texture2D texture;
-        private Rectangle rectangle;
-        private Rectangle sourceRectangle;
+        private Rectangle[] rectangles;
+        private Rectangle[] sourceRectangles;
         private int trail;
         private const int MS = 5;
         private const int WIDTH = 34;
@@ -24,253 +24,198 @@ namespace ForeFather
         Keys lastKey;
         string character;
 
-        public Player(ContentManager content, Rectangle rect, int t, int i)
+        public Player(ContentManager content, Rectangle rect, int t)
         {
+            rectangles = new Rectangle[4];
+            sourceRectangles = new Rectangle[4];
             texture = content.Load<Texture2D>("Assets\\spriteChar");
-            rectangle = new Rectangle(rect.X, rect.Y, WIDTH, HEIGTH);
-            trail = t;
+            rectangles[0] = new Rectangle(rect.X, rect.Y, WIDTH, HEIGTH);
+            trail = t;           
+                    sourceRectangles[0] = new Rectangle(0, 0, 106, 193);
+                    sourceRectangles[1] = new Rectangle(0, 193, 101, 181);
+                    sourceRectangles[2] = new Rectangle(0, 374, 101, 185);
+                    sourceRectangles[2] = new Rectangle(0, 559, 110, 183);
             
-            switch (i)
-            {
-                case 0:
-                    sourceRectangle = new Rectangle(0, 0, 106, 193);
-                    character = "mage";
-                    break;
-                case 1:
-                    sourceRectangle = new Rectangle(0, 193, 101, 181);
-                    character = "knight";
-                    break;
-                case 2:
-                    sourceRectangle = new Rectangle(0, 374, 101, 185);
-                    character = "rouge";
-                    break;
-                case 3:
-                    sourceRectangle = new Rectangle(0, 559, 110, 183);
-                    character = "princess?";
-                    break;
-                default:
-                    throw new Exception("The value provided for identifier (i) is invalid. 0 <= i <= 3");
-            }
         }
 
         public void setCoords(int newX, int newY)
         {
-            rectangle.X = newX;
-            rectangle.Y = newY;
+            rectangles[0].X = newX;
+            rectangles[1].Y = newY;
         }
 
         public map update(Dictionary<string, Building> buildings, map current, Tile[,] tiles)
         {
-            int currentGridY = rectangle.X / 50;
-            if (rectangle.X >= 800)
+            int currentGridY = rectangles[0].X / 50;
+            if (rectangles[0].X >= 800)
                 currentGridY = 0;
-            int currentGridX = rectangle.Y / 50;
-            if (rectangle.Y >= 800)
+            int currentGridX = rectangles[0].Y / 50;
+            if (rectangles[0].Y >= 800)
                 currentGridX = 0;
 
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y > 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangles[0].Y > 0)
             {
-                rectangle.Y -= MS;
+                rectangles[0].Y -= MS;
                 if (tiles[currentGridX, currentGridY].Intersects(this) || (currentGridX < 15 && tiles[currentGridX+1, currentGridY].Intersects(this)) || (currentGridY < 15 && tiles[currentGridX, currentGridY+1].Intersects(this)) || (currentGridX < 15 &&  currentGridY<15 && tiles[currentGridX + 1, currentGridY+1].Intersects(this)))
                 {
-                    rectangle.Y += MS;
+                    rectangles[0].Y += MS;
                 }
                 else if (Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
-                    rectangle.Y += MS;
+                    rectangles[0].Y += MS;
 
                 lastKey = Keys.Up;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangle.Y <= 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && rectangles[0].Y <= 0)
             {
-                rectangle.Y -= MS;
+                rectangles[0].Y -= MS;
                 if (current == map.Town)
                 {
-                    rectangle.Y = 800;
+                    rectangles[0].Y = 800;
                     current = map.Wild2;
                 }
                 else
-                    rectangle.Y += MS;
+                    rectangles[0].Y += MS;
 
                 lastKey = Keys.Up;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y+rectangle.Height<800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangles[0].Y+ rectangles[0].Height<800)
             {
-                rectangle.Y += MS;
+                rectangles[0].Y += MS;
                 if (tiles[currentGridX, currentGridY].Intersects(this) || (currentGridX < 15 && tiles[currentGridX + 1, currentGridY].Intersects(this)) || (currentGridY < 15 && tiles[currentGridX, currentGridY + 1].Intersects(this)) || (currentGridX < 15 && currentGridY < 15 && tiles[currentGridX + 1, currentGridY + 1].Intersects(this)))
                 {
-                    rectangle.Y -= MS;
+                    rectangles[0].Y -= MS;
                 }
                 else if (Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
-                    rectangle.Y -= MS;
+                    rectangles[0].Y -= MS;
 
                 lastKey = Keys.Down;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangle.Y + rectangle.Height >= 800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && rectangles[0].Y + rectangles[0].Height >= 800)
             {
-                rectangle.Y += MS;
+                rectangles[0].Y += MS;
                 
                 if (current == map.Wild2)
                 {
-                    rectangle.Y = 0;
+                    rectangles[0].Y = 0;
                     current = map.Town;
                     if (Intersects(buildings, current).Equals("0"))
                     {
-                        rectangle.Y = 800-rectangle.Height;
+                        rectangles[0].Y = 800- rectangles[0].Height;
                         current = map.Wild2;
                     }
                 }
                 else
-                    rectangle.Y -= MS;
+                    rectangles[0].Y -= MS;
 
                 lastKey = Keys.Down;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X>0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangles[0].X>0)
             {
-                rectangle.X -= MS;
+                rectangles[0].X -= MS;
                 if (tiles[currentGridX, currentGridY].Intersects(this) || (currentGridX < 15 && tiles[currentGridX + 1, currentGridY].Intersects(this)) || (currentGridY < 15 && tiles[currentGridX, currentGridY + 1].Intersects(this)) || (currentGridX < 15 && currentGridY < 15 && tiles[currentGridX + 1, currentGridY + 1].Intersects(this)))
                 {
-                    rectangle.X += MS;
+                    rectangles[0].X += MS;
                 }
                 else if (Intersects(buildings, current).Equals("0") && current != map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
-                    rectangle.X += MS;
+                    rectangles[0].X += MS;
 
                 lastKey = Keys.Left;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangle.X <= 0)
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && rectangles[0].X <= 0)
             {
-                rectangle.X -= MS;
+                rectangles[0].X -= MS;
                 if (current == map.Wild2)
                 {
-                    rectangle.X = 800-rectangle.Width;
+                    rectangles[0].X = 800- rectangles[0].Width;
                     current = map.Wild1;
                 }
                 else if (current == map.Wild3)
                 {
-                    rectangle.X = 800 - rectangle.Width;
+                    rectangles[0].X = 800 - rectangles[0].Width;
                     current = map.Wild2;
                 }
                 else
-                    rectangle.X += MS;
+                    rectangles[0].X += MS;
 
                 lastKey = Keys.Left;
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width < 800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangles[0].X + rectangles[0].Width < 800)
             {
-                rectangle.X += MS;
+                rectangles[0].X += MS;
                 if (tiles[currentGridX, currentGridY].Intersects(this) || (currentGridX < 15 && tiles[currentGridX + 1, currentGridY].Intersects(this)) || (currentGridY < 15 && tiles[currentGridX, currentGridY + 1].Intersects(this)) || (currentGridX < 15 && currentGridY < 15 && tiles[currentGridX + 1, currentGridY + 1].Intersects(this)))
                 {
-                    rectangle.X -= MS;
+                    rectangles[0].X -= MS;
                 }
                 else if (Intersects(buildings, current).Equals("0") && current!=map.Wild1 && current != map.Wild2 && current != map.Wild3)//returns zero if it intersects
-                    rectangle.X -= MS;
+                    rectangles[0].X -= MS;
                 lastKey = Keys.Right;
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangle.X + rectangle.Width >= 800)
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && rectangles[0].X + rectangles[0].Width >= 800)
             {
-                rectangle.X += MS;
+                rectangles[0].X += MS;
                 if (current == map.Wild1)
                 {
-                    rectangle.X = 0;
+                    rectangles[0].X = 0;
                     current = map.Wild2;
                 }
                 else if (current == map.Wild2)
                 {
-                    rectangle.X = 0;
+                    rectangles[0].X = 0;
                     current = map.Wild3;
                 }
                 else
-                    rectangle.X -= MS;
+                    rectangles[0].X -= MS;
 
                 lastKey = Keys.Left;
             }
 
 
-            switch (character)
-            {
-                case "mage":
+            
                     switch (lastKey)
                     {
                         case Keys.Up:
-                            sourceRectangle = new Rectangle(193, 0, 106, 193);
+                            sourceRectangles[0] = new Rectangle(193, 0, 106, 193);
+                            sourceRectangles[1] = new Rectangle(181, 193, 101, 181);
+                            sourceRectangles[2] = new Rectangle(184, 374, 101, 185);
+                            sourceRectangles[3] = new Rectangle(188, 559, 110, 183);
                             break;
                         case Keys.Down:
-                            sourceRectangle = new Rectangle(0, 0, 106, 193);
+                            sourceRectangles[0] = new Rectangle(0, 0, 106, 193);
+                            sourceRectangles[1] = new Rectangle(0, 193, 101, 181);
+                            sourceRectangles[2] = new Rectangle(0, 374, 101, 185);
+                            sourceRectangles[3] = new Rectangle(0, 559, 110, 183);
                             break;
                         case Keys.Left:
-                            sourceRectangle = new Rectangle(299, 0, 87, 193);
+                            sourceRectangles[0] = new Rectangle(299, 0, 87, 193);
+                            sourceRectangles[1] = new Rectangle(282, 193, 80, 181);
+                            sourceRectangles[2] = new Rectangle(285, 374, 83, 185);
+                            sourceRectangles[3] = new Rectangle(298, 559, 78, 183);
                             break;
                         case Keys.Right:
-                            sourceRectangle = new Rectangle(106, 0, 87, 193);
+                            sourceRectangles[0] = new Rectangle(106, 0, 87, 193);
+                            sourceRectangles[1] = new Rectangle(101, 193, 80, 181);
+                            sourceRectangles[2] = new Rectangle(101, 374, 83, 185);
+                            sourceRectangles[3] = new Rectangle(110, 559, 78, 183);
                             break;
                     }
-                    break;
-                case "knight":
-                    switch (lastKey)
-                    {
-                        case Keys.Up:
-                            sourceRectangle = new Rectangle(181, 193, 101, 181);
-                            break;
-                        case Keys.Down:
-                            sourceRectangle = new Rectangle(0, 193, 101, 181);
-                            break;
-                        case Keys.Left:
-                            sourceRectangle = new Rectangle(282, 193, 80, 181);
-                            break;
-                        case Keys.Right:
-                            sourceRectangle = new Rectangle(101, 193, 80, 181);
-                            break;
-                    }
-                    break;
-                case "rouge":
-                    switch (lastKey)
-                    {
-                        case Keys.Up:
-                            sourceRectangle = new Rectangle(184, 374, 101, 185);
-                            break;
-                        case Keys.Down:
-                            sourceRectangle = new Rectangle(0, 374, 101, 185);
-                            break;
-                        case Keys.Left:
-                            sourceRectangle = new Rectangle(285, 374, 83, 185);
-                            break;
-                        case Keys.Right:
-                            sourceRectangle = new Rectangle(101, 374, 83, 185);
-                            break;
-                    }
-                    break;
-                case "princess?":
-                    switch (lastKey)
-                    {
-                        case Keys.Up:
-                            sourceRectangle = new Rectangle(188, 559, 110, 183);
-                            break;
-                        case Keys.Down:
-                            sourceRectangle = new Rectangle(0, 559, 110, 183);
-                            break;
-                        case Keys.Left:
-                            sourceRectangle = new Rectangle(298, 559, 78, 183);
-                            break;
-                        case Keys.Right:
-                            sourceRectangle = new Rectangle(110, 559, 78, 183);
-                            break;
-                    }
-                    break;
-            }
             return current;
-        }
+                  
+            }
+            
+        
 
         public Rectangle getPos()
         {
-            return rectangle;
+            return rectangles[0];
         }
 
         public bool Intersects(Rectangle r)
         {
-            if (r.Intersects(rectangle))
+            if (r.Intersects(rectangles[0]))
                 return true;
             return false;
         }
@@ -292,9 +237,9 @@ namespace ForeFather
                     case "b": if (currentMap != map.Bank) { what = "!"; } break;
                     default: break;
                 }
-                if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangle) && kvp.Value.getDoor().Intersects(rectangle)))
+                if (currentMap == map.Town && (kvp.Value.getPos().Intersects(rectangles[0]) && kvp.Value.getDoor().Intersects(rectangles[0])))
                     return kvp.Key;
-                if (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (kvp.Value.Intersects(this) && kvp.Value.getDoor().Intersects(rectangle, true, true)))//adds true when intersecting door bc door can be halfway into player and for leaving place
+                if (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (kvp.Value.Intersects(this) && kvp.Value.getDoor().Intersects(rectangles[0], true, true)))//adds true when intersecting door bc door can be halfway into player and for leaving place
                 {
                     switch (kvp.Key)
                     {
@@ -309,7 +254,7 @@ namespace ForeFather
                         default: return "0";
                     }
                 }
-                else if((currentMap == map.Town || currentMap == map.Wild1 || currentMap == map.Wild2 || currentMap == map.Wild3) && kvp.Value.getPos().Intersects(rectangle) || (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (!kvp.Value.Intersects(rectangle)) && (!kvp.Value.getDoor().Intersects(rectangle, true)) && what!="!"))
+                else if((currentMap == map.Town || currentMap == map.Wild1 || currentMap == map.Wild2 || currentMap == map.Wild3) && kvp.Value.getPos().Intersects(rectangles[0]) || (currentMap != map.Town && currentMap != map.Wild1 && currentMap != map.Wild2 && currentMap != map.Wild3 && (!kvp.Value.Intersects(rectangles[0])) && (!kvp.Value.getDoor().Intersects(rectangles[0], true)) && what!="!"))
                 {
                     return "0";
                 }
@@ -325,7 +270,7 @@ namespace ForeFather
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rectangle, sourceRectangle, Color.White);
+            spriteBatch.Draw(texture, rectangles[0], sourceRectangles[0], Color.White);
         }
 
 
