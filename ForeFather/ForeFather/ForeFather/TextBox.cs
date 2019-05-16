@@ -15,7 +15,7 @@ namespace ForeFather
     class TextBox
     {
         private Rectangle box;
-        public Rectangle Box { get; }
+        public Rectangle Box { get { return box; } }
         //for the texture, just put like a black box or something. its for the background of the textbox
         private Texture2D texture;
         private const int DEFAULT_X = 25;
@@ -26,15 +26,15 @@ namespace ForeFather
         private const int DEFAULT_LINELENGTH = 40;
         private int lineLength;
         private SpriteFont font;
-        public SpriteFont Font { get; }
+        public SpriteFont Font { get { return this.font; } }
         private SpriteFont nameFont;
-        public SpriteFont NameFont { get; }
+        public SpriteFont NameFont { get { return this.nameFont; } }
         private string path;
         private int currentInd;
         private ContentManager content;
         public ContentManager Content { get; }
         private string title;
-        public string Title { get; set; }
+        public string Title { get { return this.title; } set { this.title = value; } }
         private bool displayBox;
         private int numLines;
 
@@ -216,6 +216,7 @@ namespace ForeFather
         {
             if (displayBox)
             {
+                Console.WriteLine("text");
                 spriteBatch.Draw(texture, box, Color.White);
                 spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
                 spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 35), Color.White);

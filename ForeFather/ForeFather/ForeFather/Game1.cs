@@ -41,7 +41,8 @@ namespace ForeFather
 
         TextBox helpMenu;
 
-        Menu testMenu;
+        Menu pauseMenu;
+        MenuNode pauseOrigin;
         TextBox testBox;
 
         Texture2D bank;
@@ -110,12 +111,12 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]);
             maps.Add(new Tile[16, 16]);
 
-            MenuNode testNode = new MenuNode(null, Content, "test");
-            MenuNode nodeA = new MenuNode(testNode, Content, "A");
-            nodeA.AddNode(new TextBox("this is option A", false, Content, "String A"));
-            testNode.AddNode(nodeA);
-            testNode.AddNode(new TextBox("this is option B", false, Content, "B"));
-            testMenu = new Menu(testNode);
+            pauseOrigin = new MenuNode(null, Content, "Paused");
+            MenuNode invNode = new MenuNode(pauseOrigin, Content, "Inventory");
+            invNode.AddNode(new TextBox("this is option A", false, Content, "String A"));
+            pauseOrigin.AddNode(invNode);
+            pauseOrigin.AddNode(new TextBox("this is option B", false, Content, "B"));
+            pauseMenu = new Menu(pauseOrigin);
             testBox = new TextBox("haha this is a test hopefully this works if it doesnt im kms so im praying that this works its to test out having multiple lines", false, Content, 5, "test");
 
 
@@ -354,11 +355,11 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    if(!helpMenu.isDisplaying() && timer<1)
+                    if(!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
                          p1.update(buildings, currentMap); break;                
 
                 default:
-                    if (!helpMenu.isDisplaying() && timer<1)
+                    if (!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
                         p1.update(insideBuilds, currentMap); break; ;
             }
 
@@ -374,10 +375,18 @@ namespace ForeFather
                 }
             }
 
-            if(kb.IsKeyDown(Keys.F5) && !oldkb.IsKeyDown(Keys.F5))
+            if(kb.IsKeyDown(Keys.P) && !oldkb.IsKeyDown(Keys.P))
             {
-                testMenu.Start();
-                Console.WriteLine(testMenu.Display);
+                if (!pauseMenu.Display)
+                {
+                    pauseMenu.Start();
+                }
+                else
+                {
+                    pauseMenu.Close();
+                    timer = 30;
+                }
+                Console.WriteLine(pauseMenu.Display);
             }
 
             if (kb.IsKeyDown(Keys.F4) && !oldkb.IsKeyDown(Keys.F4))
@@ -385,9 +394,14 @@ namespace ForeFather
                 testBox.Display();
             }
 
-            if (testMenu.Display)
+            if (kb.IsKeyDown(Keys.F5) && !oldkb.IsKeyDown(Keys.F5))
             {
-                testMenu.Update(kb, oldkb);
+                pauseOrigin.AddNode(new MenuNode(Content, "test"));
+            }
+
+            if (pauseMenu.Display)
+            {
+                pauseMenu.Update(kb, oldkb);
             }
 
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
@@ -513,7 +527,7 @@ namespace ForeFather
 
             helpMenu.Draw(spriteBatch);
 
-            testMenu.Draw(spriteBatch);
+            pauseMenu.Draw(spriteBatch);
             testBox.Draw(spriteBatch);
 
             spriteBatch.End();

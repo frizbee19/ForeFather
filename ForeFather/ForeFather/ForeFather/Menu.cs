@@ -17,7 +17,7 @@ namespace ForeFather
         private TextBox startNode;
         private TextBox currentNode;
         private bool display;
-        public bool Display { get; set; }
+        public bool Display { get { return display; } set { display = value; } }
 
         public Menu(MenuNode node)
         {
@@ -99,13 +99,25 @@ namespace ForeFather
 
         public void Close()
         {
+            display = false;
+            currentNode = startNode;
             currentNode.exit();
             currentNode = startNode;
         }
 
         public void Draw(SpriteBatch spritebatch)
         {
-            currentNode.Draw(spritebatch);
+            if (display)
+            {
+                if (currentNode is MenuNode)
+                {
+                    ((MenuNode)currentNode).menuDraw(spritebatch);
+                }
+                else
+                {
+                    currentNode.Draw(spritebatch);
+                }
+            }
         }
     }
 }

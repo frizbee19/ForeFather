@@ -18,11 +18,12 @@ namespace ForeFather
         //private List<Ally> allies;
         //private int curOption;
         private List<TextBox> options;
-        public List<TextBox> Options { get; set; }
+        public List<TextBox> Options { get { return this.options; } }
         private MenuNode previous;
-        public MenuNode Previous { get; set; }
+        public MenuNode Previous { get { return this.previous; } set { previous = value; } }
         private int curOption;
-        public int CurOption { get; set; }
+        public int CurOption { get { return this.curOption; } set { curOption = value; } }
+        private Texture2D texture;
 
         public MenuNode(ContentManager content, string name) : base(new Rectangle(30, 30, 400, 400), "", false, content, name)
         {
@@ -30,6 +31,7 @@ namespace ForeFather
             options = new List<TextBox>();
             curOption = 0;
             previous = null;
+            texture = content.Load<Texture2D>("black or something");
             //curOption = 0;
         }
 
@@ -39,13 +41,16 @@ namespace ForeFather
             options = new List<TextBox>();
             curOption = 0;
             previous = prev;
+            texture = content.Load<Texture2D>("black or something");
             //curOption = 0;
         }
 
         public void AddNode(TextBox node)
         {
             options.Add(node);
+            lines.Add(node.Title);
         }
+
 
 
         public void Update(int currentInd)
@@ -96,11 +101,11 @@ namespace ForeFather
         //    //if(kb.IsKeyDown(Keys.Enter))
         //}
 
-        public new void Draw(SpriteBatch spritebatch)
+        public void menuDraw(SpriteBatch spritebatch)
         {
             if(isDisplaying())
             {
-                spritebatch.Draw(Content.Load<Texture2D>("black or something"), Box, Color.White);
+                spritebatch.Draw(texture, Box, Color.White);
                 spritebatch.DrawString(NameFont, Title, new Vector2(Box.X + 5, Box.Y + 5), Color.White);
                 for(int i = 0; i < lines.Count; i++)
                 {
