@@ -189,7 +189,6 @@ namespace ForeFather
             currentInd = 0;
         }
 
-
         public void Draw(SpriteBatch spriteBatch)
         {
                 spriteBatch.Draw(texture, box, Color.White);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -11,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    public class Ally
+    class Ally
     {
         private int maxhp;
 
@@ -33,11 +34,11 @@ namespace ForeFather
 
         private int maxMana;
 
-        //private Armor armor;
+        private Armor armor;
 
-        //private Crystal crystal;
+        private Crystal crystal;
 
-        //private Weapon weapon;
+        private Weapon weapon;
 
 
         public string getName { get { return name; } set { name = value; } }
@@ -60,11 +61,11 @@ namespace ForeFather
 
         public int getMaxMana { get; set; }
 
-        //public Armor getArmor { get; set; }
+        public Armor getArmor { get; set; }
 
-       //public Weapon getWeapon { get; set; }
+        public Weapon getWeapon { get; set; }
 
-        //public Crystal getCrystal { get; set; }
+        public Crystal getCrystal { get; set; }
 
         public int TotalDmg;
 
@@ -95,29 +96,22 @@ namespace ForeFather
         {
             target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
         }
+
         public void useMagic() //takes a ability object as parameter
         {
 
         }
+
         public void useGoods() //takes a inventory item as parameter
         {
 
-        }
-
-        public void addHealth(int howMuch)
-        {
-            curHP += howMuch;
-        }
-
-        public void addMana(int howMuch)
-        {
-            mana += howMuch;
         }
 
         public void runAway()
         {
 
         }
+
         public void faint()
         {
 

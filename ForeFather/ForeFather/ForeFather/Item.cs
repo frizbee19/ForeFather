@@ -11,17 +11,14 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    public enum type { Armor, Weapon, Crystal, Health, Mana };
-    public class Item
+    //parent class for all items
+    abstract class Item
     {
         private string name;
         private int count;
-        private type itemType;
-        private int stat;
-        
         public int Count
         {
-            get { return count; } set { count = value; }                    
+            get { return count; } set { count = value; }
         }
         public String Name
         {
@@ -40,42 +37,14 @@ namespace ForeFather
             count = 1;
         }
 
-        public Item(string n, string d, type t)
-        {
-            name = n;
-            description = d;                                                                                                                
-            count = 1;
-            itemType = t;
-        }
-
-        public Item(string n, string d, type t, int s)
-        {
-            name = n;
-            description = d;
-            count = 1;
-            itemType = t;
-            stat = s;
-        }
-
         public void Increment()
         {
             count++;
         }
-        //check which type of item it is
-        public void Use(Ally c)
-        {
-            switch (itemType)
-            { 
-                case type.Health: c.addHealth(stat); break;
-                case type.Mana: c.addMana(stat); break;
-                default: break;
-            }
-        }
+        //all items will have a unique use method
+        public abstract void Use(Ally c);
 
-        public bool Equals(Item item)
-        {
-            return true;
-        }
+        public abstract bool Equals(Item item);
 
     }
 }

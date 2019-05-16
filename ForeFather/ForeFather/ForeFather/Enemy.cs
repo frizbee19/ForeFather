@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    public class Enemy
+    class Enemy
     {
         private int maxhp;
         private int offense;
@@ -44,13 +44,10 @@ namespace ForeFather
             this.name = name;
             this.curHP = maxhp;
         }
-
         public void attack(Ally Target)
         {
 
             Target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
-
-
         }
 
         public void useMagic()
