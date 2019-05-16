@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Ally
+    public class Ally
     {
         private int maxhp;
 
@@ -40,6 +40,9 @@ namespace ForeFather
 
         private Weapon weapon;
 
+        Ability test = new Ability("test", "damageOverTime");
+
+        public Ability getAbility { get { return test; } }
 
         public string getName { get { return name; } set { name = value; } }
 

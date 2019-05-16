@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ForeFather
 {
-    class Armor : Item
+    public class Armor : Item
     {
         private int defense;
         public int Defense

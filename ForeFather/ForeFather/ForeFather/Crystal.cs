@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ForeFather
 {
-    class Crystal : Item
+    public class Crystal : Item
     {
         private int mana;
         public int Mana

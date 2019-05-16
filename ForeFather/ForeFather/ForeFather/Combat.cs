@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    class Combat
+    public class Combat
     {
         TextBox comText;
 
@@ -64,6 +64,13 @@ namespace ForeFather
         Random rand = new Random();
 
         string text;
+
+        //true is ally
+        //false is enemy
+        public bool getTurnStatus()
+        {
+            return turn;
+        }
 
         public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies, Game1 game)
         {
@@ -165,7 +172,10 @@ namespace ForeFather
                                 currentMember++; // increments to next members turn
                                 break;
                             case 1:
-
+                                Ability test = allies[currentMember].getAbility;
+                                test.applyDoT(3, 1, enemies[0], this);
+                                text = enemies[0].getName + " took some damage!";
+                                isPrinting = true;
                                 currentMember++;
                                 break;
                             case 2:

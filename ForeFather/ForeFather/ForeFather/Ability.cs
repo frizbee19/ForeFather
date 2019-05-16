@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace ForeFather
 {
-    abstract class Ability
+    public class Ability
     {
         //bruh
         const int baseDamage = 2;
@@ -24,20 +24,18 @@ namespace ForeFather
         {
             name = n;
             effect = e;
-            if (checkEffect() == false)
-                throw new Exception("invalid effect"); 
         }
-
-        public bool checkEffect()
+        
+        public void applyDoT(int numRounds, int damageValue, Enemy enemy, Combat combat)
         {
-            bool returnVar = false;
-            for (int i = 0; i < effect.Length; i++)
-                if (effect == effects[i])
-                    returnVar = true;
-                else
-                    returnVar = false;
-
-            return returnVar;        
+            if (effect.Equals(effects[0]))
+            {
+                for (int i = 0; i < numRounds; i++)
+                {
+                    if (!combat.getTurnStatus())
+                        enemy.getCurHp -= damageValue;
+                }
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 namespace ForeFather
 {
     //parent class for all items
-    abstract class Item
+    public abstract class Item
     {
         private string name;
         private int count;
