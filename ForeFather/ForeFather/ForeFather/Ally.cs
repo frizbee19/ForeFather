@@ -55,6 +55,8 @@ namespace ForeFather
 
         public int TotalDmg;
 
+        protected int bashDmg;
+
         public Ally(string name, int hp, int off, int def, int luck, int mana)
         {
             this.maxhp = hp;
@@ -67,11 +69,12 @@ namespace ForeFather
             this.curHP = maxhp;
             this.XP = 0;
             this.level = 0;
+            bashDmg = 5 * (1 + ((offense / 100) - (defense / 100)));
         }
 
         public void attack(Enemy target) //basic attack
         {
-            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
+            target.getCurHp -= bashDmg; 
         }
         public void useMagic() //takes a ability object as parameter
         {
