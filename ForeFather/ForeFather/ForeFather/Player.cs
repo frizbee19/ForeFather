@@ -30,18 +30,27 @@ namespace ForeFather
             sourceRectangles = new Rectangle[4];
             texture = content.Load<Texture2D>("Assets\\spriteChar");
             rectangles[0] = new Rectangle(rect.X, rect.Y, WIDTH, HEIGTH);
+            rectangles[1] = new Rectangle(rectangles[0].Width + WIDTH + MS, rect.Y, WIDTH, HEIGTH);
+            rectangles[2] = new Rectangle(rectangles[1].Width + WIDTH + MS, rect.Y, WIDTH, HEIGTH);
+            rectangles[3] = new Rectangle(rectangles[2].Width + WIDTH + MS, rect.Y, WIDTH, HEIGTH);
             trail = t;           
-                    sourceRectangles[0] = new Rectangle(0, 0, 106, 193);
-                    sourceRectangles[1] = new Rectangle(0, 193, 101, 181);
-                    sourceRectangles[2] = new Rectangle(0, 374, 101, 185);
-                    sourceRectangles[2] = new Rectangle(0, 559, 110, 183);
+                    sourceRectangles[2] = new Rectangle(0, 0, 106, 193);
+                    sourceRectangles[0] = new Rectangle(0, 193, 101, 181);
+                    sourceRectangles[1] = new Rectangle(0, 374, 101, 185);
+                    sourceRectangles[3] = new Rectangle(0, 559, 110, 183);
             
         }
 
         public void setCoords(int newX, int newY)
         {
             rectangles[0].X = newX;
+            rectangles[0].Y = newY;
+            rectangles[1].X = newX;
             rectangles[1].Y = newY;
+            rectangles[2].X = newX;
+            rectangles[2].Y = newY;
+            rectangles[3].X = newX;
+            rectangles[3].Y = newY;
         }
 
         public map update(Dictionary<string, Building> buildings, map current, Tile[,] tiles)
@@ -72,6 +81,9 @@ namespace ForeFather
                 if (current == map.Town)
                 {
                     rectangles[0].Y = 800;
+                    rectangles[1].Y = 800;
+                    rectangles[2].Y = 800;
+                    rectangles[3].Y = 800;
                     current = map.Wild2;
                 }
                 else
@@ -99,10 +111,16 @@ namespace ForeFather
                 if (current == map.Wild2)
                 {
                     rectangles[0].Y = 0;
+                    rectangles[1].Y = 0;
+                    rectangles[2].Y = 0;
+                    rectangles[3].Y = 0;
                     current = map.Town;
                     if (Intersects(buildings, current).Equals("0"))
                     {
-                        rectangles[0].Y = 800- rectangles[0].Height;
+                        rectangles[0].Y = 800 - HEIGTH;
+                        rectangles[1].Y = 800 - HEIGTH;
+                        rectangles[2].Y = 800 - HEIGTH;
+                        rectangles[3].Y = 800 - HEIGTH;
                         current = map.Wild2;
                     }
                 }
@@ -129,12 +147,18 @@ namespace ForeFather
                 rectangles[0].X -= MS;
                 if (current == map.Wild2)
                 {
-                    rectangles[0].X = 800- rectangles[0].Width;
+                    rectangles[0].X = 800 - WIDTH;
+                    rectangles[1].X = 800 - WIDTH;
+                    rectangles[2].X = 800 - WIDTH;
+                    rectangles[3].X = 800 - WIDTH;
                     current = map.Wild1;
                 }
                 else if (current == map.Wild3)
                 {
-                    rectangles[0].X = 800 - rectangles[0].Width;
+                    rectangles[0].X = 800 - WIDTH;
+                    rectangles[1].X = 800 - WIDTH;
+                    rectangles[2].X = 800 - WIDTH;
+                    rectangles[3].X = 800 - WIDTH;
                     current = map.Wild2;
                 }
                 else
@@ -160,11 +184,17 @@ namespace ForeFather
                 if (current == map.Wild1)
                 {
                     rectangles[0].X = 0;
+                    rectangles[1].X = 0;
+                    rectangles[2].X = 0;
+                    rectangles[3].X = 0;
                     current = map.Wild2;
                 }
                 else if (current == map.Wild2)
                 {
                     rectangles[0].X = 0;
+                    rectangles[1].X = 0;
+                    rectangles[2].X = 0;
+                    rectangles[3].X = 0;
                     current = map.Wild3;
                 }
                 else
@@ -178,34 +208,75 @@ namespace ForeFather
                     switch (lastKey)
                     {
                         case Keys.Up:
-                            sourceRectangles[0] = new Rectangle(193, 0, 106, 193);
-                            sourceRectangles[1] = new Rectangle(181, 193, 101, 181);
-                            sourceRectangles[2] = new Rectangle(184, 374, 101, 185);
+                            sourceRectangles[2] = new Rectangle(193, 0, 106, 193);
+                            sourceRectangles[0] = new Rectangle(181, 193, 101, 181);
+                            sourceRectangles[1] = new Rectangle(184, 374, 101, 185);
                             sourceRectangles[3] = new Rectangle(188, 559, 110, 183);
                             break;
                         case Keys.Down:
-                            sourceRectangles[0] = new Rectangle(0, 0, 106, 193);
-                            sourceRectangles[1] = new Rectangle(0, 193, 101, 181);
-                            sourceRectangles[2] = new Rectangle(0, 374, 101, 185);
+                            sourceRectangles[2] = new Rectangle(0, 0, 106, 193);
+                            sourceRectangles[0] = new Rectangle(0, 193, 101, 181);
+                            sourceRectangles[1] = new Rectangle(0, 374, 101, 185);
                             sourceRectangles[3] = new Rectangle(0, 559, 110, 183);
                             break;
                         case Keys.Left:
-                            sourceRectangles[0] = new Rectangle(299, 0, 87, 193);
-                            sourceRectangles[1] = new Rectangle(282, 193, 80, 181);
-                            sourceRectangles[2] = new Rectangle(285, 374, 83, 185);
+                            sourceRectangles[2] = new Rectangle(299, 0, 87, 193);
+                            sourceRectangles[0] = new Rectangle(282, 193, 80, 181);
+                            sourceRectangles[1] = new Rectangle(285, 374, 83, 185);
                             sourceRectangles[3] = new Rectangle(298, 559, 78, 183);
                             break;
                         case Keys.Right:
-                            sourceRectangles[0] = new Rectangle(106, 0, 87, 193);
-                            sourceRectangles[1] = new Rectangle(101, 193, 80, 181);
-                            sourceRectangles[2] = new Rectangle(101, 374, 83, 185);
+                            sourceRectangles[2] = new Rectangle(106, 0, 87, 193);
+                            sourceRectangles[0] = new Rectangle(101, 193, 80, 181);
+                            sourceRectangles[1] = new Rectangle(101, 374, 83, 185);
                             sourceRectangles[3] = new Rectangle(110, 559, 78, 183);
                             break;
                     }
+            updateAllies(lastKey);
             return current;
                   
             }
             
+        private void updateAllies(Keys key)
+        {
+            int howFast = 10;
+            for (int i = 3; i > 0; i--)
+            {
+                if (rectangles[i].X > rectangles[i-1].X + howFast/2)
+                    rectangles[i].X -= (rectangles[i].X - (rectangles[i-1].X + howFast/2)) / howFast;
+                else if (rectangles[i].X + howFast < rectangles[i-1].X)
+                    rectangles[i].X += ((rectangles[i-1].X - howFast/2) - rectangles[i].X) / howFast;
+
+                if (rectangles[i].Y > rectangles[i-1].Y + howFast/2)
+                    rectangles[i].Y -= (rectangles[i].Y - (rectangles[i-1].Y + howFast/2)) / howFast;
+                else if (rectangles[i].Y + howFast < rectangles[i-1].Y)
+                    rectangles[i].Y += ((rectangles[i-1].Y - howFast/2) - rectangles[i].Y) / howFast;
+            }
+            //if (rectangles[2].X > rectangles[1].X + howFast)
+            //    rectangles[2].X -= (rectangles[2].X - (rectangles[1].X + howFast)) / howFast;
+            //else if (rectangles[2].X + howFast < rectangles[1].X)
+            //    rectangles[2].X += ((rectangles[1].X - howFast) - rectangles[2].X) / howFast;
+
+            //if (rectangles[1].X > rectangles[0].X + howFast)
+            //    rectangles[1].X -= (rectangles[1].X - (rectangles[0].X + howFast)) / howFast;
+            //else if (rectangles[1].X + howFast < rectangles[0].X)
+            //    rectangles[1].X += ((rectangles[0].X - howFast) - rectangles[1].X) / howFast;
+
+            //if (rectangles[3].Y > rectangles[2].Y + howFast)
+            //    rectangles[3].Y -= (rectangles[3].Y - (rectangles[2].Y + howFast)) / howFast;
+            //else if (rectangles[3].Y + howFast < rectangles[2].Y)
+            //    rectangles[3].Y += ((rectangles[2].Y - howFast) - rectangles[3].Y) / howFast;
+
+            //if (rectangles[2].Y > rectangles[1].Y + howFast)
+            //    rectangles[2].Y -= (rectangles[2].Y - (rectangles[1].Y + howFast)) / howFast;
+            //else if (rectangles[2].Y + howFast < rectangles[1].Y)
+            //    rectangles[2].Y += ((rectangles[1].Y - howFast) - rectangles[2].Y) / howFast;
+
+            //if (rectangles[1].Y > rectangles[0].Y + howFast)
+            //    rectangles[1].Y -= (rectangles[1].Y - (rectangles[0].Y + howFast)) / howFast;
+            //else if (rectangles[1].Y + howFast < rectangles[0].Y)
+            //    rectangles[1].Y += ((rectangles[0].Y - howFast) - rectangles[1].Y) / howFast;
+        }
         
 
         public Rectangle getPos()
@@ -269,7 +340,10 @@ namespace ForeFather
         }
 
         public void Draw(SpriteBatch spriteBatch)
-        {
+        { 
+            spriteBatch.Draw(texture, rectangles[3], sourceRectangles[3], Color.White);
+            spriteBatch.Draw(texture, rectangles[2], sourceRectangles[2], Color.White);
+            spriteBatch.Draw(texture, rectangles[1], sourceRectangles[1], Color.White);
             spriteBatch.Draw(texture, rectangles[0], sourceRectangles[0], Color.White);
         }
 
