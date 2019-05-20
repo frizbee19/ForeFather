@@ -80,7 +80,11 @@ namespace ForeFather
 
         public void Function()
         {
-            //Add individual functions
+            switch (displayMap)
+            {
+
+                default: break;
+            }
         }
 
         public bool Intersects(Player p)
