@@ -46,18 +46,18 @@ namespace ForeFather
         }
         private string name;
 
-        public NPC(int x, int y, string n, string )
+        public NPC(int x, int y, string n, string path)
         {
             location = new Rectangle(x, y, 34, 50);
             name = n;
             Content.RootDirectory = "Content";
             dialogue = new List<TextBox>();
-            LoadContent();
+            LoadContent(path);
         }
 
-        public void LoadContent()
+        public void LoadContent(string path)
         {
-            texture = Content.Load<Texture2D>("NPCtexture.png");
+            texture = Content.Load<Texture2D>(path+".png");
 
         }
         
