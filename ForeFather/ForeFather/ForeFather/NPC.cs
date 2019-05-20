@@ -46,7 +46,7 @@ namespace ForeFather
         }
         private string name;
 
-        public NPC(int x, int y, string n)
+        public NPC(int x, int y, string n, string )
         {
             location = new Rectangle(x, y, 34, 50);
             name = n;
