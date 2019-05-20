@@ -72,6 +72,8 @@ namespace ForeFather
         Rectangle screen;
         Color fade;
 
+        List<NPC> npcs = new List<NPC>();
+
 
         public Game1()
         {
@@ -92,7 +94,7 @@ namespace ForeFather
             // TODO: Add your initialization logic here
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
-            p1 = new Player(Content, startRect, 1, 1);
+            p1 = new Player(Content, startRect, 1);
 
             Ally1 = new Ally("Arlo", 10, 10, 10, 10, 10);
 
@@ -139,6 +141,8 @@ namespace ForeFather
             fade = new Color(0, 0, 0, 125);
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
+
+            npcs.Add(new NPC(350, 200, "MoneyMan", "npcB", currentMap, new Color(50, 30, 20, 50)));//
             base.Initialize();
         }
 
