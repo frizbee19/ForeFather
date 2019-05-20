@@ -142,7 +142,7 @@ namespace ForeFather
 
             currentMap = map.Wild2;//Later, change this to begin in the wilderness
 
-            npcs.Add(new NPC(350, 200, "MoneyMan", "npcB", currentMap, new Color(50, 30, 20, 50)));//
+            npcs.Add(new NPC(Content, 375, 250, "MoneyMan", "npcB", map.Bank, new Color(50, 30, 20, 200)));//
             base.Initialize();
         }
 
@@ -464,7 +464,12 @@ namespace ForeFather
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            
+
+            foreach (NPC n in npcs)
+            {
+                n.Draw(spriteBatch, currentMap);
+            }
+
             switch (currentMap)
             {
                 case map.Town:
@@ -595,11 +600,14 @@ namespace ForeFather
 
             }
 
+            
 
-            if(helpMenu.isDisplaying())
+            if (helpMenu.isDisplaying())
             helpMenu.Draw(spriteBatch);
             if(intro.isDisplaying())
             intro.Draw(spriteBatch);
+
+            
 
             spriteBatch.End();
             base.Draw(gameTime);

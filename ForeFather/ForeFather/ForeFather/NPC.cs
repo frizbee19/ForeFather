@@ -48,11 +48,11 @@ namespace ForeFather
         }
         private string name;
 
-        public NPC(int x, int y, string n, string path, map dM, Color s)
+        public NPC(ContentManager content, int x, int y, string n, string path, map dM, Color s)
         {
             location = new Rectangle(x, y, 34, 50);
             name = n;
-            Content.RootDirectory = "Content";
+            Content = content;
             dialogue = new List<TextBox>();
             displayMap = dM;
             shade = s;
@@ -61,7 +61,7 @@ namespace ForeFather
 
         public void LoadContent(string path)
         {
-            texture = Content.Load<Texture2D>(path+".png");
+            texture=Content.Load<Texture2D>("Assets\\"+path);
 
         }
 
@@ -70,9 +70,27 @@ namespace ForeFather
             return current == displayMap;
         }
 
-
-        public void Draw(SpriteBatch spriteBatch)
+        public void Update(map current, Player p)
         {
+            if (isDisplay(current) && Keyboard.GetState().IsKeyDown(Keys.Space) && Intersects(p))
+            {
+                Function();
+            }
+        }
+
+        public void Function()
+        {
+            //Add individual functions
+        }
+
+        public bool Intersects(Player p)
+        {
+            return (p.getPos().Intersects(location));
+        }
+
+        public void Draw(SpriteBatch spriteBatch, map current)
+        {
+            if(isDisplay(current))
             spriteBatch.Draw(texture, location, shade);
         }
 
