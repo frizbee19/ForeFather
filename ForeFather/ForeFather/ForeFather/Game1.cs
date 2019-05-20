@@ -51,6 +51,11 @@ namespace ForeFather
 
         TextBox helpMenu;
 
+        Menu pauseMenu;
+        MenuNode pauseOrigin;
+        MenuNode exit;
+        MenuNode resume;
+
         TextBox intro;
 
         Texture2D bank;
@@ -137,6 +142,13 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]); //Wild2
             maps.Add(new Tile[16, 16]); //Wild3
 
+            pauseOrigin = new MenuNode(Content, "Pause Menu");
+            resume = new MenuNode(pauseOrigin, Content, "Resume");
+            exit = new MenuNode(pauseOrigin, Content, "Quit Game");
+            pauseOrigin.AddNode(resume);
+            pauseOrigin.AddNode(exit);
+            pauseMenu = new Menu(pauseOrigin);
+
             screen = new Rectangle(0, 0, 800, 800);
             fade = new Color(0, 0, 0, 125);
 
@@ -178,7 +190,7 @@ namespace ForeFather
             ReadFile(@"Content\\Assets\\Wild3.txt", 8);
 
             helpMenu = new TextBox("Content\\Assets\\help.txt",true, Content);
-            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, "beginning");
+            intro = new TextBox(new Rectangle(0, 0, 800, 800), 44, "Jacos has grown in power... 3 of the 6 kidney stones have been found... half the population is going to be lost... this is the end... evil's power has grown and we are all about to lose everything that matters...this is humanities last stand... it is up to YOU to stop him", false, Content, 7, "Introduction");
             intro.Display();
         }
 
@@ -318,7 +330,7 @@ namespace ForeFather
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || pauseMenu.CurrentNode == exit)
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -406,16 +418,19 @@ namespace ForeFather
                 case map.Wild1:
                 case map.Wild2:
                 case map.Wild3:
-                    if (!helpMenu.isDisplaying() && timer < 1)
+                    if (!(helpMenu.isDisplaying() || pauseMenu.Display) && timer < 1)
                         currentMap = p1.update(buildings, currentMap, maps[mapNum]); break;
 
 
                 default:
-                    if (!helpMenu.isDisplaying() && timer<1)
+                    if (!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
                         currentMap=p1.update(insideBuilds, currentMap, maps[mapNum]); break; ;
             }
 
-            
+            if(pauseMenu.Display)
+            {
+                pauseMenu.Update(kb, oldkb);
+            }
 
             if (kb.IsKeyDown(Keys.H) && !oldkb.IsKeyDown(Keys.H))
             {
@@ -427,7 +442,23 @@ namespace ForeFather
                     timer = 30;
                 }
             }
-            
+
+            if(pauseMenu.CurrentNode == resume)
+            {
+                pauseMenu.Close();
+            }
+
+            if (kb.IsKeyDown(Keys.P) && !oldkb.IsKeyDown(Keys.P))
+            {
+                if (!pauseMenu.Display)
+                    pauseMenu.Start();
+                else
+                {
+                    pauseMenu.Close();
+                    timer = 30;
+                }
+            }
+
             if (kb.IsKeyDown(Keys.Down) && !oldkb.IsKeyDown(Keys.Down) && helpMenu.isDisplaying())
             {
                 helpMenu.scroll();
@@ -606,8 +637,8 @@ namespace ForeFather
             helpMenu.Draw(spriteBatch);
             if(intro.isDisplaying())
             intro.Draw(spriteBatch);
-
             
+            pauseMenu.Draw(spriteBatch);
 
             spriteBatch.End();
             base.Draw(gameTime);
