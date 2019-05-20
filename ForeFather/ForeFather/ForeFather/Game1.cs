@@ -637,7 +637,7 @@ namespace ForeFather
             helpMenu.Draw(spriteBatch);
             if(intro.isDisplaying())
             intro.Draw(spriteBatch);
-            
+            if(pauseMenu.Display)
             pauseMenu.Draw(spriteBatch);
 
             spriteBatch.End();
