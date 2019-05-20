@@ -35,6 +35,8 @@ namespace ForeFather
         private SpriteFont font;
         private ContentManager Content;
         private List<TextBox> dialogue;
+        private map displayMap;
+        private Color shade;
         public TextBox Dialogue(int index)
         {
             return dialogue[index];
@@ -46,12 +48,14 @@ namespace ForeFather
         }
         private string name;
 
-        public NPC(int x, int y, string n, string path)
+        public NPC(int x, int y, string n, string path, map dM, Color s)
         {
             location = new Rectangle(x, y, 34, 50);
             name = n;
             Content.RootDirectory = "Content";
             dialogue = new List<TextBox>();
+            displayMap = dM;
+            shade = s;
             LoadContent(path);
         }
 
@@ -60,9 +64,17 @@ namespace ForeFather
             texture = Content.Load<Texture2D>(path+".png");
 
         }
-        
+
+        public bool isDisplay(map current)
+        {
+            return current == displayMap;
+        }
 
 
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(texture, location, shade);
+        }
 
         //public void ReadFile(string path, int maxLength)
         //{
