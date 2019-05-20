@@ -92,7 +92,7 @@ namespace ForeFather
             // TODO: Add your initialization logic here
             tileSource = new Rectangle[4];
             IsMouseVisible = true;
-            p1 = new Player(Content, startRect, 1, 1);
+            p1 = new Player(Content, startRect, 1);
 
             Ally1 = new Ally("Arlo", 10, 10, 10, 10, 10);
 
