@@ -356,11 +356,11 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    if(!(helpMenu.isDisplaying() || !pauseMenu.Display) && timer<1)
+                    if(!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
                          p1.update(buildings, currentMap); break;                
 
                 default:
-                    if (!(helpMenu.isDisplaying() || !pauseMenu.Display) && timer<1)
+                    if (!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
                         p1.update(insideBuilds, currentMap); break; ;
             }
 
