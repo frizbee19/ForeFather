@@ -65,6 +65,10 @@ namespace ForeFather
 
         string text;
 
+        bool isStunned;
+
+        public bool getIsStunned { get; set; }
+
         //true is ally
         //false is enemy
         public bool getTurnStatus()
@@ -173,8 +177,17 @@ namespace ForeFather
                                 break;
                             case 1:
                                 Ability test = allies[currentMember].getAbility;
-                                test.applyDoT(3, 1, enemies[0], this);
-                                text = enemies[0].getName + " took some damage!";
+                                
+                                if (enemies[0].getName.Equals("damageOverTime"))
+                                {
+                                    text = enemies[0].getName + " took some damage!";
+                                    test.applyDoT(3, 1, enemies[0], this);
+                                }
+                                else
+                                {
+                                    text = enemies[0].getName + " is stunned! They are unable to move.";
+                                    test.applyStun(3, 1, enemies[0], this);
+                                }
                                 isPrinting = true;
                                 currentMember++;
                                 break;
@@ -208,10 +221,14 @@ namespace ForeFather
                         }
 
 
-
+                        if (isStunned)
+                        {
+                            currentMember = 0;
+                            turn = true;
+                        }
 
                         if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
-                        {
+                        {                            
                             currentMember = 0;
                             turn = true;
                             comText = new TextBox(new Rectangle(10, 10, 780, 250), 100, text, false, content);

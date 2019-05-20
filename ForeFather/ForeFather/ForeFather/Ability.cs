@@ -37,5 +37,17 @@ namespace ForeFather
                 }
             }
         }
+
+        public void applyStun(int numRounds, int damageValue, Enemy enemy, Combat combat)
+        {
+            if (effect.Equals(effects[0]))
+            {
+                for (int i = 0; i < numRounds; i++)
+                {
+                    if (combat.getTurnStatus())
+                        combat.getIsStunned = true;
+                }
+            }
+        }
     }
 }
