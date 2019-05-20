@@ -34,13 +34,14 @@ namespace ForeFather
         //the font needs to be monotype or whatever it is called so that it is easier to fit in the dialogue box
         private SpriteFont font;
         private ContentManager Content;
-        private List<TextBox> dialogue;
+        private TextBox dialogue;
         private map displayMap;
         private Color shade;
-        public TextBox Dialogue(int index)
-        {
-            return dialogue[index];
-        }
+        bool isFunction;
+        //public TextBox Dialogue(int index)
+        //{
+        //    return dialogue[index];
+        //}
 
         public String Name
         {
@@ -53,9 +54,10 @@ namespace ForeFather
             location = new Rectangle(x, y, 34, 50);
             name = n;
             Content = content;
-            dialogue = new List<TextBox>();
+            dialogue =new TextBox(new Rectangle(0, 700, 800, 100), , ,);
             displayMap = dM;
             shade = s;
+            isFunction = false;
             LoadContent(path);
         }
 
@@ -74,13 +76,25 @@ namespace ForeFather
         {
             if (isDisplay(current) && Keyboard.GetState().IsKeyDown(Keys.Space) && Intersects(p))
             {
-                Function();
+                isFunction = true;
             }
+            Function();
         }
 
         public void Function()
         {
             //Add individual functions
+                isFunction = true; 
+                switch (displayMap)
+                {
+                    case map.Bank:
+                        {
+
+                        }
+                        break;
+                    default: break;
+                }
+            
         }
 
         public bool Intersects(Player p)
