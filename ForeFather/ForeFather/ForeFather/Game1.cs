@@ -43,6 +43,7 @@ namespace ForeFather
 
         Menu pauseMenu;
         MenuNode pauseOrigin;
+        MenuNode quitNode;
         TextBox testBox;
 
         Texture2D bank;
@@ -113,9 +114,9 @@ namespace ForeFather
 
             pauseOrigin = new MenuNode(null, Content, "Paused");
             MenuNode invNode = new MenuNode(pauseOrigin, Content, "Inventory");
-            invNode.AddNode(new TextBox("this is option A", false, Content, "String A"));
+            quitNode = new MenuNode(pauseOrigin, Content, "Quit Game");
             pauseOrigin.AddNode(invNode);
-            pauseOrigin.AddNode(new TextBox("this is option B", false, Content, "B"));
+            pauseOrigin.AddNode(quitNode);
             pauseMenu = new Menu(pauseOrigin);
             testBox = new TextBox("haha this is a test hopefully this works if it doesnt im kms so im praying that this works its to test out having multiple lines", false, Content, 5, "test");
 
@@ -289,7 +290,7 @@ namespace ForeFather
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || pauseMenu.CurrentNode == quitNode)
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -355,11 +356,11 @@ namespace ForeFather
                     combat.update(kb, oldkb); break;
 
                 case map.Town:
-                    if(!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
+                    if(!(helpMenu.isDisplaying() || !pauseMenu.Display) && timer<1)
                          p1.update(buildings, currentMap); break;                
 
                 default:
-                    if (!(helpMenu.isDisplaying() || pauseMenu.Display) && timer<1)
+                    if (!(helpMenu.isDisplaying() || !pauseMenu.Display) && timer<1)
                         p1.update(insideBuilds, currentMap); break; ;
             }
 

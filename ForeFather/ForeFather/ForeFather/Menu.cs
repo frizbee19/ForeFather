@@ -16,6 +16,8 @@ namespace ForeFather
     {
         private TextBox startNode;
         private TextBox currentNode;
+        public TextBox CurrentNode { get { return currentNode; } }
+        private int index;
         private bool display;
         public bool Display { get { return display; } set { display = value; } }
 
@@ -24,6 +26,7 @@ namespace ForeFather
             currentNode = node;
             display = false;
             startNode = node;
+            index = 0;
         }
 
         public void Update(KeyboardState kb, KeyboardState oldKB)
@@ -32,7 +35,7 @@ namespace ForeFather
             if (currentNode is MenuNode)
             {
                 MenuNode castNode = (MenuNode)currentNode;
-                int index = castNode.CurOption;
+                index = castNode.CurOption;
                 ((MenuNode)currentNode).Update(index);
                 if (kb.IsKeyDown(Keys.Down) && !oldKB.IsKeyDown(Keys.Down))
                 {

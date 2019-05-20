@@ -32,6 +32,7 @@ namespace ForeFather
             curOption = 0;
             previous = null;
             texture = content.Load<Texture2D>("black or something");
+            lines.Clear();
             //curOption = 0;
         }
 
@@ -42,6 +43,7 @@ namespace ForeFather
             curOption = 0;
             previous = prev;
             texture = content.Load<Texture2D>("black or something");
+            lines.Clear();
             //curOption = 0;
         }
 
