@@ -141,8 +141,10 @@ namespace ForeFather
             maps.Add(new Tile[16, 16]); //Wild3
 
             pauseOrigin = new MenuNode(Content, "Pause Menu");
-            resume = new MenuNode(pauseOrigin, Content, "Res")
+            resume = new MenuNode(pauseOrigin, Content, "Resume");
             exit = new MenuNode(pauseOrigin, Content, "Quit Game");
+            pauseOrigin.AddNode(resume);
+            pauseOrigin.AddNode(exit);
             pauseMenu = new Menu(pauseOrigin);
 
             screen = new Rectangle(0, 0, 800, 800);
@@ -421,7 +423,10 @@ namespace ForeFather
                         currentMap=p1.update(insideBuilds, currentMap, maps[mapNum]); break; ;
             }
 
-            
+            if(pauseMenu.Display)
+            {
+                pauseMenu.Update(kb, oldkb);
+            }
 
             if (kb.IsKeyDown(Keys.H) && !oldkb.IsKeyDown(Keys.H))
             {
@@ -432,6 +437,11 @@ namespace ForeFather
                     helpMenu.exit(); 
                     timer = 30;
                 }
+            }
+
+            if(pauseMenu.CurrentNode == resume)
+            {
+                pauseMenu.Close();
             }
 
             if (kb.IsKeyDown(Keys.P) && !oldkb.IsKeyDown(Keys.P))
