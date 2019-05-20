@@ -67,5 +67,15 @@ namespace ForeFather
             enemyList.Remove(this);
         }
 
+        public void draw()
+        {
+                
+        }
+
+        public void loadContent(ContentManager content)
+        {
+
+        }
+
     }
 }
