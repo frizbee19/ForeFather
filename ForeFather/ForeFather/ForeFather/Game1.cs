@@ -27,12 +27,17 @@ namespace ForeFather
         public static map currentMap;
 
         Rectangle[] tileSource;
+
         Texture2D spritesheet;
 
         Texture2D blank;
+
         SpriteFont spriteFont;
+
         Combat combat;
+
         KeyboardState kb;
+
         KeyboardState oldkb;
 
         Ally Ally1;
@@ -44,10 +49,13 @@ namespace ForeFather
         Ally Ally4;
 
         Enemy testEnemy;
+
         List<Ally> allies;
+
         List<Enemy> enemies;
 
         Player p1;
+
 
         TextBox helpMenu;
 
@@ -56,18 +64,27 @@ namespace ForeFather
         MenuNode exit;
         MenuNode resume;
 
+        map lastLocation;
+
+
         TextBox intro;
 
         Texture2D bank;
+
         Texture2D hospital;
+
         Texture2D inn;
+
         Texture2D tilesSheet;
+
         Texture2D consume;
+
         Texture2D equip;
 
         int timer;
 
         Dictionary<string, Building> buildings;
+
         Dictionary<string, Building> insideBuilds;
 
         Rectangle startRect = new Rectangle(420, 10, 0, 0);
@@ -334,6 +351,7 @@ namespace ForeFather
                 this.Exit();
 
             // TODO: Add your update logic here
+
 
 
             kb = Keyboard.GetState();

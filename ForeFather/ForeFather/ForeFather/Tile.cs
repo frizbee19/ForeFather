@@ -11,10 +11,21 @@ namespace ForeFather
     {
 
         private Texture2D spriteSheet;
+
         private Rectangle sourceRect;
+
         private Rectangle position;
+
         private Color color;
+    
         private bool isWalkable;
+
+        private bool isEnemy;
+  
+
+        public bool getEnemy { get { return isEnemy; }   set { isEnemy = value; }   }
+            
+        
 
         public Tile() : base()
         {
@@ -26,6 +37,7 @@ namespace ForeFather
             spriteSheet = s;
             sourceRect = sR;
             color = Color.White;
+            isEnemy = false;
         }
 
         public Tile(Texture2D s, Rectangle sR, Rectangle p)
@@ -34,6 +46,7 @@ namespace ForeFather
             sourceRect = sR;
             position = p;
             color = Color.White;
+            isEnemy = false;
         }
 
         public Tile(Texture2D s, Rectangle sR, Rectangle p, bool isWalk)
@@ -43,6 +56,7 @@ namespace ForeFather
             position = p;
             isWalkable = isWalk;
             color = Color.White;
+            isEnemy = false;
         }
 
         public Tile(Texture2D s, Rectangle sR, Rectangle p, bool isWalk, Color c)
@@ -60,6 +74,8 @@ namespace ForeFather
             if (!isWalkable && p.getPos().Intersects(new Rectangle(position.X+barrier, position.Y+barrier, position.Width-barrier*2, position.Height-barrier*2)))
                 return true;
             return false;
+            color = Color.Black;
+            isEnemy = false;
         }
 
         public Rectangle getPos()
@@ -71,6 +87,7 @@ namespace ForeFather
         {
             return isWalkable;
         }
+
 
         public void setWalk(bool walk)
         {

@@ -237,5 +237,15 @@ namespace ForeFather
             //}
         }
 
+        public void drawDepth(SpriteBatch spriteBatch, float depth)
+        {
+            spriteBatch.Draw(texture, box, null, Color.White, 0.0f, new Vector2(0,0), SpriteEffects.None, depth);
+            spriteBatch.DrawString(nameFont, title, new Vector2(box.X + 5, box.Y + 5), Color.White);
+            spriteBatch.DrawString(font, lines[currentInd], new Vector2(box.X + 20, box.Y + 50), Color.White);
+            if (lines.Count > 1)
+            {
+                spriteBatch.DrawString(font, lines[currentInd + 1], new Vector2(box.X + 20, box.Y + 130), Color.White);
+            }
+        }
     }
 }
