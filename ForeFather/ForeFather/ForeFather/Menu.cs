@@ -12,44 +12,115 @@ using System.IO;
 
 namespace ForeFather
 {
-    class Menu : TextBox
+    class Menu
     {
-        private List<Ally> allies;
-        private int curOption;
-        private List<TextBox> options;
+        private TextBox startNode;
+        private TextBox currentNode;
+        public TextBox CurrentNode { get { return currentNode; } }
+        private int index;
+        private bool display;
+        public bool Display { get { return display; } set { display = value; } }
 
-        public Menu(string p, ContentManager content, string name) : base(p, false, content, name)
+        public Menu(MenuNode node)
         {
-            allies = new List<Ally>();
-            options = new List<TextBox>();
-            curOption = 0;
+            currentNode = node;
+            display = false;
+            startNode = node;
+            index = 0;
         }
-        //controls
+
         public void Update(KeyboardState kb, KeyboardState oldKB)
         {
-            if(kb.IsKeyDown(Keys.Down) && !oldKB.IsKeyDown(Keys.Down))
+
+            if (currentNode is MenuNode)
             {
-                if(curOption == options.Count - 1)
+                MenuNode castNode = (MenuNode)currentNode;
+                index = castNode.CurOption;
+                ((MenuNode)currentNode).Update(index);
+                if (kb.IsKeyDown(Keys.Down) && !oldKB.IsKeyDown(Keys.Down))
                 {
-                    curOption = 0;
+                    if (index == castNode.Options.Count - 1)
+                    {
+                        castNode.Update(0);
+                    }
+                    else
+                    {
+                        castNode.Update(index + 1);
+                    }
+                    currentNode = castNode;
+                }
+                if (kb.IsKeyDown(Keys.Up) && !oldKB.IsKeyDown(Keys.Up))
+                {
+                    if (index == 0)
+                    {
+                        castNode.Update(castNode.Options.Count - 1);
+                    }
+                    else
+                    {
+                        castNode.Update(index - 1);
+                    }
+                    currentNode = castNode;
+                }
+                if (kb.IsKeyDown(Keys.Enter) && !oldKB.IsKeyDown(Keys.Enter))
+                {
+                    if (castNode.Options != null || castNode.Options.Count != 0)
+                    {
+                        currentNode.exit();
+                        currentNode = castNode.Options[index];
+                        currentNode.Display();
+                    }
+                }
+                if (kb.IsKeyDown(Keys.Back) && !oldKB.IsKeyDown(Keys.Back))
+                {
+                    if (castNode.Previous != null)
+                    {
+                        currentNode.exit();
+                        currentNode = castNode.Previous;
+                        currentNode.Display();
+                    }
+                    else
+                    {
+                        
+                        Close();
+                    }
+                }
+            }
+            else
+            {
+                if (kb.IsKeyDown(Keys.Back) && !oldKB.IsKeyDown(Keys.Back) || kb.IsKeyDown(Keys.Enter) && !oldKB.IsKeyDown(Keys.Enter))
+                {
+                    Close();
+                }
+            }
+        }
+
+        public void Start()
+        {
+            currentNode.Display();
+            display = true;
+        }
+
+        public void Close()
+        {
+            display = false;
+            currentNode = startNode;
+            currentNode.exit();
+            currentNode = startNode;
+        }
+
+        public void Draw(SpriteBatch spritebatch)
+        {
+            if (display)
+            {
+                if (currentNode is MenuNode)
+                {
+                    ((MenuNode)currentNode).menuDraw(spritebatch);
                 }
                 else
                 {
-                    curOption++;
+                    currentNode.Draw(spritebatch);
                 }
             }
-            if (kb.IsKeyDown(Keys.Up) && !oldKB.IsKeyDown(Keys.Up))
-            {
-                if (curOption == 0)
-                {
-                    curOption = options.Count - 1;
-                }
-                else
-                {
-                    curOption--;
-                }
-            }
-            //if(kb.IsKeyDown(Keys.Enter))
         }
     }
 }

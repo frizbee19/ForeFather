@@ -33,7 +33,27 @@ namespace ForeFather
 
         Rectangle selectRect;
 
+        Rectangle r_arlo;
+
+        Rectangle r_hunter;
+
+        Rectangle r_jacE;
+
+        Rectangle r_noire;
+
+        Texture2D arlo;
+
+        Texture2D hunter;
+
+        Texture2D jacE;
+
+        Texture2D noire;
+
         Texture2D selectTex;
+
+        Texture2D orc;
+
+        Rectangle rOrc;
 
         private int choice = 0;
 
@@ -44,6 +64,8 @@ namespace ForeFather
         private List<Enemy> enemies;
 
         private bool turn;
+
+        private bool abilitySelect;
 
         Game1 game;
 
@@ -67,7 +89,7 @@ namespace ForeFather
 
         bool isStunned;
 
-        public bool getIsStunned { get; set; }
+        public bool getIsStunned { get { return isStunned; } set { isStunned = value; } }
 
         //true is ally
         //false is enemy
@@ -79,8 +101,11 @@ namespace ForeFather
         public Combat(ContentManager content, List<Ally> allies, List<Enemy> enemies, Game1 game)
         {
             this.allies = allies;
+
             this.enemies = enemies;
+
             this.content = content;
+
             this.game = game;
 
             //if (rand.Next(1) == 0) //coinflip for first turn
@@ -94,17 +119,39 @@ namespace ForeFather
         public void initialize()
         {
             text = "Bash \nAbilities \nGoods \nRun";
+
             comText = new TextBox(new Rectangle(10,10, 780, 250),text, false, content, currentTurn);
+
             ally1Text = "HP: " + allies[0].getCurHp + "\nMP: " + allies[0].getMana;
+
             ally2Text = "";
+
             ally3Text = "";
+
             ally4Text = "";
+
             ally1 = new TextBox(new Rectangle(10, 600, 175, 250), ally1Text, false, content, "Arlo");
+
             ally2 = new TextBox(new Rectangle(210, 600, 175, 250), ally2Text, false, content, "Hunter");
+
             ally3 = new TextBox(new Rectangle(415, 600, 175, 250), ally3Text, false, content, "Jac-E");
+
             ally4 = new TextBox(new Rectangle(615, 600, 175, 250), ally4Text, false, content, "Noire");
+
+            r_arlo = new Rectangle(10, 540, 68, 100);
+
+            r_hunter = new Rectangle(210, 540, 68, 100);
+
+            r_noire = new Rectangle(615, 540, 68, 100);
+
+            r_jacE = new Rectangle(415, 540, 68, 100);
+
             selectRect = new Rectangle(0, 70, 25, 25);
+
+            rOrc = new Rectangle(350, 350, 100, 100);
+
             currentMember = 0;
+
             isPrinting = false;
         }
 
@@ -113,6 +160,16 @@ namespace ForeFather
             this.spriteBatch = spriteBatch;
             this.spriteFont = spriteFont;
             selectTex = content.Load<Texture2D>("arrow");
+
+            arlo = content.Load<Texture2D>("Assets\\spriteChar");
+
+            hunter = content.Load<Texture2D>("Assets\\spriteChar");
+
+            jacE = content.Load<Texture2D>("Assets\\spriteChar");
+
+            noire = content.Load<Texture2D>("Assets\\spriteChar");
+
+            orc = content.Load<Texture2D>("preview_544");
         }
 
         public void update(KeyboardState kb, KeyboardState oldkb)
@@ -190,6 +247,9 @@ namespace ForeFather
                                 }
                                 isPrinting = true;
                                 currentMember++;
+
+
+                            abilitySelect = true; //is this needed?
                                 break;
                             case 2:
                                 currentMember++;
@@ -211,8 +271,14 @@ namespace ForeFather
 
                         currentTurn = "Enemy";
 
+                    if (isStunned)
+                    {
+                        currentMember = 0;
+                        turn = true;
+                    }
 
-                        if (!isPrinting && currentMember < enemies.Count) //enemy turn
+
+                    if (!isPrinting && currentMember < enemies.Count) //enemy turn
                         {
                             enemies[currentMember].attack(allies[0]);
                             text = enemies[currentMember].getName + " bashed " + allies[0].getName + " for " + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100)));
@@ -221,11 +287,7 @@ namespace ForeFather
                         }
 
 
-                        if (isStunned)
-                        {
-                            currentMember = 0;
-                            turn = true;
-                        }
+                        
 
                         if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
                         {                            
@@ -259,16 +321,25 @@ namespace ForeFather
 
 
             comText = new TextBox(new Rectangle(10, 10, 780, 250), text, false, content, currentTurn);
+
+
         }
 
         public void draw()
         {
+            spriteBatch.Draw(jacE, r_jacE, new Rectangle(0, 0, 106, 193), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(arlo, r_arlo, new Rectangle(0, 193, 101, 181), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(hunter, r_hunter, new Rectangle(0, 374, 101, 185), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(noire, r_noire, new Rectangle(0, 559, 110, 183), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(orc, rOrc, Color.White);
 
             comText.Draw(spriteBatch);
             ally1.Draw(spriteBatch);
             ally2.Draw(spriteBatch);
             ally3.Draw(spriteBatch);
             ally4.Draw(spriteBatch);
+
+            //spriteBatch.Draw(jacE, r_jacE, new Rectangle (0, 0, 106, 193), Color.White, 0f, new Vector2(0,0), SpriteEffects.None, 0.1f);
 
             if (turn == true)
                 spriteBatch.Draw(selectTex, selectRect, Color.White);
@@ -304,6 +375,7 @@ namespace ForeFather
                 return numChoices + 5;
         }
 
-        //TODO: makechoice function
+
+
     }
 }

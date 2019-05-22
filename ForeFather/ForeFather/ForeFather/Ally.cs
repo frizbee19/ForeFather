@@ -46,15 +46,15 @@ namespace ForeFather
 
         public string getName { get { return name; } set { name = value; } }
 
-        public int getMaxHp { get; set; }
+        public int getMaxHp { get { return maxhp; } set { maxhp = value; } }
 
-        public int getOffense { get; set; }
+        public int getOffense { get { return offense; } set { offense = value;  } }
 
-        public int getDefense { get; set; }
+        public int getDefense { get { return defense; } set { defense = value; } }
 
-        public int getLuck { get; set; }
+        public int getLuck { get { return luck; } set { luck = value; } }
 
-        public int getMana { get; set; }
+        public int getMana { get { return mana; } set { mana = value; } }
 
         public int getCurHp { get { return curHP; } set { curHP = value; } }
 
@@ -70,7 +70,10 @@ namespace ForeFather
 
         public Crystal getCrystal { get; set; }
 
+
         public int TotalDmg;
+
+        protected int bashDmg;
 
         public Ally(string name, int hp, int off, int def, int luck, int mana)
         {
@@ -93,11 +96,12 @@ namespace ForeFather
             this.XP = 0;
 
             this.level = 0;
+            bashDmg = 5 * (1 + ((offense / 100) - (defense / 100)));
         }
 
         public void attack(Enemy target) //basic attack
         {
-            target.getCurHp -= 5 * (1 + ((offense / 100) - (defense / 100)));
+            target.getCurHp -= bashDmg; 
         }
 
         public void useMagic() //takes a ability object as parameter
