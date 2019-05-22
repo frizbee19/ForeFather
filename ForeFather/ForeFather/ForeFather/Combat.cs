@@ -67,7 +67,7 @@ namespace ForeFather
 
         bool isStunned;
 
-        public bool getIsStunned { get; set; }
+        public bool getIsStunned { get { return isStunned; } set { isStunned = value; } }
 
         //true is ally
         //false is enemy
@@ -211,8 +211,14 @@ namespace ForeFather
 
                         currentTurn = "Enemy";
 
+                    if (isStunned)
+                    {
+                        currentMember = 0;
+                        turn = true;
+                    }
 
-                        if (!isPrinting && currentMember < enemies.Count) //enemy turn
+
+                    if (!isPrinting && currentMember < enemies.Count) //enemy turn
                         {
                             enemies[currentMember].attack(allies[0]);
                             text = enemies[currentMember].getName + " bashed " + allies[0].getName + " for " + 5 * (1 + ((enemies[currentMember].getOffense / 100) - (allies[0].getDefense / 100)));
@@ -221,11 +227,7 @@ namespace ForeFather
                         }
 
 
-                        if (isStunned)
-                        {
-                            currentMember = 0;
-                            turn = true;
-                        }
+                        
 
                         if (currentMember >= enemies.Count && !isPrinting) //hand turn back to ally
                         {                            
