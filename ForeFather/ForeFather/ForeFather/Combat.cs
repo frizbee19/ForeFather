@@ -51,6 +51,10 @@ namespace ForeFather
 
         Texture2D selectTex;
 
+        Texture2D orc;
+
+        Rectangle rOrc;
+
         private int choice = 0;
 
         int stopwatch = 0;
@@ -133,6 +137,8 @@ namespace ForeFather
 
             selectRect = new Rectangle(0, 70, 25, 25);
 
+            rOrc = new Rectangle(350, 350, 100, 100);
+
             currentMember = 0;
 
             isPrinting = false;
@@ -151,6 +157,8 @@ namespace ForeFather
             jacE = content.Load<Texture2D>("Assets\\spriteChar");
 
             noire = content.Load<Texture2D>("Assets\\spriteChar");
+
+            orc = content.Load<Texture2D>("preview_544");
         }
 
         public void update(KeyboardState kb, KeyboardState oldkb)
@@ -292,6 +300,7 @@ namespace ForeFather
             spriteBatch.Draw(arlo, r_arlo, new Rectangle(0, 193, 101, 181), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
             spriteBatch.Draw(hunter, r_hunter, new Rectangle(0, 374, 101, 185), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
             spriteBatch.Draw(noire, r_noire, new Rectangle(0, 559, 110, 183), Color.White, 0f, new Vector2(0, 0), SpriteEffects.None, 0.1f);
+            spriteBatch.Draw(orc, rOrc, Color.White);
 
             comText.Draw(spriteBatch);
             ally1.Draw(spriteBatch);
@@ -336,6 +345,6 @@ namespace ForeFather
         }
 
 
-        //TODO: makechoice function
+
     }
 }
